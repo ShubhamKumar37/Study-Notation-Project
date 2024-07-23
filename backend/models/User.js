@@ -57,6 +57,10 @@ const userSchema = new mongoose.Schema({
     approved:{
         type: Boolean,
         default: true,
+    },
+    publicId:{
+        type: String,
+        default: null
     }
 }, { timestamps: true });
 

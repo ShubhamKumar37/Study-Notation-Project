@@ -1,9 +1,10 @@
 require("dotenv").config();
 const User = require("../models/User");
 const Profile = require("../models/Profile");
-const {uploadToCloudinary} = require("../utils/UploadCloudinary");
+const { uploadToCloudinary } = require("../utils/UploadCloudinary");
+const { updateFileCloudinary } = require("../utils/UpdateCloudinary");
 
-// Update the profile of user
+// Update the profile of user - Working
 exports.updateProfile = async (req, res) => {
     try {
         const { gender = "", about = "", dateOfBirth = null, contactNumber = null } = req.body;
@@ -45,7 +46,7 @@ exports.updateProfile = async (req, res) => {
     }
 }
 
-// Get all user details
+// Get all user details - Working
 exports.getUserDetails = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -72,7 +73,7 @@ exports.getUserDetails = async (req, res) => {
     }
 }
 
-// Get student enrolled in how much course
+// Get student enrolled in how much course - Working
 exports.getStudentEnrolledCourse = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -98,19 +99,32 @@ exports.getStudentEnrolledCourse = async (req, res) => {
     }
 }
 
-// Update profile picture of user
+// Update profile picture - Working
 exports.updateProfilePicture = async (req, res) => {
-    try{
+    try {
         const userId = req.user.id;
-        const {userImage} = req.files.image;
+        const userImage = req.files.image;
 
-        const responseUploadImage = await uploadToCloudinary(userImage, process.env.FILE_FOLDER, 80);
+        const userDetails = await User.findById(userId);
+        console.log(typeof userDetails.publicId);
+
+        let responseUploadImage;
+
+        if (userDetails.publicId === null) {
+            responseUploadImage = await uploadToCloudinary(userImage, process.env.FILE_FOLDER, 90);
+            console.log(1, responseUploadImage);
+        }
+        else {
+            responseUploadImage = await updateFileCloudinary(userImage, userDetails.publicId, 90);
+            console.log(2, responseUploadImage);
+        }
 
         const updateUser = await User.findByIdAndUpdate(
-            {_id: userId},
-            {image: responseUploadImage.secure_url},
-            {new: true}
+            { _id: userId },
+            { image: responseUploadImage.secure_url, publicId: responseUploadImage.public_id },
+            { new: true }
         );
+
 
         return res.status(200).json(
             {
@@ -120,8 +134,7 @@ exports.updateProfilePicture = async (req, res) => {
             }
         );
     }
-    catch(Error)
-    {
+    catch (Error) {
         return res.status(500).json(
             {
                 success: false,

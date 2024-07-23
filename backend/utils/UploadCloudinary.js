@@ -1,5 +1,6 @@
 const cloudinary = require("cloudinary").v2;
 
+// Working
 exports.uploadToCloudinary = async (file, folder, height, quality) => {
 
     const options = { folder, resource_type: "auto" };

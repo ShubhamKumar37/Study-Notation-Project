@@ -2,41 +2,45 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-exports.auth = async (res, req, next) => {
+// Working (cookies, body)
+exports.auth = async (req, res, next) => {
     try {
         const token = req.body.token || req.cookies.token || req.header("Authorisation").replace("Bearer", "");
 
         if (!token) {
             return res.status(404).json(
                 {
-                    status: false,
+                    success: false,
                     message: "Token is missing"
                 }
             );
         }
-
+        console.log(1);
+        
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decoded);
 
             req.user = decoded;
+            console.log(2);
+            console.log(decoded);
         }
         catch (Error) {
             return res.status(401).json(
                 {
-                    status: false,
+                    success: false,
                     message: Error.message,
                     additionalInfo: "Token is invalid"
                 }
             );
         }
-
+        
+        console.log(3);
         next();
     }
     catch (Error) {
-        return res.status(400).json(
+       return  res.status(500).json(
             {
-                status: true,
+                success: false,
                 message: Error.message,
                 additionalInfo: "Error while authenticating user"
             }
@@ -50,7 +54,7 @@ exports.isStudent = async (req, res, next) => {
         if (req.user.accountType !== "Student") {
             return res.status(401).json(
                 {
-                    status: false,
+                    success: false,
                     message: "This is protected route for only student"
                 }
             );
@@ -61,7 +65,7 @@ exports.isStudent = async (req, res, next) => {
     catch (Error) {
         return res.status(500).json(
             {
-                status: false,
+                success: false,
                 message: Error.message,
                 additionalInfo: "Error while verifying student"
             }
@@ -75,7 +79,7 @@ exports.isAdmin = async (req, res, next) => {
         if (req.user.accountType !== "Admin") {
             return res.status(401).json(
                 {
-                    status: false,
+                    success: false,
                     message: "This is protected route for only Admin"
                 }
             );
@@ -86,7 +90,7 @@ exports.isAdmin = async (req, res, next) => {
     catch (Error) {
         return res.status(500).json(
             {
-                status: false,
+                success: false,
                 message: Error.message,
                 additionalInfo: "Error while verifying Admin"
             }
@@ -100,7 +104,7 @@ exports.isInstructor = async (req, res, next) => {
         if (req.user.accountType !== "Instructor") {
             return res.status(401).json(
                 {
-                    status: false,
+                    success: false,
                     message: "This is protected route for only Instructor"
                 }
             );
@@ -111,7 +115,7 @@ exports.isInstructor = async (req, res, next) => {
     catch (Error) {
         return res.status(500).json(
             {
-                status: false,
+                success: false,
                 message: Error.message,
                 additionalInfo: "Error while verifying Instructor"
             }

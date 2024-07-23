@@ -6,19 +6,20 @@ const mailSender = require("../utils/mailSender");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { passwordUpdated } = require("../mail/templates/passwordUpdate");
+const { otpTemplate } = require("../mail/templates/emailVerificationTemplate");
 require("dotenv").config();
 
-//Generate OTP
+//Generate OTP - Working
 exports.sendOTP = async (req, res) => {
     try {
-        const { email } = req.email;
+        const email = req.body.email;
 
         //Check for existence of email
         const checkExistEmail = await User.findOne({ email });
         if (checkExistEmail) {
             return res.status(401).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "User already exist"
                 }
             );
@@ -43,19 +44,21 @@ exports.sendOTP = async (req, res) => {
         // Create entry of OTP in database
         const otpEntry = await OTP.create({ email: email, otp: otp });
 
+        const mailResponse = await mailSender("OTP for your Signup", email, otpTemplate(otp));
+
         // return a response to server 
         return res.status(200).json(
             {
-                successtrue,
-                message: "OTP created successfully",
-                data: otpEntry
+                success: true,
+                message: "OTP created successfully, Check your spam folder",
+                data: { otpEntry, mailResponse }
             }
         );
     }
     catch (Error) {
         res.status(500).json(
             {
-                successfalse,
+                success: false,
                 message: Error.message,
                 addtionalInfo: "Error occur in while sending OTP"
             }
@@ -63,7 +66,7 @@ exports.sendOTP = async (req, res) => {
     }
 }
 
-// Signup
+// Signup - Working
 exports.signUp = async (req, res) => {
     try {
         // Get data from request
@@ -81,7 +84,7 @@ exports.signUp = async (req, res) => {
         if (!firstName || !lastName || !email || !password || !confirmPassword || !otp) {
             return res.status(403).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "All fields are required",
                 }
             );
@@ -91,7 +94,7 @@ exports.signUp = async (req, res) => {
         if (password !== confirmPassword) {
             return res.status(403).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "Password doesnot match with confirm password",
                 }
             );
@@ -102,7 +105,7 @@ exports.signUp = async (req, res) => {
         if (userExist) {
             return res.status(401).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "Email already exist try login"
                 }
             );
@@ -113,7 +116,7 @@ exports.signUp = async (req, res) => {
         if (otpExist.length === 0) {
             return res.status(400).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "OTP doesnot exist"
                 }
             );
@@ -121,7 +124,7 @@ exports.signUp = async (req, res) => {
         else if (otpExist[0].otp !== otp) {
             return res.status(401).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "Invalid OTP"
                 }
             );
@@ -147,12 +150,12 @@ exports.signUp = async (req, res) => {
             accountType,
             password: hashedPassword,
             additionalDetails: additionalDetails._id,
-            image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
+            image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName}_${lastName}`,
         });
 
         return res.status(200).json(
             {
-                successtrue,
+                success: true,
                 message: "Entry created successfully",
                 data: userEntry
             }
@@ -161,7 +164,7 @@ exports.signUp = async (req, res) => {
     catch (Error) {
         return res.status(500).json(
             {
-                successfalse,
+                success: false,
                 message: Error.message,
                 addtionalInfo: "Error occur in while signup"
             }
@@ -169,33 +172,35 @@ exports.signUp = async (req, res) => {
     }
 }
 
-// Login
+// Login - Working
 exports.login = async (req, res) => {
     try {
         // Fetch the data from request body
         const { email, password } = req.body;
+        console.log(email, password, " <- this is the password");
 
         // Validate data
         if (!email || !password) {
             return res.status(404).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "All field are required"
                 }
             );
         }
-
+        
         // Check for user existence
-        const userExist = await User.find({ email }).populate("additionalDetails");
-        if (!userExist) {
+        const userExist = await User.findOne({ email }).populate("additionalDetails").exec();
+        if (userExist.length === 0) {
             return res.status(400).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "User not found"
                 }
             );
         }
-
+        
+        
         // Match password and generate JWT token
         if (await bcrypt.compare(password, userExist.password)) {
             const payLoad = {
@@ -203,6 +208,8 @@ exports.login = async (req, res) => {
                 accountType: userExist.accountType,
                 id: userExist._id
             }
+            
+            // After verifing token the payload is not visible due to which req.user.id is undefined
             const token = jwt.sign(payLoad, process.env.JWT_SECRET, { expiresIn: "2h" });
             userExist.token = token;
             userExist.password = undefined;
@@ -210,9 +217,9 @@ exports.login = async (req, res) => {
             // Create a cookie file for it 
             const options = {
                 httpOnly: true,
-                expires: new Data(Date.now()) + 3 * 24 * 60 * 60 * 1000
+                expireIn: new Date(Date.now()) + 3 * 24 * 60 * 60 * 1000
             }
-
+            
             res.cookie("token", token, options).status(200).json(
                 {
                     success: true,
@@ -224,16 +231,17 @@ exports.login = async (req, res) => {
         }
         else {
             return res.status(400).json({
-                successfalse,
+                success: false,
                 message: "Password is incorrect"
             });
         }
-
+        
     }
     catch (Error) {
+        console.log(Error);
         return res.status(500).json(
             {
-                successfalse,
+                success: false,
                 message: Error.message,
                 addtionalInfo: "Error occur in while login"
             }
@@ -269,7 +277,7 @@ exports.changePassword = async (req, res) => {
         if (!await bcrypt.compare(oldPassword, userExist.password)) {
             return res.status(401).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "Old Password is incorrect"
                 }
             );
@@ -294,7 +302,7 @@ exports.changePassword = async (req, res) => {
 
         return res.status(200).json(
             {
-                successtrue,
+                success: true,
                 message: "Password updated successfully",
                 data: updateUserPassword
             }
@@ -303,7 +311,7 @@ exports.changePassword = async (req, res) => {
     catch (Error) {
         return res.status(500).json(
             {
-                successfalse,
+                success: false,
                 message: Error.message,
                 addtionalInfo: "Error occur in while changing password (Auth.js)"
             }

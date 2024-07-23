@@ -20,7 +20,7 @@ const PORT = process.env.PORT_NO || 4000;
 dbConnection();
 
 // Add middlewares
-app.use(CookieParser);
+app.use(CookieParser());
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(
