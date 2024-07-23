@@ -5,13 +5,13 @@ const { auth } = require("../middlewares/auth");
 const { resetPassword, resetPasswordToken } = require("../controllers/ResetPassword");
 
 // For login and signup the account
-router.post("/signup", signUp);
-router.post("/login", login);
-router.post("/sendOTP", sendOTP);
+router.post("/signup", signUp); // Working
+router.post("/login", login); // Working
+router.post("/sendOTP", sendOTP); //Working
 
 // reset password or change after login
-router.post("/changepassword", auth, changePassword);
-router.post("/reset-password-token", resetPasswordToken);
-router.post("/reset-password", resetPassword);
+router.put("/change-password", auth, changePassword); // Working
+router.put("/reset-password-token", resetPasswordToken); // Working
+router.put("/reset-password", resetPassword); // Working
 
 module.exports = router;

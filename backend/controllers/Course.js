@@ -6,21 +6,21 @@ const { uploadToCloudinary } = require("../utils/UploadCloudinary");
 require("dotenv").config();
 
 
-// Create a Course handler
+// Create a Course handler - left with U D operation and few observation with create course
 exports.createCourse = async (req, res) => {
     try {
         // CHECK FOR THE ID WE ARE RECIEVEING FROM REQ 
         // IS THAT ID BELONG TO THE INSTRUCTOR OR NOT 
 
 
-        const { courseName, courseDescription, whatYouWillLearn, price, category, status="Draft", instructions } = req.body;
+        const { courseName, courseDescription, whatYouWillLearn, price, category, status = "Draft", instructions } = req.body;
         const thumbnail = req.files.thumbnailImage;
 
         // Validation of recieved data
         if (!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !thumbnail) {
             return res.status(400).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "All data is required (Course.js)"
                 }
             );
@@ -28,12 +28,12 @@ exports.createCourse = async (req, res) => {
 
         // Fetch data of Instructor
         const userId = req.user.id;
-        const instructorExist = await User.findById(userId, {accountType: "Instructor"});
+        const instructorExist = await User.findById(userId, { accountType: "Instructor" });
 
         if (!instructorExist) {
             return res.status(400).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "Instructor does not exist"
                 }
             );
@@ -45,7 +45,7 @@ exports.createCourse = async (req, res) => {
         if (!categoryExist) {
             return res.status(404).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "Category does not exist"
                 }
             );
@@ -68,32 +68,32 @@ exports.createCourse = async (req, res) => {
             whatYouWillLearn: whatYouWillLearn
         });
 
-        // Add this new course to instructor user Schema
-        await User.findByIdAndUpdate({ _id: instructorExist._id }, {
+        // Add this new course to instructor user Schema - not done
+        const updateUserCourse = await User.findByIdAndUpdate({ _id: userId }, {
             $push: {
                 courses: newCourseCreation._id
             }
         }, { new: true });
 
-        // Update Category schema with new course
-        await Category.findByIdAndUpdate({ _id: categoryExist._id }, {
+        // Update Category schema with new course - not done
+        const updateCategoryCourse = await Category.findByIdAndUpdate({ _id: categoryExist._id }, {
             $push: {
-                courses: newCourseCreation._id
+                course: newCourseCreation._id
             }
         }, { new: true });
 
         return res.status(200).json(
             {
-                successtrue,
+                success: true,
                 message: "New course created successfully",
-                data: newCourseCreation
+                data: { newCourseCreation, updateCategoryCourse, updateUserCourse }
             }
         );
     }
     catch (Error) {
         return res.status(500).json(
             {
-                successfalse,
+                success: false,
                 message: Error.message,
                 additionalInfo: "Error occur while creating a course (Course.js)"
             }
@@ -156,8 +156,9 @@ exports.getCourseDetailById = async (req, res) => {
         }
 
         const courseDetails = await Course.findById({ _id: courseId })
-            .populate({path: "instructor",
-                populate: {path: "additionalDetails"}
+            .populate({
+                path: "instructor",
+                populate: { path: "additionalDetails" }
             })
             .populate("category")
             .populate("ratingAndReviews")

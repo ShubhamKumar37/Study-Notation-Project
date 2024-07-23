@@ -1,16 +1,16 @@
 const Category = require("../models/Category");
 const Course = require("../models/Course");
 
-// Create a new tag
+// Create a new tag - Working
 exports.createCategory = async (req, res) => {
     try {
-        const { name, description = "" } = req.body;
+        const { name, description } = req.body;
 
-        if (!name) {
+        if (!name || name.length === 0) {
             return res.status(400).json(
                 {
-                    successfalse,
-                    message: "All data is required to create a tag"
+                    success: false,
+                    message: "All data is required to create a Category and category name cann't be empty"
                 }
             );
         }
@@ -30,7 +30,7 @@ exports.createCategory = async (req, res) => {
             {
                 success: false,
                 message: Error.message,
-                additionalInfo: "Error occure while creating tag (Tag.js)"
+                additionalInfo: "Error occure while creating category (Category.js)"
             }
         );
     }
@@ -46,7 +46,7 @@ exports.getAllCategory = async (req, res) => {
         if (!allCategoryInfo) {
             return res.status(400).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "No tag present in database"
                 }
             );
@@ -54,7 +54,7 @@ exports.getAllCategory = async (req, res) => {
 
         return res.status(200).json(
             {
-                successtrue,
+                success: true,
                 message: "These are the all tag present in database",
                 category: allCategoryInfo
             }
@@ -63,7 +63,7 @@ exports.getAllCategory = async (req, res) => {
     catch (Error) {
         return res.status(500).json(
             {
-                successfalse,
+                success: false,
                 message: Error.message,
                 additionalInfo: "Error occure while getting all tags (Tag.js)"
             }
@@ -125,12 +125,23 @@ exports.updateCategory = async (req, res) => {
     try {
         const { name, description, categoryId } = req.body;
 
+        if(!categoryId || !name || name.length === 0)
+        {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "Name and category is required where name cann't be empty"
+                }
+            );
+        }
+
+        const categoryUpdateOptions = {};
+        if(name) categoryUpdateOptions.name = name;
+        if(description) categoryUpdateOptions.description = description;
+
         const responseUpdateCategory = await Category.findByIdAndUpdate(
             { _id: categoryId },
-            {
-                name,
-                description,
-            },
+            categoryUpdateOptions,
             { new: true },
         );
 

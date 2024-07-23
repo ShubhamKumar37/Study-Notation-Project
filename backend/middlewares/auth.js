@@ -15,14 +15,14 @@ exports.auth = async (req, res, next) => {
                 }
             );
         }
-        console.log(1);
+        // console.log(1);
         
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
             req.user = decoded;
-            console.log(2);
-            console.log(decoded);
+            // console.log(2);
+            // console.log(decoded);
         }
         catch (Error) {
             return res.status(401).json(
@@ -34,7 +34,7 @@ exports.auth = async (req, res, next) => {
             );
         }
         
-        console.log(3);
+        // console.log(3);
         next();
     }
     catch (Error) {
@@ -48,7 +48,7 @@ exports.auth = async (req, res, next) => {
     }
 }
 
-// Verify Student
+// Verify Student - Working
 exports.isStudent = async (req, res, next) => {
     try {
         if (req.user.accountType !== "Student") {
@@ -73,9 +73,10 @@ exports.isStudent = async (req, res, next) => {
     }
 }
 
-// Verify Admin
+// Verify Admin - Working
 exports.isAdmin = async (req, res, next) => {
     try {
+        console.log(req.user.accountType);
         if (req.user.accountType !== "Admin") {
             return res.status(401).json(
                 {
@@ -98,7 +99,7 @@ exports.isAdmin = async (req, res, next) => {
     }
 }
 
-// Verify Instructor
+// Verify Instructor - Working
 exports.isInstructor = async (req, res, next) => {
     try {
         if (req.user.accountType !== "Instructor") {

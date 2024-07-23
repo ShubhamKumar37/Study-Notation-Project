@@ -188,7 +188,7 @@ exports.login = async (req, res) => {
                 }
             );
         }
-        
+
         // Check for user existence
         const userExist = await User.findOne({ email }).populate("additionalDetails").exec();
         if (userExist.length === 0) {
@@ -199,8 +199,8 @@ exports.login = async (req, res) => {
                 }
             );
         }
-        
-        
+
+
         // Match password and generate JWT token
         if (await bcrypt.compare(password, userExist.password)) {
             const payLoad = {
@@ -208,7 +208,7 @@ exports.login = async (req, res) => {
                 accountType: userExist.accountType,
                 id: userExist._id
             }
-            
+
             // After verifing token the payload is not visible due to which req.user.id is undefined
             const token = jwt.sign(payLoad, process.env.JWT_SECRET, { expiresIn: "2h" });
             userExist.token = token;
@@ -219,7 +219,7 @@ exports.login = async (req, res) => {
                 httpOnly: true,
                 expireIn: new Date(Date.now()) + 3 * 24 * 60 * 60 * 1000
             }
-            
+
             res.cookie("token", token, options).status(200).json(
                 {
                     success: true,
@@ -235,7 +235,7 @@ exports.login = async (req, res) => {
                 message: "Password is incorrect"
             });
         }
-        
+
     }
     catch (Error) {
         console.log(Error);
@@ -255,20 +255,21 @@ exports.changePassword = async (req, res) => {
         const { oldPassword, newPassword, confirmNewPassword } = req.body;
         const userId = req.user.id;
 
-        if (!oldPassword || !newPassword || confirmNewPassword) {
+        if (!oldPassword || !newPassword || !confirmNewPassword || oldPassword.length === 0 || newPassword.length === 0 || confirmNewPassword.length === 0) {
             return res.status(401).json(
                 {
-                    successfalse,
-                    message: "All field are required"
+                    success: false,
+                    message: "All field are required and cannot be empty"
                 }
             );
         }
 
         const userExist = await User.findById(userId);
+        console.log(userExist);
         if (!userExist) {
             return res.status(404).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "User does not exist for this email"
                 }
             );
@@ -286,7 +287,7 @@ exports.changePassword = async (req, res) => {
         if (newPassword !== confirmNewPassword) {
             return res.status(401).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "New password doesnot match with confirm password"
                 }
             );
@@ -294,21 +295,21 @@ exports.changePassword = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-        const updateUserPassword = await User.findOneAndUpdate({ email: email }, { $set: { password: hashedPassword } });
+        const updateUserPassword = await User.findByIdAndUpdate({ _id: userId }, { $set: { password: hashedPassword } });
         updateUserPassword.password = undefined;
 
-        const mailInfo = await mailSender("Password changed successfully", userExist.email, passwordUpdated(userExist.email, `${firstName} ${lastName}`));
-        console.log(mailInfo);
+        const mailInfo = await mailSender("Password changed successfully", userExist.email, passwordUpdated(userExist.email, `${userExist.firstName} ${userExist.lastName}`));
 
         return res.status(200).json(
             {
                 success: true,
                 message: "Password updated successfully",
-                data: updateUserPassword
+                data: { updateUserPassword, mailInfo }
             }
         );
     }
     catch (Error) {
+        // console.log(Error);
         return res.status(500).json(
             {
                 success: false,

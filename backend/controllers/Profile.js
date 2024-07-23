@@ -7,7 +7,7 @@ const { updateFileCloudinary } = require("../utils/UpdateCloudinary");
 // Update the profile of user - Working
 exports.updateProfile = async (req, res) => {
     try {
-        const { gender = "", about = "", dateOfBirth = null, contactNumber = null } = req.body;
+        const { gender, about, dateOfBirth = null, contactNumber = null } = req.body;
         const userId = req.user.id;
 
         if (!userId) {
@@ -18,20 +18,27 @@ exports.updateProfile = async (req, res) => {
         const userDetails = await User.findById(userId);
 
         // Get the profile 
-        const profileDetails = await Profile.findById(userDetails.additionalDetails);
+        const updateValueOption = {};
+        if (gender) updateValueOption.gender = gender;
+        if (about) updateValueOption.about = about;
+        if (dateOfBirth) updateValueOption.dateOfBirth = dateOfBirth;
+        if (contactNumber) updateValueOption.contactNumber = contactNumber;
 
-        profileDetails.gender = gender;
-        profileDetails.about = about;
-        profileDetails.dateOfBirth = dateOfBirth;
-        profileDetails.contactNumber = contactNumber;
 
-        await profileDetails.save();
+        const profileDetails = await Profile.findByIdAndUpdate(userDetails.additionalDetails, updateValueOption, {new:true});
+
+        // profileDetails.gender = gender;
+        // profileDetails.about = about;
+        // profileDetails.dateOfBirth = dateOfBirth;
+        // profileDetails.contactNumber = contactNumber;
+
+        // await profileDetails.save();
 
         return res.status(200).json(
             {
                 success: true,
                 message: "Profile updated successfully",
-                data: userDetails,
+                data: {userDetails, profileDetails},
             }
         );
     }

@@ -35,10 +35,10 @@ router.delete("/delete-section", auth, isInstructor, deleteSection); // Delete a
 
 
 // Category routes
-router.get("/get-all-category", auth, getAllCategory); // Get all category for courses
-router.put("/update-category", auth, isAdmin, updateCategory); // Update a category done by Admin
+router.get("/get-all-category", auth, getAllCategory); // Get all category for courses - Working
+router.put("/update-category", auth, isAdmin, updateCategory); // Update a category done by Admin - Working
 router.get("/get-category-detail", auth, categoryPageDetails); // Get a category page detail where other will also present
-router.post("/create-category", auth, isAdmin, createCategory); // Create a category done by admin only
+router.post("/create-category", auth, isAdmin, createCategory); // Create a category done by admin only - Working
 
 
 // Rating and review routes

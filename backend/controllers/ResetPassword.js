@@ -13,7 +13,7 @@ exports.resetPasswordToken = async (req, res) => {
         if (!userExist) {
             return res.status(401).json(
                 {
-                    successfalse,
+                    success: false,
                     message: `This ${email} doesnot exist in database`
                 }
             );
@@ -23,7 +23,7 @@ exports.resetPasswordToken = async (req, res) => {
         const token = crypto.randomUUID();
 
         const updatedDetails = await User.findOneAndUpdate({ email: email },
-            { token: token, resetPasswordExpires: 5 * 60 * 1000 }, { new: true }
+            { token: token, resetPasswordExpires: Date.now() + 5 * 60 * 1000 }, { new: true }
         );
 
         // Create URL for reset Password
@@ -34,7 +34,7 @@ exports.resetPasswordToken = async (req, res) => {
 
         return res.status(200).json(
             {
-                successtrue,
+                success: true,
                 message: "A reset password link is sended to your email",
                 data: updatedDetails
             }
@@ -43,7 +43,7 @@ exports.resetPasswordToken = async (req, res) => {
     catch (Error) {
         return res.status(500).json(
             {
-                successfalse,
+                success: false,
                 message: Error.message,
                 additionalInfo: "Error while creating reset password token (ResetPassword.js)"
             }
@@ -58,10 +58,10 @@ exports.resetPassword = async (req, res) => {
         const { password, confirmPassword, token } = req.body;
 
         // Validation of extracted data
-        if (!password || !confirmPassword) {
+        if (!password || !confirmPassword || !token) {
             return res.status(401).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "All field are required"
                 }
             );
@@ -70,7 +70,7 @@ exports.resetPassword = async (req, res) => {
         if (password !== confirmPassword) {
             return res.status(400).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "Password is not matching with confirm password"
                 }
             );
@@ -82,7 +82,7 @@ exports.resetPassword = async (req, res) => {
         if (!userExist) {
             return res.status(404).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "Your token is invalid"
                 }
             );
@@ -91,7 +91,7 @@ exports.resetPassword = async (req, res) => {
         if (userExist.resetPasswordExpires < Date.now()) {
             return res.status(400).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "Your token/link is expired for reseting the password"
                 }
             );
@@ -107,7 +107,7 @@ exports.resetPassword = async (req, res) => {
 
         return res.status(200).json(
             {
-                successtrue,
+                success: true,
                 message: "Password resetted successfully",
                 data: updatedUser
             }
@@ -116,7 +116,7 @@ exports.resetPassword = async (req, res) => {
     catch (Error) {
         return res.status(500).json(
             {
-                successfalse,
+                success: false,
                 message: Error.message,
                 additionalInfo: "Error while resetting password (ResetPassword.js)"
             }
