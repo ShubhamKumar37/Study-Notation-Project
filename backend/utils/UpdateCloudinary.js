@@ -1,4 +1,5 @@
 const cloudinary = require("cloudinary").v2;
+require("dotenv").config();
 
 // Update a file in cloudinary - Working (profile picture)
 exports.updateFileCloudinary = async (file, publicId, quality) =>
@@ -7,6 +8,7 @@ exports.updateFileCloudinary = async (file, publicId, quality) =>
         const options = {
             overwrite: true,
             public_id: publicId,
+            folder: process.env.FILE_FOLDER
         };
         
         if(!quality)

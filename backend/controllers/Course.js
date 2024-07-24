@@ -3,17 +3,19 @@ const Category = require("../models/Category");
 const Course = require("../models/Course");
 const SubSection = require("../models/SubSection");
 const { uploadToCloudinary } = require("../utils/UploadCloudinary");
+const { updateFileCloudinary } = require("../utils/UpdateCloudinary");
+const {deleteSubSections} = require("../utils/DeleteSubSection");
 require("dotenv").config();
 
 
-// Create a Course handler - left with U D operation and few observation with create course
+// Create a Course handler - left with U D operation and few observation with create course - Working
 exports.createCourse = async (req, res) => {
     try {
         // CHECK FOR THE ID WE ARE RECIEVEING FROM REQ 
         // IS THAT ID BELONG TO THE INSTRUCTOR OR NOT 
 
 
-        const { courseName, courseDescription, whatYouWillLearn, price, category, status = "Draft", instructions } = req.body;
+        const { courseName, courseDescription, whatYouWillLearn, price, category, status = "Draft", instructions, tag } = req.body;
         const thumbnail = req.files.thumbnailImage;
 
         // Validation of recieved data
@@ -65,7 +67,7 @@ exports.createCourse = async (req, res) => {
             instructor: instructorExist._id,
             status,
             instructions: instructions,
-            whatYouWillLearn: whatYouWillLearn
+            tag: [tag]
         });
 
         // Add this new course to instructor user Schema - not done
@@ -96,6 +98,94 @@ exports.createCourse = async (req, res) => {
                 success: false,
                 message: Error.message,
                 additionalInfo: "Error occur while creating a course (Course.js)"
+            }
+        );
+    }
+}
+
+// Working
+exports.updateCourse = async (req, res) => {
+    try {
+        const { courseName, courseDescription, whatYouWillLearn, price, category, status = "Draft", instructions, courseId, tag } = req.body;
+        const updateCourseOptions = {};
+
+        // Adding only those data to options which are provided and remain will be same older
+        if (courseName) updateCourseOptions.courseName = courseName;
+        if (courseDescription) updateCourseOptions.courseDescription = courseDescription;
+        if (whatYouWillLearn) updateCourseOptions.whatYouWillLearn = whatYouWillLearn
+        if (price) updateCourseOptions.price = price;
+        if (status) updateCourseOptions.status = status;
+        if (instructions) updateCourseOptions.instructions = instructions;
+        if (tag) updateCourseOptions.tag = tag;
+        if (!courseId) return res.status(404).json({ success: false, message: "Course id is required" });
+        if (!category) return res.status(404).json({ success: false, message: "Category id is required" });
+
+        const categoryExist = await Category.findById(category);
+        if (!categoryExist) return res.status(404).json({ success: false, message: "Category doesnot exist" });
+        else {
+            updateCourseOptions.category = category;
+            const categoryId = await Course.findById({ _id: courseId });
+            await Category.findByIdAndUpdate(
+                { _id: categoryId.category },
+                { $pull: { course: courseId } },
+                { new: true }
+            );
+            await Category.findByIdAndUpdate(
+                { _id: category },
+                { $addToSet: { course: courseId } },
+                { new: true }
+            );
+        }
+
+
+        const updatedCourseDetails = await Course.findByIdAndUpdate(
+            { _id: courseId },
+            { $set: updateCourseOptions },
+            { new: true }
+        );
+
+        if (req.files) {
+            const thumbnail = req.files.thumbnailImage;
+            let publicId = updatedCourseDetails.thumbnail.split("/");
+            publicId = publicId[publicId.length - 1];
+            publicId = publicId.split(".")[0];
+
+            await updateFileCloudinary(thumbnail, publicId);
+        }
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Course details are updated successfully",
+                data: { updatedCourseDetails }
+            }
+        );
+    }
+    catch (Error) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: Error.message,
+                additionalInfo: "Error occur while updating course details (Course.js)"
+            }
+        );
+    }
+}
+
+// Pending for future scope cases
+exports.deleteCourse = async (req, res) =>
+{
+    try
+    {
+        const {courseId} = req.body;
+    }
+    catch(Error)
+    {
+        return res.status(500).json(
+            {
+                success: false,
+                message: Error.message,
+                additionalInfo: "Error occur while deleting the course (Course.js)"
             }
         );
     }
@@ -142,6 +232,7 @@ exports.getAllCourses = async (req, res) => {
     }
 }
 
+// Working - (RatingAndReview)
 exports.getCourseDetailById = async (req, res) => {
     try {
         const { courseId } = req.body;
@@ -161,7 +252,7 @@ exports.getCourseDetailById = async (req, res) => {
                 populate: { path: "additionalDetails" }
             })
             .populate("category")
-            .populate("ratingAndReviews")
+            // .populate("RatingAndReviews")
             .populate(
                 {
                     path: "courseContent",

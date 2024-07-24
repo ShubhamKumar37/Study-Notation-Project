@@ -1,22 +1,33 @@
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
-const uploadToCloudinary = require("../utils/UploadCloudinary");
-const deleteFileCloudinary = require("../utils/DeleteCloudinary");
-const updateFileCloudinary = require("../utils/UpdateCloudinary");
+const {uploadToCloudinary} = require("../utils/UploadCloudinary");
+const {deleteFileCloudinary} = require("../utils/DeleteCloudinary");
+const {updateFileCloudinary} = require("../utils/UpdateCloudinary");
 require("dotenv").config();
 
-// Create Subsection
+// Create Subsection - Working
 exports.createSubSection = async (req, res) => {
     try {
         // Data fetch and validate
-        const { sectionId, title, description, timeDuration } = req.body;
+        const { sectionId, title, description } = req.body;
         const video = req.files.videoFile;
 
-        if (!sectionId || !title || !description || !timeDuration || !video) {
+        if (!sectionId || !title || !description || !video) {
             return res.status(404).json(
                 {
                     success: false,
                     message: "All field are required to create a subsection"
+                }
+            );
+        }
+
+        const sectionExist = await Section.findById(sectionId);
+        if(!sectionExist)
+        {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "Section doesnot exist"
                 }
             );
         }

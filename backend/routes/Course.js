@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { auth, isInstructor, isAdmin, isStudent } = require("../middlewares/auth");
-const { createCourse, getAllCourses, getCourseDetailById } = require("../controllers/Course");
+const { createCourse, getAllCourses, getCourseDetailById, updateCourse } = require("../controllers/Course");
 const { createCategory, getAllCategory, categoryPageDetails, updateCategory } = require("../controllers/Category");
 const { createSubSection, deleteSubSection, updateSubSection } = require("../controllers/SubSection");
 const { createSection, updateSection, getAllSection, deleteSection } = require("../controllers/Section");
@@ -17,20 +17,21 @@ const {
 
 // Courses routes
 router.get("/get-all-courses", auth, getAllCourses); // Get all course exist in database
-router.get("/get-course-detail", auth, getCourseDetailById); // Get course by id present at req.body
-router.post("/create-course", auth, isInstructor, createCourse); // Create a course by only instructor
+router.get("/get-course-detail", auth, getCourseDetailById); // Get course by id present at req.body - Working
+router.post("/create-course", auth, isInstructor, createCourse); // Create a course by only instructor - Working
+router.put("/update-course", auth, isInstructor, updateCourse);
 
 
 // Subsection routes
 router.put("/update-subsection", auth, isInstructor, updateSubSection); // Update subsection done by instructor
-router.post("/create-subsection", auth, isInstructor, createSubSection); // Create a subsection done by instructor
+router.post("/create-subsection", auth, isInstructor, createSubSection); // Create a subsection done by instructor - Working
 router.delete("/delete-subsection", auth, isInstructor, deleteSubSection); // Delete subsection by instructor 
 
 
 // Section routes
 router.get("/get-all-section", auth, getAllSection); // Get all section of a course by courseId present in req.body
-router.post("create-section", auth, isInstructor, createSection); // Create a section done by instructor
 router.put("/update-section", auth, isInstructor, updateSection); // Update a section done by instructor
+router.post("/create-section", auth, isInstructor, createSection); // Create a section done by instructor - Working
 router.delete("/delete-section", auth, isInstructor, deleteSection); // Delete a section done by instructor
 
 

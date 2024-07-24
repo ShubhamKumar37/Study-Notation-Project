@@ -2,13 +2,14 @@ const Course = require("../models/Course");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
 const deleteFileCloudinary = require("../utils/DeleteCloudinary");
+const {deleteSubSections} = require("../utils/DeleteSubSection");
 
-// Create Section for a Course
+// Create Section for a Course - Working
 exports.createSection = async (req, res) => {
     try {
         const { sectionName, courseId } = req.body;
 
-        if (!sectionName || !courseId) {
+        if (!sectionName || !courseId || sectionName.length === 0) {
             return res.status(404).json(
                 {
                     success: false,
@@ -35,7 +36,7 @@ exports.createSection = async (req, res) => {
 
         return res.status(200).json(
             {
-                successtrue,
+                success: true,
                 message: "Section for a course is created and also added to course",
                 data: updatedCourse
             }
@@ -44,7 +45,7 @@ exports.createSection = async (req, res) => {
     catch (Error) {
         return res.status(500).json(
             {
-                successfalse,
+                success:false,
                 message: Error.message,
                 additionalInfo: "Error occur while creating section (Section.js)"
             }
@@ -60,7 +61,7 @@ exports.updateSection = async (req, res) => {
         if (!sectionName || !sectionId) {
             return res.status(404).json(
                 {
-                    successfalse,
+                    success:false,
                     message: "All data is required to update the section"
                 }
             );
@@ -74,7 +75,7 @@ exports.updateSection = async (req, res) => {
 
         return res.status(200).json(
             {
-                successtrue,
+                success:true,
                 message: "Section is updated successfully",
                 data: updatedSection
             }
@@ -83,7 +84,7 @@ exports.updateSection = async (req, res) => {
     catch (Error) {
         return res.status(500).json(
             {
-                successfalse,
+                success:false,
                 message: Error.message,
                 additionalInfo: "Error occur while updating section (Section.js)"
             }
@@ -98,7 +99,7 @@ exports.getAllSection = async (req, res) => {
 
         return res.status(200).json(
             {
-                successtrue,
+                success:true,
                 message: "All section are fetched",
                 data: allSection
             }
@@ -107,7 +108,7 @@ exports.getAllSection = async (req, res) => {
     catch (Error) {
         return res.status(500).json(
             {
-                successfalse,
+                success:false,
                 messae: Error.message,
                 additionalInfo: "Error occur while getting all section (Section.js)"
             }
@@ -134,28 +135,14 @@ exports.deleteSection = async (req, res) => {
             { _id: courseId },
             {
                 $pull: {
-                    subSection: sectionId
+                    courseContent: sectionId
                 }
             },
             { new: true }
         ).populate("subSection");
 
         // Delete the related subsection from it
-        const subSectionArray = await Section.findById(sectionId);
-
-        // Deleting all the content present in the entry
-        if (subSectionArray) {
-            for (let subSectionId in subSectionArray.subSection) {
-
-                const eachPublicId = await SubSection.findById(subSectionId);
-                if (!eachPublicId) {
-                    continue;
-                }
-
-                await deleteFileCloudinary(eachPublicId.publicId);
-            }
-        }
-
+        deleteSubSections(sectionId);
         // Now Delete the Section
         await Section.findByIdAndDelete(sectionId);
 
