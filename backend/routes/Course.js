@@ -16,21 +16,21 @@ const {
 
 
 // Courses routes
-router.get("/get-all-courses", auth, getAllCourses); // Get all course exist in database
+router.get("/get-all-courses", auth, getAllCourses); // Get all course exist in database - Working
 router.get("/get-course-detail", auth, getCourseDetailById); // Get course by id present at req.body - Working
 router.post("/create-course", auth, isInstructor, createCourse); // Create a course by only instructor - Working
-router.put("/update-course", auth, isInstructor, updateCourse);
+router.put("/update-course", auth, isInstructor, updateCourse); // Update course using courseId done by Instructor - Working
 
 
 // Subsection routes
-router.put("/update-subsection", auth, isInstructor, updateSubSection); // Update subsection done by instructor
+router.put("/update-subsection", auth, isInstructor, updateSubSection); // Update subsection done by instructor - Working
 router.post("/create-subsection", auth, isInstructor, createSubSection); // Create a subsection done by instructor - Working
-router.delete("/delete-subsection", auth, isInstructor, deleteSubSection); // Delete subsection by instructor 
+router.delete("/delete-subsection", auth, isInstructor, deleteSubSection); // Delete subsection by instructor  - Working
 
 
 // Section routes
-router.get("/get-all-section", auth, getAllSection); // Get all section of a course by courseId present in req.body
-router.put("/update-section", auth, isInstructor, updateSection); // Update a section done by instructor
+router.get("/get-all-section", auth, getAllSection); // Get all section of a course by courseId present in req.body - Working
+router.put("/update-section", auth, isInstructor, updateSection); // Update a section done by instructor - Working
 router.post("/create-section", auth, isInstructor, createSection); // Create a section done by instructor - Working
 router.delete("/delete-section", auth, isInstructor, deleteSection); // Delete a section done by instructor
 
@@ -38,7 +38,7 @@ router.delete("/delete-section", auth, isInstructor, deleteSection); // Delete a
 // Category routes
 router.get("/get-all-category", auth, getAllCategory); // Get all category for courses - Working
 router.put("/update-category", auth, isAdmin, updateCategory); // Update a category done by Admin - Working
-router.get("/get-category-detail", auth, categoryPageDetails); // Get a category page detail where other will also present
+router.get("/get-category-detail", auth, categoryPageDetails); // Get a category page detail where other will also present - Working
 router.post("/create-category", auth, isAdmin, createCategory); // Create a category done by admin only - Working
 
 
@@ -51,3 +51,5 @@ router.post("create-rating-review", auth, isStudent, createRatingAndReview); // 
 
 
 module.exports = router;    
+
+// Need to test 4 more 

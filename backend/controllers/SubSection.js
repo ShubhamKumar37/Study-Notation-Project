@@ -62,6 +62,7 @@ exports.createSubSection = async (req, res) => {
 }
 
 // Get all subsection
+
 // exports.getAllSubSection = async (req, res) => {
 //     try {
 //         const subSections = await SubSection.find({});
@@ -85,23 +86,54 @@ exports.createSubSection = async (req, res) => {
 //     }
 // }
 
-// Delete subsection
+
+// Delete subsection - Working
 exports.deleteSubSection = async (req, res) => {
     try {
-        const { publicId, sectionId, subSectionId } = req.body;
+        const { sectionId, subSectionId } = req.body;
+
+        if(!sectionId || !subSectionId)
+        {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Please provide section id and sub section id"
+                }
+            );
+        }
 
         // Update the Section by removing the reference ID of subsection
         const updatedSection = await Section.findByIdAndUpdate(
             { _id: sectionId },
-            { $pull: { subSection: publicId } },
+            { $pull: { subSection: subSectionId } },
             { new: true }
         ).populate("subSection");
 
+        if(!updatedSection)
+        {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Section doesnot exist"
+                }
+            );
+        }
+
         // Delete from cloudinary
-        const responseDelete = await deleteFileCloudinary(publicId);
+        let subSectionData = await SubSection.findById({_id: subSectionId});
+        if(!subSectionData)
+        {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Sub Section does not exist"
+                }
+            );
+        }
+        const responseDelete = await deleteFileCloudinary(subSectionData.publicId, "video");
 
         // Delete the subsection
-        const sectionDelete = await SubSection.findByIdAndDelete(subSectionId);
+        subSectionData = await SubSection.findByIdAndDelete(subSectionId);
 
         return res.status(200).json(
             {
@@ -109,8 +141,8 @@ exports.deleteSubSection = async (req, res) => {
                 message: "SubSection is deleted, Section is updated and deleted from cloudinary",
                 data: {
                     sectionData: updatedSection,
-                    cloudinaryResponse: responseDelete,
-                    subSectionData: sectionDelete
+                    responseDelete: responseDelete,
+                    subSectionData: subSectionData
                 }
             }
         );
@@ -126,26 +158,38 @@ exports.deleteSubSection = async (req, res) => {
     }
 }
 
-// Update subsection
+// Update subsection - Working
 exports.updateSubSection = async (req, res) => {
     try {
-        const Arr = [publicId, subSectionId, title, description, timeDuration];
+        const {subSectionId, title, description} = req.body;
         let dataNeedToUpdate = {};
 
-        for (let key in Arr) {
-            if (key !== null || key !== undefined) {
-                dataNeedToUpdate.key = req.body.key;
-            }
+        if(!subSectionId || !subSectionId.length === 0) return res.status(404).json({success: false, message: "Please provide sub section id"});
+        if(title) dataNeedToUpdate.title = title;
+        if(description) dataNeedToUpdate.description = description;
+
+        const subSectionExist = await SubSection.findById(subSectionId);
+        if(!subSectionExist)
+        {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "Sub section doesnot exist"
+                }
+            );
         }
 
         let updateVideoCloudinaryResponse = null;
-        if (req.body.videoFile) {
-            updateVideoCloudinaryResponse = await updateFileCloudinary(req.body.videoFile, publicId);
+        if (req.files && req.files.videoFile) {
+            updateVideoCloudinaryResponse = await updateFileCloudinary(req.files.videoFile, subSectionExist.publicId, "video");
             dataNeedToUpdate.secureUrl = updateVideoCloudinaryResponse.secure_url;
+            dataNeedToUpdate.publicId = updateVideoCloudinaryResponse.public_id;
+            dataNeedToUpdate.timeDuration = updateVideoCloudinaryResponse.duration;
         }
+        // console.log(updateVideoCloudinaryResponse);
 
         const subSectionUpdateQuery = await SubSection.findByIdAndUpdate(
-            { _id: dataNeedToUpdate.subSectionId },
+            { _id: subSectionId },
             { $set: dataNeedToUpdate },
             { new: true }
         );

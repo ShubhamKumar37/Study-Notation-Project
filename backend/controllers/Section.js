@@ -53,7 +53,7 @@ exports.createSection = async (req, res) => {
     }
 }
 
-// Update Section
+// Update Section - Working
 exports.updateSection = async (req, res) => {
     try {
         const { sectionName, sectionId } = req.body;
@@ -69,9 +69,19 @@ exports.updateSection = async (req, res) => {
 
         const updatedSection = await Section.findByIdAndUpdate(
             { _id: sectionId },
-            { $set: { title: sectionName } },
+            { $set: { sectionName: sectionName } },
             { new: true }
         ).populate("subSection");
+
+        if(!updatedSection)
+        {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "Section not found"
+                }
+            );    
+        }
 
         return res.status(200).json(
             {
@@ -92,11 +102,19 @@ exports.updateSection = async (req, res) => {
     }
 }
 
-// Get all section
+// Get all section - Working
 exports.getAllSection = async (req, res) => {
     try {
-        const allSection = await Section.find({}, { sectionName: true, subSection: true }).populate("subSection");
+        const {courseId} = req.body;
 
+        const allSection = await Course.findById({_id :courseId}).populate({
+            path: "courseContent",
+            populate: {
+                path: "subSection",
+            }
+        });
+
+        if(!allSection) return res.status(404).json({success: false, message: "No section present at the moment"});
         return res.status(200).json(
             {
                 success:true,
@@ -120,16 +138,17 @@ exports.getAllSection = async (req, res) => {
 exports.deleteSection = async (req, res) => {
     try {
         const { sectionId, courseId } = req.body;
-
-        if (!sectionId) {
+        console.log(1);
+        if (!sectionId || !courseId) {
             return res.status(400).json(
                 {
                     succes: false,
-                    message: "Id is required to delete a section"
+                    message: "Id is required to delete a section or course"
                 }
             );
         }
-
+        
+        console.log(2);
         // Delete entry from Course.js
         const updatedCourse = await Course.findByIdAndUpdate(
             { _id: courseId },
@@ -139,13 +158,36 @@ exports.deleteSection = async (req, res) => {
                 }
             },
             { new: true }
-        ).populate("subSection");
+        );
 
+        if(!updatedCourse)
+        {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "Course id is not correct"
+                }
+            );
+        }
+        
+        console.log(3);
         // Delete the related subsection from it
+        const sectionExist = await Section.findById(sectionId);
+        if(!sectionExist)
+        {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "Section does not exist"
+                }
+            );
+        }
         deleteSubSections(sectionId);
         // Now Delete the Section
-        await Section.findByIdAndDelete(sectionId);
-
+        console.log(4);
+        // await Section.findByIdAndDelete(sectionId);
+        
+        console.log(5);
 
         return res.status(200).json(
             {

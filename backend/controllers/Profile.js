@@ -25,7 +25,7 @@ exports.updateProfile = async (req, res) => {
         if (contactNumber) updateValueOption.contactNumber = contactNumber;
 
 
-        const profileDetails = await Profile.findByIdAndUpdate(userDetails.additionalDetails, updateValueOption, {new:true});
+        const profileDetails = await Profile.findByIdAndUpdate(userDetails.additionalDetails, updateValueOption, { new: true });
 
         // profileDetails.gender = gender;
         // profileDetails.about = about;
@@ -38,7 +38,7 @@ exports.updateProfile = async (req, res) => {
             {
                 success: true,
                 message: "Profile updated successfully",
-                data: {userDetails, profileDetails},
+                data: { userDetails, profileDetails },
             }
         );
     }
@@ -113,44 +113,48 @@ exports.updateProfilePicture = async (req, res) => {
         const userImage = req.files.image;
 
         const userDetails = await User.findById(userId);
-        console.log(typeof userDetails.publicId);
+        if (!userDetails) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
 
         let responseUploadImage;
 
-        if (userDetails.publicId === null) {
-            responseUploadImage = await uploadToCloudinary(userImage, process.env.FILE_FOLDER, 90);
-            console.log(1, responseUploadImage);
-        }
-        else {
-            responseUploadImage = await updateFileCloudinary(userImage, userDetails.publicId, 90);
-            console.log(2, responseUploadImage);
+        if (!userDetails.publicId) {
+            // Upload new image
+            responseUploadImage = await uploadToCloudinary(userImage, process.env.FILE_FOLDER, "image", 90);
+        } else {
+            // Ensure publicId is properly formatted without folders
+            // const cleanPublicId = userDetails.publicId.split('/').pop().split('.')[0];
+            responseUploadImage = await updateFileCloudinary(userImage, userDetails.publicId);
         }
 
-        const updateUser = await User.findByIdAndUpdate(
-            { _id: userId },
-            { image: responseUploadImage.secure_url, publicId: responseUploadImage.public_id },
+        // Update user with new image URL and publicId
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            {
+                image: responseUploadImage.secure_url,
+                publicId: responseUploadImage.public_id
+            },
             { new: true }
         );
 
-
-        return res.status(200).json(
-            {
-                success: true,
-                message: "User profile picture is changed now",
-                data: updateUser
-            }
-        );
+        return res.status(200).json({
+            success: true,
+            message: "User profile picture updated successfully",
+            data: updatedUser
+        });
+    } catch (error) {
+        console.error("Error while updating profile picture (Profile.js):", error);
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+            additionalInfo: "Error occurred while updating profile picture"
+        });
     }
-    catch (Error) {
-        return res.status(500).json(
-            {
-                success: false,
-                message: Error.message,
-                additionalInfo: "Error occur while updating profile picture (Profile.js)"
-            }
-        );
-    }
-}
+};
 
 // Delete the profile where the logic will be different for (Student, Instructor, Admin)
 // exports.deleteProfile = async (req, res) =>

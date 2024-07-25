@@ -4,7 +4,7 @@ const Course = require("../models/Course");
 const SubSection = require("../models/SubSection");
 const { uploadToCloudinary } = require("../utils/UploadCloudinary");
 const { updateFileCloudinary } = require("../utils/UpdateCloudinary");
-const {deleteSubSections} = require("../utils/DeleteSubSection");
+const { deleteSubSections } = require("../utils/DeleteSubSection");
 require("dotenv").config();
 
 
@@ -67,7 +67,8 @@ exports.createCourse = async (req, res) => {
             instructor: instructorExist._id,
             status,
             instructions: instructions,
-            tag: [tag]
+            tag: [tag],
+            publicId: uploadThumbNailToCloudinary.public_id
         });
 
         // Add this new course to instructor user Schema - not done
@@ -137,21 +138,26 @@ exports.updateCourse = async (req, res) => {
             );
         }
 
-
-        const updatedCourseDetails = await Course.findByIdAndUpdate(
-            { _id: courseId },
-            { $set: updateCourseOptions },
-            { new: true }
+        const courseValues = await Course.findById(
+            { _id: courseId }
         );
 
         if (req.files) {
             const thumbnail = req.files.thumbnailImage;
-            let publicId = updatedCourseDetails.thumbnail.split("/");
-            publicId = publicId[publicId.length - 1];
-            publicId = publicId.split(".")[0];
+            // let publicId = courseValues.thumbnail.split("/");
+            // publicId = publicId[publicId.length - 1];
+            // publicId = publicId.split(".")[0];
 
-            await updateFileCloudinary(thumbnail, publicId);
+            const updateResponse = await updateFileCloudinary(thumbnail, courseValues.publicId);
+            updateCourseOptions.thumbnail = updateResponse.secure_url;
+            // console.log(updateResponse);
         }
+
+        const updatedCourseDetails = await Course.findByIdAndUpdate(
+            { _id: courseId },
+            updateCourseOptions,
+            { new: true },
+        );
 
         return res.status(200).json(
             {
@@ -173,14 +179,11 @@ exports.updateCourse = async (req, res) => {
 }
 
 // Pending for future scope cases
-exports.deleteCourse = async (req, res) =>
-{
-    try
-    {
-        const {courseId} = req.body;
+exports.deleteCourse = async (req, res) => {
+    try {
+        const { courseId } = req.body;
     }
-    catch(Error)
-    {
+    catch (Error) {
         return res.status(500).json(
             {
                 success: false,
@@ -207,7 +210,7 @@ exports.getAllCourses = async (req, res) => {
         if (Course.length === 0) {
             return res.status(404).json(
                 {
-                    successfalse,
+                    success: false,
                     message: "There is no course"
                 }
             );
@@ -215,7 +218,7 @@ exports.getAllCourses = async (req, res) => {
 
         return res.status(200).json(
             {
-                successtrue,
+                success: true,
                 message: "These are the all course presented in database",
                 data: allCourses
             }
@@ -224,7 +227,7 @@ exports.getAllCourses = async (req, res) => {
     catch (Error) {
         return res.status(500).json(
             {
-                successfalse,
+                success: false,
                 message: Error.message,
                 additionalInfo: "Error occur while getting all courses (Course.js)"
             }
