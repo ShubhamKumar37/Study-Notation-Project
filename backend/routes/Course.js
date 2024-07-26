@@ -32,7 +32,7 @@ router.delete("/delete-subsection", auth, isInstructor, deleteSubSection); // De
 router.get("/get-all-section", auth, getAllSection); // Get all section of a course by courseId present in req.body - Working
 router.put("/update-section", auth, isInstructor, updateSection); // Update a section done by instructor - Working
 router.post("/create-section", auth, isInstructor, createSection); // Create a section done by instructor - Working
-router.delete("/delete-section", auth, isInstructor, deleteSection); // Delete a section done by instructor
+router.delete("/delete-section", auth, isInstructor, deleteSection); // Delete a section done by instructor - Working
 
 
 // Category routes

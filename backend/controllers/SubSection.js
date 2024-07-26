@@ -61,32 +61,6 @@ exports.createSubSection = async (req, res) => {
     }
 }
 
-// Get all subsection
-
-// exports.getAllSubSection = async (req, res) => {
-//     try {
-//         const subSections = await SubSection.find({});
-
-//         return res.status(200).json(
-//             {
-//                 success: true,
-//                 message: "All subsection are fetched",
-//                 data: subSections
-//             }
-//         );
-//     }
-//     catch (Error) {
-//         return res.status(500).json(
-//             {
-//                 success: false,
-//                 message: Error.message,
-//                 additionalInfo: "Error occur while getting all subsection (SubSection.js)"
-//             }
-//         );
-//     }
-// }
-
-
 // Delete subsection - Working
 exports.deleteSubSection = async (req, res) => {
     try {
