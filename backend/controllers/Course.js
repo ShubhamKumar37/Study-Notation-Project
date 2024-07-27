@@ -8,7 +8,7 @@ const { deleteSubSections } = require("../utils/DeleteSubSection");
 require("dotenv").config();
 
 
-// Create a Course handler - left with U D operation and few observation with create course - Working
+// Create a Course handler - Working
 exports.createCourse = async (req, res) => {
     try {
         // CHECK FOR THE ID WE ARE RECIEVEING FROM REQ 
@@ -144,13 +144,9 @@ exports.updateCourse = async (req, res) => {
 
         if (req.files) {
             const thumbnail = req.files.thumbnailImage;
-            // let publicId = courseValues.thumbnail.split("/");
-            // publicId = publicId[publicId.length - 1];
-            // publicId = publicId.split(".")[0];
 
             const updateResponse = await updateFileCloudinary(thumbnail, courseValues.publicId);
             updateCourseOptions.thumbnail = updateResponse.secure_url;
-            // console.log(updateResponse);
         }
 
         const updatedCourseDetails = await Course.findByIdAndUpdate(
@@ -194,7 +190,7 @@ exports.deleteCourse = async (req, res) => {
     }
 }
 
-// Get all Course handler
+// Get all Course handler - Working (Need updatation time to time)
 exports.getAllCourses = async (req, res) => {
     try {
         const allCourses = await Course.find({}, {
@@ -204,8 +200,9 @@ exports.getAllCourses = async (req, res) => {
             thumbnail: 1,
             instructor: 1,
             studentEnrolled: 1,
-            ratingAndReviews: 1
-        }).populate("instructor").exec();
+            ratingAndReviews: 1,
+            studentCount: {$size: "$studentEnrolled"}
+        }).populate("instructor").sort({studentEnrolled: -1}).exec();
 
         if (Course.length === 0) {
             return res.status(404).json(

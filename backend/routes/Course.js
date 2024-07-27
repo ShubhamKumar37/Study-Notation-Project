@@ -11,15 +11,16 @@ const {
     getAllRatingAndReview,
     getAllRatingAndReviewCourse,
     getAverageRating,
-    updateRatingAndReview
+    updateRatingAndReview,
+    deleteRatingAndReview
 } = require("../controllers/RatingAndReview");
 
 
 // Courses routes
 router.get("/get-all-courses", auth, getAllCourses); // Get all course exist in database - Working
 router.get("/get-course-detail", auth, getCourseDetailById); // Get course by id present at req.body - Working
-router.post("/create-course", auth, isInstructor, createCourse); // Create a course by only instructor - Working
 router.put("/update-course", auth, isInstructor, updateCourse); // Update course using courseId done by Instructor - Working
+router.post("/create-course", auth, isInstructor, createCourse); // Create a course by only instructor - Working
 
 
 // Subsection routes
@@ -43,13 +44,12 @@ router.post("/create-category", auth, isAdmin, createCategory); // Create a cate
 
 
 // Rating and review routes
-router.get("/get-average-rating", auth, getAverageRating); // Get average rating of a course
-router.get("/get-all-rating", auth, getAllRatingAndReview); // Get all rating for all course
-router.put("/update-rating", auth, isStudent, updateRatingAndReview); // If student want to update the rating
-router.get("/get-all-course-rating", auth, getAllRatingAndReviewCourse); // Get all rating of a course
-router.post("create-rating-review", auth, isStudent, createRatingAndReview); // Create a rating done by Student
+router.get("/get-average-rating", auth, getAverageRating); // Get average rating of a course - Working
+router.get("/get-all-rating", auth, getAllRatingAndReview); // Get all rating for all course - Working
+router.put("/update-rating", auth, isStudent, updateRatingAndReview); // If student want to update the rating - Working
+router.delete("/delete-rating", auth, isStudent, deleteRatingAndReview); // Delete a rating done by student - Working
+router.get("/get-all-course-rating", auth, getAllRatingAndReviewCourse); // Get all rating of a course - Working
+router.post("/create-rating-review", auth, isStudent, createRatingAndReview); // Create a rating done by Student - Working
 
 
-module.exports = router;    
-
-// Need to test 4 more 
+module.exports = router;
