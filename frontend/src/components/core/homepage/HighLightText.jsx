@@ -1,11 +1,11 @@
 import React from 'react'
 
-const HighLightText = ({text}) => {
+const HighLightText = ({ text }) => {
   return (
     <span className='font-bold text-blue-100'>
-        {"  "}   
-        {text}
-        {"  "}   
+      {"  "}
+      {text}
+      {"  "}
     </span>
   )
 }

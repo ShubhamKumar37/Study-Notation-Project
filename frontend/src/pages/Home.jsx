@@ -70,7 +70,6 @@ export default function Home() {
                                 active: false
                             }
                         }
-
                         codeBlock={`<!DOCTYPE html>
                                     <html>
                                     <head><title>Example</title><link rel="stylesheet" href="styles.css"></head>
@@ -80,15 +79,15 @@ export default function Home() {
                                     </body>
                                     </html>`}
                         codeColor={"text-yellow-25"}
-                        gradient= {" bg-gradient-to-r from-[#8A2BE2] to-[#FFA500]"}
+                        gradient={" bg-gradient-to-r from-[#8A2BE2] to-[#FFA500]"}
                     ></CodeBlocks>
 
                     <CodeBlocks
                         position={"lg:flex-row-reverse"}
                         heading={
                             <div className="text-4xl font-semibold">
-                                Start 
-                                <HighLightText text={"Coding"} /> <br/>
+                                Start
+                                <HighLightText text={"Coding"} /> <br />
                                 <HighLightText text={"in Second"} />
                             </div>
                         }
@@ -107,7 +106,6 @@ export default function Home() {
                                 active: false
                             }
                         }
-
                         codeBlock={`<!DOCTYPE html>
                                         <html>
                                         <head><title>Example</title><link rel="stylesheet" href="styles.css"></head>
@@ -117,7 +115,7 @@ export default function Home() {
                                         </body>
                                         </html>`}
                         codeColor={"text-yellow-25"}
-                        gradient= {" bg-gradient-to-r from-[#15C9FB] to-[#47A5C5]"}
+                        gradient={" bg-gradient-to-r from-[#15C9FB] to-[#47A5C5]"}
                     ></CodeBlocks>
                 </div>
             </div>

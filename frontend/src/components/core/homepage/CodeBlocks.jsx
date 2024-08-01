@@ -27,7 +27,7 @@ const CodeBlocks = ({ position, heading, subHeading, btn1, btn2, codeBlock, grad
             </div>
 
             {/* Section 2 */}
-            <div className=' relative text-center flex flex-row w-[40%] text-richblack-500 font-inter font-bold h-fit bg-richblack-800 border bg-opacity-40 border-richblack-800'>
+            <div className=' relative text-center flex flex-row w-[40%] text-richblack-500 font-inter font-bold h-fit bg-richblack-800 border bg-opacity-40 border-richblack-800 gap-2'>
 
                 <div
                     className={`absolute top-6   w-[230.95px] h-[157.05px] ${gradient} rounded-full shadow-2xl blur-3xl bg-blend-screen left-[5%] opacity-30 z-0`}
@@ -43,12 +43,9 @@ const CodeBlocks = ({ position, heading, subHeading, btn1, btn2, codeBlock, grad
                         sequence={[codeBlock, 10000, ""]}
                         repeat={Infinity}
                         cursor={true}
-                        speed={60}
                     />
                 </div>
-
             </div>
-
         </div>
     )
 }
