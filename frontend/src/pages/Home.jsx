@@ -3,8 +3,9 @@ import { FaArrowRight } from "react-icons/fa";
 import "./allPageCSS.css";
 import HighLightText from "../components/core/homepage/HighLightText";
 import ActionButton from "../components/core/homepage/Button";
-import BannerVideo from "../assets/Images/banner.mp4"
+import BannerVideo from "../assets/Images/banner.mp4";
 import CodeBlocks from "../components/core/homepage/CodeBlocks";
+import FooterSection from "../components/core/homepage/Footer/FooterSection";
 
 
 export default function Home() {
@@ -70,8 +71,53 @@ export default function Home() {
                             }
                         }
 
-                        codeBlock={`<!DOCTYPE html>\n<html>\nhead><title>Example</title><linkrel="stylesheet"href="styles.css">\n</div>\n/head>\nbody>\nh1><ahref="/">Header</a>\n/h1>\nnav><ahref="one/">One</a><ahref="two/">Two</a><ahref="three/">Three</a>\n/nav>`}
+                        codeBlock={`<!DOCTYPE html>
+                                    <html>
+                                    <head><title>Example</title><link rel="stylesheet" href="styles.css"></head>
+                                    <body>
+                                    <h1><a href="/">Header</a></h1>
+                                    <nav><a href="one/">One</a><a href="two/">Two</a><a href="three/">Three</a></nav>
+                                    </body>
+                                    </html>`}
                         codeColor={"text-yellow-25"}
+                        gradient= {" bg-gradient-to-r from-[#8A2BE2] to-[#FFA500]"}
+                    ></CodeBlocks>
+
+                    <CodeBlocks
+                        position={"lg:flex-row-reverse"}
+                        heading={
+                            <div className="text-4xl font-semibold">
+                                Start 
+                                <HighLightText text={"Coding"} /> <br/>
+                                <HighLightText text={"in Second"} />
+                            </div>
+                        }
+                        subHeading={"Go ahead, give it a try. Our hands-on learning environment means you'll be writing real code from your very first lesson."}
+                        btn1={
+                            {
+                                btnText: "Continue Lesson",
+                                linkTo: "/signup",
+                                active: true
+                            }
+                        }
+                        btn2={
+                            {
+                                btnText: "Learn more",
+                                linkTo: "/login",
+                                active: false
+                            }
+                        }
+
+                        codeBlock={`<!DOCTYPE html>
+                                        <html>
+                                        <head><title>Example</title><link rel="stylesheet" href="styles.css"></head>
+                                        <body>
+                                        <h1><a href="/">Header</a></h1>
+                                        <nav><a href="one/">One</a><a href="two/">Two</a><a href="three/">Three</a></nav>
+                                        </body>
+                                        </html>`}
+                        codeColor={"text-yellow-25"}
+                        gradient= {" bg-gradient-to-r from-[#15C9FB] to-[#47A5C5]"}
                     ></CodeBlocks>
                 </div>
             </div>
@@ -81,6 +127,9 @@ export default function Home() {
             {/* Section3 */}
 
             {/* Footer */}
+            <div>
+                <FooterSection />
+            </div>
         </div>
     );
 }

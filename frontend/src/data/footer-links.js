@@ -1,7 +1,7 @@
 export const FooterLink2 = [
   {
     title: "Subjects",
-    links: [
+    links: [  
       { title: "Al", link: "/al" },
       { title: "Cloud Computing", link: "/cloud-computing" },
       { title: "Code Foundations", link: "/code-foundations" },
@@ -53,3 +53,28 @@ export const FooterLink2 = [
     ]
   }
 ];
+
+export const FooterBottomText = [
+  {title: "Privacy and Policy",
+    link: "/privacy"
+  },
+  {title: "Cookie Policy",
+    link: "/cookie-policy"
+  },
+  {title: "Terms",
+    link: "/terms-and-condition"
+  },
+  
+];
+
+export const FooterLeft = [
+  {
+    title: "Company",
+    links: [
+        {title: "About", link: "/about"},
+        {title: "Careers", link: "/career"},
+        {title: "Affiliates", link: "/affiliates"},
+    ]
+  }
+];
+
