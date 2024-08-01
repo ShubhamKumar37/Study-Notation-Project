@@ -40,7 +40,7 @@ const CodeBlocks = ({ position, heading, subHeading, btn1, btn2, codeBlock, grad
                 <div className={`relative w-[90%] flex flex-col gap-2 font-bold font-mono text-white pr-2 text-start z-10`}>
                     <TypeAnimation
                         style={{ whiteSpace: "pre-line" }}
-                        sequence={[codeBlock, 1000, ""]}
+                        sequence={[codeBlock, 10000, ""]}
                         repeat={Infinity}
                         cursor={true}
                         speed={60}

@@ -5,7 +5,7 @@ import HighLightText from "../components/core/homepage/HighLightText";
 import ActionButton from "../components/core/homepage/Button";
 import BannerVideo from "../assets/Images/banner.mp4";
 import CodeBlocks from "../components/core/homepage/CodeBlocks";
-import FooterSection from "../components/core/homepage/Footer/FooterSection";
+import FooterSection from "../components/core/Footer/FooterSection";
 
 
 export default function Home() {
