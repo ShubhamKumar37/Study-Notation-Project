@@ -6,6 +6,7 @@ import ActionButton from "../components/core/homepage/Button";
 import BannerVideo from "../assets/Images/banner.mp4";
 import CodeBlocks from "../components/core/homepage/CodeBlocks";
 import FooterSection from "../components/core/Footer/FooterSection";
+import TimeLineSection from "../components/core/homepage/TimeLineSection";
 
 
 export default function Home() {
@@ -162,8 +163,10 @@ export default function Home() {
                         </div>
                     </div>
 
+                    <TimeLineSection />
 
                 </div>
+
             </div>
 
             {/* Section3 */}
