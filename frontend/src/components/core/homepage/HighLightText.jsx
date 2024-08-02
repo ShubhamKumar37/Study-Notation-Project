@@ -1,8 +1,9 @@
 import React from 'react'
+import "../../../pages/allPageCSS.css"
 
-const HighLightText = ({ text }) => {
+const HighLightText = ({ text , cssNum}) => {
   return (
-    <span className='font-bold text-blue-100'>
+    <span className={`font-bold ${cssNum === 1 ? "text1-gradient" : "text2-gradient"}`}>
       {"  "}
       {text}
       {"  "}

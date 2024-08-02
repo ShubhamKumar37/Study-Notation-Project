@@ -14,13 +14,13 @@ const CodeBlocks = ({ position, heading, subHeading, btn1, btn2, codeBlock, grad
                     {subHeading}
                 </p>
                 <div className='flex gap-7 mt-7'>
-                    <ActionButton active={btn1.active} linkTo={btn1.linkTo}>
+                    <ActionButton active={btn1.active} linkTo={btn1.linkTo} cssNum={1}>
                         <div className='flex gap-3 items-center'>
                             {btn1.btnText}
                             <FaArrowRight />
                         </div>
                     </ActionButton>
-                    <ActionButton active={btn2.active} linkTo={btn2.linkTo}>
+                    <ActionButton active={btn2.active} linkTo={btn2.linkTo} cssNum={2}>
                         {btn2.btnText}
                     </ActionButton>
                 </div>
@@ -30,7 +30,7 @@ const CodeBlocks = ({ position, heading, subHeading, btn1, btn2, codeBlock, grad
             <div className=' relative text-center flex flex-row w-[40%] text-richblack-500 font-inter font-bold h-fit bg-richblack-800 border bg-opacity-40 border-richblack-800 gap-2'>
 
                 <div
-                    className={`absolute top-6   w-[230.95px] h-[157.05px] ${gradient} rounded-full shadow-2xl blur-3xl bg-blend-screen left-[5%] opacity-30 z-0`}
+                    className={`absolute top-6 w-[230.95px] h-[157.05px] ${gradient} rounded-full shadow-2xl blur-3xl bg-blend-screen left-[5%] opacity-30 z-0`}
                 ></div>
 
                 <div className='relative flex flex-col w-[4%] z-10'>
