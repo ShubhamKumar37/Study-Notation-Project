@@ -66,6 +66,21 @@ const TimeLineSection = () => {
                     <div className="absolute left-1/2 top-[25%] transform -translate-x-1/2 w-[120%] h-[50%] rounded-full bg-gradient-to-r from-[#68e8fe] via-[#65C7F7] to-[#0052D4] opacity-70 blur-[80px] z-0"></div>
                     <div className='hero-video-shadow object-cover relative z-10'>
                         <img src={TimeLineImage} alt='TimeLine' />
+
+
+                        <div className='absolute bg-caribbeangreen-700 translate-y-[-50%] flex flex-row w-[75%] text-white uppercase p-10 left-[10%]'>
+                            <div className='text-3xl font-bold flex flex-row items-center border-r border-caribbeangreen-300 gap-2 px-7'>
+                                <p>10</p>
+                                <p className='text-caribbeangreen-300 text-sm'>years of experience</p>
+                            </div>
+
+                            <div className='text-3xl font-bold flex flex-row w-fitgap-2 px-5 gap-4'>
+                                <p>250</p>
+                                <p className='text-caribbeangreen-300 text-sm'>types of courses</p>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -30,3 +30,8 @@
 {
     background-image: url("../assets/Images/bghome.svg");
 }
+
+.instructor-shadow
+{
+    box-shadow: -20px -20px 0px 0px #FFFFFF;
+}

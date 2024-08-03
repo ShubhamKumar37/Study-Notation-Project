@@ -7,6 +7,8 @@ import BannerVideo from "../assets/Images/banner.mp4";
 import CodeBlocks from "../components/core/homepage/CodeBlocks";
 import FooterSection from "../components/core/Footer/FooterSection";
 import TimeLineSection from "../components/core/homepage/TimeLineSection";
+import LearningLanguageSection from "../components/core/homepage/LearningLanguageSection";
+import InstructorSection from "../components/core/homepage/InstructorSection";
 
 
 export default function Home() {
@@ -169,7 +171,13 @@ export default function Home() {
 
             </div>
 
+            <LearningLanguageSection />
+
             {/* Section3 */}
+
+            <div className="w-11/12 mx-auto relative flex flex-col">
+                <InstructorSection />
+            </div>  
 
             {/* Footer */}
             <div>
