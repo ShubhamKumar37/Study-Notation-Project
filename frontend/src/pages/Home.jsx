@@ -9,6 +9,7 @@ import FooterSection from "../components/core/Footer/FooterSection";
 import TimeLineSection from "../components/core/homepage/TimeLineSection";
 import LearningLanguageSection from "../components/core/homepage/LearningLanguageSection";
 import InstructorSection from "../components/core/homepage/InstructorSection";
+import ExploreMoreSection from "../components/core/homepage/ExploreMore/ExploreMoreSection";
 
 
 export default function Home() {
@@ -126,12 +127,15 @@ export default function Home() {
                 </div>
             </div>
 
+
+            <ExploreMoreSection />
             {/* Section2 */}
             <div className="bg-pure-greys-5 text-richblack-700">
                 <div className="home-page-bg-image h-[333px]">
                     <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto">
 
-                        <div className="h-[150px]"></div>
+                        <div className="h-[150px]">
+                        </div>
 
                         <div className="flex flex-row gap-7 mx-auto">
                             <ActionButton active={true} linkTo={"/signup"} cssNum={1}>
@@ -171,7 +175,7 @@ export default function Home() {
 
             </div>
 
-            <LearningLanguageSection />
+            {/* <LearningLanguageSection /> */}
 
             {/* Section3 */}
 
