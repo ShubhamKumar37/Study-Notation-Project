@@ -181,7 +181,7 @@ export default function Home() {
 
             <div className="w-11/12 mx-auto relative flex flex-col">
                 <InstructorSection />
-            </div>  
+            </div>
 
             {/* Footer */}
             <div>
