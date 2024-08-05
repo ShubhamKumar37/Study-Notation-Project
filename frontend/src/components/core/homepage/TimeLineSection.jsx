@@ -34,18 +34,18 @@ const TimeLineSection = () => {
 
     return (
         <div className='my-[3rem] w-[90%]'>
-            <div className='flex flex-row gap-15 justify-between'>
-                <div className='flex flex-col w-[40%]   '>
+            <div className='flex flex-col lg:flex-row gap-15 justify-between'>
+                <div className='flex flex-col lg:pb-[0rem] lg:mx-6 mx-auto  pb-[5rem]'>
                     {
                         timeLineData.map((item, index) => {
                             return (
                                 <div className='relative flex flex-col' key={index} >
-                                    <div className='flex flex-row gap-3'>
+                                    <div className='flex flex-row gap-3 items-center'>
                                         <div className='flex flex-row justify-center items-center rounded-full w-[50px] h-[50px] bg-white'>
-                                            <img src={item.logo} alt="logo" />
+                                            <img src={item.logo} alt="logo" className=' w-[30px] h-[30px]' />
                                         </div>
                                         
-                                        <div>
+                                        <div className=''>
                                             <h2 className='text-[18px] font-semibold'>{item.heading}</h2>
                                             <p className='text-base'>{item.description}</p>
                                         </div>
@@ -62,19 +62,19 @@ const TimeLineSection = () => {
 
                 </div>
 
-                <div className='relative w-[56%]'>
-                    <div className="absolute left-1/2 top-[25%] transform -translate-x-1/2 w-[120%] h-[50%] rounded-full bg-gradient-to-r from-[#68e8fe] via-[#65C7F7] to-[#0052D4] opacity-70 blur-[80px] z-0"></div>
-                    <div className='hero-video-shadow object-cover relative z-10'>
+                <div className='relative lg:w-[56%]'>
+                    <div className="absolute left-1/2 top-[25%] transform -translate-x-1/2 lg:w-[120%] w-[100%] h-[50%] rounded-full bg-gradient-to-r from-[#68e8fe] via-[#65C7F7] to-[#0052D4] opacity-70 blur-[80px] z-0"></div>
+                    <div className='lg:hero-video-shadow object-cover relative z-10'>
                         <img src={TimeLineImage} alt='TimeLine' />
 
 
-                        <div className='absolute bg-caribbeangreen-700 translate-y-[-50%] flex flex-row w-[75%] text-white uppercase p-10 left-[10%]'>
+                        <div className='absolute bg-caribbeangreen-700 translate-y-[-50%] flex flex-row w-[75%] text-white uppercase p-7 left-[8%]'>
                             <div className='text-3xl font-bold flex flex-row items-center border-r border-caribbeangreen-300 gap-2 px-7'>
                                 <p>10</p>
                                 <p className='text-caribbeangreen-300 text-sm'>years of experience</p>
                             </div>
 
-                            <div className='text-3xl font-bold flex flex-row w-fitgap-2 px-5 gap-4'>
+                            <div className='text-3xl font-bold flex flex-row w-fit px-5 gap-4'>
                                 <p>250</p>
                                 <p className='text-caribbeangreen-300 text-sm'>types of courses</p>
 

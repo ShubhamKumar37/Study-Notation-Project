@@ -3,13 +3,13 @@ import { FaArrowRight } from "react-icons/fa";
 import "./allPageCSS.css";
 import HighLightText from "../components/core/homepage/HighLightText";
 import ActionButton from "../components/core/homepage/Button";
-import BannerVideo from "../assets/Images/banner.mp4";
 import CodeBlocks from "../components/core/homepage/CodeBlocks";
 import FooterSection from "../components/core/Footer/FooterSection";
 import TimeLineSection from "../components/core/homepage/TimeLineSection";
 import LearningLanguageSection from "../components/core/homepage/LearningLanguageSection";
 import InstructorSection from "../components/core/homepage/InstructorSection";
 import ExploreMoreSection from "../components/core/homepage/ExploreMore/ExploreMoreSection";
+import ResponsiveVideo from "../components/core/homepage/ResponsiveVideo";
 
 
 export default function Home() {
@@ -17,37 +17,40 @@ export default function Home() {
     return (
         <div>
             {/* Section1 */}
-            <div className="relative mx-auto flex flex-col w-11/12 items-center text-white justify-between max-w-maxContent">
-                <div className="group mt-16 p-1 mx-auto rounded-full bg-richblack-800 font-bold text-richblack-300 transition-all duration-150 hover:scale-95 w-fit button-shadow-instructor" >
+            <div className="relative mx-auto flex flex-col w-11/12 sm:items-center items-start text-white justify-between max-w-maxContent">
+                <div className="group mt-16 p-1 rounded-full bg-richblack-800 font-bold text-richblack-300 transition-all duration-150 hover:scale-95 w-fit button-shadow-instructor" >
                     <Link to="/signup">
                         <div className="flex flex-row items-center gap-1 rounded-full px-7 py-[5px] group-hover:bg-richblack-900">
                             <p>Become an Instructor</p>
-                            <FaArrowRight />
+                            <div className="sm:block hidden">
+                                <FaArrowRight />
+                            </div>
                         </div>
                     </Link>
                 </div>
 
-                <div className="text-center text-4xl font-semibold mt-6">
+                <div className="sm:text-center text-4xl font-semibold mt-6">
                     <h1>Empower Your Future with
                         <HighLightText text="Coding Skills" cssNum={1} />
                     </h1>
                 </div>
 
-                <div className="w-[90%] text-center text-lg font-bold text-richblack-300">
+                <div className="w-[90%] sm:text-center text-lg font-bold mt-6 text-richblack-300">
                     With our online coding courses, you can learn at your own pace, from anywhere in the world, and get access to a
                     wealth of resources, including hands-on projects, quizzes, and personalized feedback from instructors.
                 </div>
 
-                <div className="flex flex-row gap-5 mt-8">
+                <div className="flex flex-row gap-5 mt-8 mx-auto">
                     <ActionButton active={true} linkTo={"/signup"} cssNum={1}>Learn more</ActionButton>
                     <ActionButton active={false} linkTo={"/login"} cssNum={2}>Book a demo</ActionButton>
                 </div>
 
                 <div className="relative mx-3 my-12">
                     <div className="absolute left-1/2 top-9 transform -translate-x-1/2 w-[50%] h-[50%] rounded-full bg-gradient-to-r from-[#9CECFB] via-[#65C7F7] to-[#0052D4] opacity-50 blur-[100px] z-0"></div>
-                    <video muted autoPlay loop className="hero-video-shadow w-[70rem] relative z-10">
+                    {/* <video muted autoPlay loop className="hero-video-shadow w-[70rem] relative z-10">
                         <source src={BannerVideo} type="video/mp4" />
-                    </video>
+                    </video> */}
+                    <ResponsiveVideo />
                 </div>
 
 
@@ -55,7 +58,7 @@ export default function Home() {
                 {/* Code Section 1 */}
                 <div>
                     <CodeBlocks
-                        position={"lg:flex-row"}
+                        position={"sm:flex-row"}
                         heading={
                             <div className="text-4xl font-semibold">
                                 Unlock Your <HighLightText text={"Coding Potential"} cssNum={1} />
@@ -90,7 +93,7 @@ export default function Home() {
                     ></CodeBlocks>
 
                     <CodeBlocks
-                        position={"lg:flex-row-reverse"}
+                        position={"sm:flex-row-reverse"}
                         heading={
                             <div className="text-4xl font-semibold">
                                 Start
@@ -127,8 +130,12 @@ export default function Home() {
                 </div>
             </div>
 
+            
+            <div className="relative h-[60rem] lg:h-[24rem] mt-[2rem] sm:mt-[10rem]">
+                <ExploreMoreSection />
+            </div>
 
-            <ExploreMoreSection />
+
             {/* Section2 */}
             <div className="bg-pure-greys-5 text-richblack-700">
                 <div className="home-page-bg-image h-[333px]">
@@ -155,12 +162,12 @@ export default function Home() {
                 </div>
 
                 <div className="w-11/12 max-w-maxContent mx-auto flex flex-col items-center justify-between gap-7">
-                    <div className="flex flex-row gap-5 justify-evenly my-10 mt-[100px]">
-                        <div className="text-4xl font-semibold w-[45%]">
+                    <div className="flex flex-col sm:flex-row gap-5 justify-evenly my-10 mt-[100px]">
+                        <div className="text-4xl font-semibold sm:w-[45%]">
                             Get the Skills you need for a
                             <HighLightText text={"Job that is in Demand"} cssNum={1} />
                         </div>
-                        <div className="flex flex-col gap-10 w-[45%]">
+                        <div className="flex flex-col gap-10 sm:w-[45%]">
                             <div className="text-[16px]">
                                 The modern StudyNotion is the dictates its own terms. Today, to be a competitive specialist requires more than professional skills.
                             </div>
@@ -179,14 +186,14 @@ export default function Home() {
 
             {/* Section3 */}
 
-            <div className="w-11/12 mx-auto relative flex flex-col">
+            {/* <div className="w-11/12 mx-auto relative flex flex-col">
                 <InstructorSection />
-            </div>
+            </div> */}
 
             {/* Footer */}
-            <div>
+            {/* <div>
                 <FooterSection />
-            </div>
+            </div> */}
         </div>
     );
 }
