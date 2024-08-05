@@ -4,7 +4,7 @@ const app = express();
 const userRoutes = require("./routes/User");
 const courseRoutes = require("./routes/Course");
 const profileRoutes = require("./routes/Profile");
-const paymentRoutes = require("./routes/Payments");
+const paymentRoutes = require("./routes/Payments"); 
 
 const cors = require("cors");
 const dotenv = require("dotenv");
