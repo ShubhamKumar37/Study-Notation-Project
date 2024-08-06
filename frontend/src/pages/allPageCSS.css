@@ -31,12 +31,19 @@
     background-image: url("../assets/Images/bghome.svg");
 }
 
-.instructor-shadow
-{
-    box-shadow: -20px -20px 0px 0px #FFFFFF;
+.instructor-shadow {
+    box-shadow: none; 
+}
+
+
+@media (min-width: 640px) {
+    .instructor-shadow {
+        box-shadow: -20px -20px 0px 0px #FFFFFF;
+    }
 }
 
 .explore-more-card-shadow
 {
     box-shadow: 12px 12px 0px 0px #FFD60A;
 }
+

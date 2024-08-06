@@ -182,18 +182,18 @@ export default function Home() {
 
             </div>
 
-            {/* <LearningLanguageSection /> */}
+            <LearningLanguageSection />
 
             {/* Section3 */}
 
-            {/* <div className="w-11/12 mx-auto relative flex flex-col">
+            <div className="w-11/12 mx-auto relative flex flex-col">
                 <InstructorSection />
-            </div> */}
+            </div>
 
             {/* Footer */}
-            {/* <div>
+            <div>
                 <FooterSection />
-            </div> */}
+            </div>
         </div>
     );
 }

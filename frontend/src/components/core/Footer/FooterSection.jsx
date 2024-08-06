@@ -11,9 +11,9 @@ const FooterSection = () => {
     return (
         <div className='relative bg-[#161D29] py-10 pb-7 text-sm border-t border-[#6E727F]'>
             <div className='w-[95%] mx-auto flex flex-col gap-6'>
-                <div className='flex flex-row justify-between'>
+                <div className='flex flex-col lg:flex-row justify-between gap-[2rem]'>
                     {/* Footer left */}
-                    <div className='flex flex-row justify-evenly w-[48%]'>
+                    <div className='flex  lg:flex-row justify-evenly lg:w-[48%] gap-[2rem]'>
                         <div className='flex flex-col gap-[1rem]'>
                             <img src={Logo} alt='StudyNotion Logo'></img>
 
@@ -21,42 +21,45 @@ const FooterSection = () => {
 
                             <FooterLogo data={FooterLogoArray} color={"#6E727F"} />
                         </div>
+                        <div className='flex flex-col lg:flex-row gap-[2rem] '>
 
-                        <div className='flex flex-col gap-[2rem]'>
-                            <FooterList data={FooterLink1[1]} />
-                            <FooterList data={FooterLink1[2]} />
+                            <div className='flex flex-col gap-[2rem]'>
+                                <FooterList data={FooterLink1[1]} />
+                                <FooterList data={FooterLink1[2]} />
+                            </div>
+
+                            <div className='flex flex-col gap-[2rem]'>
+                                <FooterList data={FooterLink1[3]} />
+                                <FooterList data={FooterLink1[4]} />
+                            </div>
                         </div>
 
-                        <div className='flex flex-col gap-[2rem]'>
-                            <FooterList data={FooterLink1[3]} />
-                            <FooterList data={FooterLink1[4]} />
-                        </div>
                     </div>
 
 
                     <div className="flex ">
-                        <hr className="h-full w-[0.5px] bg-[#405271] border-none" />
+                        <hr className="lg:h-full lg:w-[0.5px] lg:bg-[#405271] lg:border-none" />
                     </div>
 
                     {/* Footer right */}
-                    <div className='flex flex-row justify-evenly w-[48%]'>
+                    <div className='flex flex-row justify-evenly lg:w-[48%]'>
                         {
                             FooterLink2.map((item, index) => {
-                                return (<div key={index} className=''> <FooterList data={item} /> </div>)
+                                return (<div key={index} className='flex flex-row'> <FooterList data={item} /> </div>)
                             })
                         }
 
                     </div>
                 </div>
                     
-                <div className='w-[90%] bg-[#405271] mx-auto h-[0.5px]'></div>
+                <div className='lg:w-[90%] lg:bg-[#405271] lg:mx-auto lg:h-[0.5px]'></div>
 
-                <div className='text-[#6E727F] flex flex-row gap-[1rem] w-[80%] mx-auto justify-between'>
+                <div className='text-[#6E727F] flex flex-row gap-[1rem] w-full lg:w-[80%] mx-auto justify-between'>
                     <div>
                         {
                             FooterBottomText.map((item, index) =>
                             {
-                                return (<Link to={item.link}>{item.title}</Link>)
+                                return (<Link key={index} to={item.link}>{item.title}</Link>)
                             })
                         }
                     </div>
