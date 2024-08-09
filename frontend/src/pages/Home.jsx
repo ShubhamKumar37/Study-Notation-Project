@@ -172,7 +172,9 @@ export default function Home() {
                                 The modern StudyNotion is the dictates its own terms. Today, to be a competitive specialist requires more than professional skills.
                             </div>
 
-                            <ActionButton active={true} linkTo={"/signup"}><div>Learn More</div></ActionButton>
+                            <div className="w-fit flex mx-auto">
+                                <ActionButton active={true} linkTo={"/signup"}>Learn More</ActionButton>
+                            </div>
                         </div>
                     </div>
 

@@ -1,10 +1,15 @@
 import React from 'react'
-import LoginForm from '../Signup/LoginForm'
+import LoginForm from '../Auth/LoginForm'
+import SignupForm from '../Auth/SignupForm'
 
-const AuthForm = () => {
+const AuthForm = ({ type }) => {
   return (
-    <div>
-        <LoginForm />
+    <div className='w-[85%]'>
+      {
+        type === "login"
+        ? (<LoginForm />)
+        : (<SignupForm />)
+      }
     </div>
   )
 }

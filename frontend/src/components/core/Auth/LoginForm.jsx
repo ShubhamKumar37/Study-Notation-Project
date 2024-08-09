@@ -1,0 +1,95 @@
+import React, { useEffect, useState } from 'react';
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import Button from '../homepage/Button';
+import { Link } from 'react-router-dom';
+import "../../../pages/allPageCSS.css";
+
+const LoginForm = () => {
+    const [formData, setFormData] = useState({
+        email: "", 
+        password: "",
+    });
+    
+    const [showPass, setShowPass] = useState(false);
+
+    function changeHandler(event) {
+        const { value, name } = event.target;
+
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
+
+    function submitHandler(event) {
+        event.preventDefault();
+        console.log(formData);
+        
+        setFormData({
+            email: "",
+            password: "",
+        });
+    }
+
+    useEffect(() => {
+        setShowPass(false);
+    }, []);
+
+    return (
+        <div className='text-white'>
+            <form className='flex flex-col gap-[2rem]' onSubmit={submitHandler}>
+                <label className='flex flex-col gap-1'>
+                    <div>
+                        Email Address 
+                        <sup className='text-[#F5004F] text-[13px]'>*</sup>
+                    </div>
+                    <input 
+                        className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow' 
+                        type='email' 
+                        name='email' 
+                        placeholder='Enter email address' 
+                        id='email' 
+                        value={formData.email} 
+                        onChange={changeHandler} 
+                        required 
+                    />
+                </label>
+
+                <label className='relative w-full '>
+                    <div>
+                        Password 
+                        <sup className='text-[#F5004F]'>*</sup>
+                    </div>
+                    <input 
+                        className='p-2 py-2 w-full mt-1 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow' 
+                        type={showPass ? "text" : "password"} 
+                        name='password' 
+                        placeholder='Enter password' 
+                        id='password' 
+                        value={formData.password} 
+                        onChange={changeHandler} 
+                        required 
+                    />
+                    <span 
+                        onClick={() => setShowPass(!showPass)} 
+                        className='absolute text-2xl -translate-x-9 translate-y-3 cursor-pointer'
+                    >
+                        {showPass ? <IoMdEye /> : <IoMdEyeOff />}
+                    </span>
+                    <div className='text-blue-300 flex justify-end cursor-pointer'>
+                        <Link to="/reset-password">
+                            Forgot password
+                        </Link>
+                    </div>
+                </label>
+
+                {/* Need work */}
+                <div className=''>
+                    <Button active={true} linkTo={"verify-email"}>Login</Button>
+                </div>
+            </form>
+        </div>
+    );
+};
+
+export default LoginForm;

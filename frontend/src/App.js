@@ -1,14 +1,15 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import Signup from "./components/core/Signup/Signup";
+import AuthPage from "./pages/AuthPage";
 
 function App() {
   return (
     <div className="relative w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<AuthPage type={"login"}/>} />
+        <Route path="/signup" element={<AuthPage type={"signup"}/>} />
       </Routes>
     </div>
   );

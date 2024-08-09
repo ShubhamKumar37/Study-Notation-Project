@@ -26,13 +26,12 @@
     box-shadow: 20px 20px 0px 0px #F5F5F5;
 }
 
-.home-page-bg-image
-{
+.home-page-bg-image {
     background-image: url("../assets/Images/bghome.svg");
 }
 
 .instructor-shadow {
-    box-shadow: none; 
+    box-shadow: none;
 }
 
 
@@ -42,8 +41,10 @@
     }
 }
 
-.explore-more-card-shadow
-{
+.explore-more-card-shadow {
     box-shadow: 12px 12px 0px 0px #FFD60A;
 }
 
+.input-field-shadow {
+    box-shadow: 0px -1px 0px 0px #FFFFFF2E inset;
+}
