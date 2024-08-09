@@ -3,6 +3,7 @@ import AuthRightImage from './AuthRightImage'
 import Image1 from "../../../assets/Images/signup.webp"
 import Image2 from "../../../assets/Images/login.webp"
 import StyleText from './StyleText'
+import AuthForm from '../Forms/AuthForm'
 
 const Signup = () => {
 
@@ -14,7 +15,7 @@ const Signup = () => {
     }
 
     return (
-        <div>
+        <div className='flex flex-row gap-[5rem]'>
             <div>
                 <div>
                     <h1>Welcome Back</h1>
@@ -36,7 +37,7 @@ const Signup = () => {
                     </div>
 
                 </div>
-                <div className='bg-richblack-800 w-fit py-1 px-[0.3rem] rounded-full hidden lg:block'>
+                <div className='bg-richblack-800 w-fit py-1 px-[0.3rem] rounded-full '>
                     <ul className='flex flex-row  gap-[0.5rem]  items-center'>
                         {
                             roleData.map((item, index) => {
@@ -45,6 +46,8 @@ const Signup = () => {
                         }
                     </ul>
                 </div>
+
+                <AuthForm />
             </div>
 
             <div>
