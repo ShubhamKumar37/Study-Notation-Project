@@ -7,21 +7,21 @@ const ResponsiveVideo = () => {
     const [videoSource, setVideoSource] = useState(window.innerWidth < 640 ? BannerVideo2 : BannerVideo1);
     const [key, setKey] = useState(0);
 
-    // useEffect(() => {
-    //     const updateVideoSource = () => {
-    //         const newSource = window.innerWidth < 640 ? BannerVideo2 : BannerVideo1;
-    //         setVideoSource(newSource);
-    //         setKey(prevKey => prevKey + 1); // Update the key to force re-render
-    //     };
+    useEffect(() => {
+        const updateVideoSource = () => {
+            const newSource = window.innerWidth < 640 ? BannerVideo2 : BannerVideo1;
+            setVideoSource(newSource);
+            setKey(prevKey => prevKey + 1); // Update the key to force re-render
+        };
 
-    //     // Update video source on window resize
-    //     window.addEventListener('resize', updateVideoSource);
+        // Update video source on window resize
+        window.addEventListener('resize', updateVideoSource);
 
-    //     // Cleanup event listener on component unmount
-    //     return () => {
-    //         window.removeEventListener('resize', updateVideoSource);
-    //     };
-    // }, []);
+        // Cleanup event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', updateVideoSource);
+        };
+    }, []);
 
     return (
         <video key={key} muted autoPlay loop className="hero-video-shadow w-[70rem] relative z-10">

@@ -1,10 +1,7 @@
-import React, { useState } from 'react'
-import { HomePageExplore } from "../../../../data/homepage-explore"
+import React from 'react'
 import ExploreSingleCard from './ExploreSingleCard';
 
 const ExploreCard = ({ courses, setSelectCourse, selectCourse }) => {
-
-  
 
   const changeActive = (index) => {
     setSelectCourse(index);

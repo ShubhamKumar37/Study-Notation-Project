@@ -55,7 +55,17 @@ const NavBar = () => {
                                 <li className='text-richblack-50'>
                                     {
                                         link.title === "Catalog"
-                                            ? (<div key={index} >{link.title}</div>)
+                                            ? (<div key={index} >
+                                                {link.title}
+                                                <div>
+                                                    {
+                                                        subLinks && subLinks.map((item, index) =>
+                                                        {
+                                                            return (<Link key={index}>{item}</Link>)
+                                                        })
+                                                    }
+                                                </div>
+                                                </div>)
                                             : (<Link to={link?.path} key={index} className={`${matchRout(link?.path) ? "text-yellow-50" : "text-richblack-50"}`}>{link.title}</Link>)
                                     }
                                 </li>
