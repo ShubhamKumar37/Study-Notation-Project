@@ -4,14 +4,14 @@ import Logo from '../../assets/Logo/Logo-Full-Light.png';
 import { NavbarLinks } from '../../data/navbar-links';
 import { useSelector } from 'react-redux';
 import { CiShoppingCart } from 'react-icons/ci';
-import ProfileDropDown from '../core/Auth/ProfileDropDown';
+import ProfileDropDown from '../core/Profile/ProfileDropDown';
 import { apiConnector } from '../../services/apiConnector';
 import { categories } from '../../services/apis';
 import { IoIosArrowDown } from 'react-icons/io';
 
 const NavBar = () => {
     const location = useLocation();
-    const [subLinks, setSubLinks] = useState([]);
+    const [subLinks, setSubLinks] = useState();
     const { token } = useSelector((state) => state.auth);
     const { profile } = useSelector((state) => state.profile);
     const { totalItems } = useSelector((state) => state.cart);
@@ -33,7 +33,6 @@ const NavBar = () => {
 
     useEffect(() => {
         getAllCategory();
-        console.log(subLinks);
     }, []);
 
     return (
@@ -50,22 +49,24 @@ const NavBar = () => {
                         {NavbarLinks.map((link, index) => (
                             <li key={index} className='text-richblack-50 relative'>
                                 {link.title === 'Catalog' ? (
-                                    <div className='relative flex flex-col gap-2 group cursor-pointer'>
-                                        <p className='flex items-center gap-1'>
-                                            {link.title} <IoIosArrowDown />
-                                        </p>
+                                    <div className='relative flex items-center gap-2 group'>
+                                        <p>{link.title}</p>
+                                        <IoIosArrowDown />
 
-                                        {/* Triangle/arrow indicator */}
-                                        <div className='absolute translate-x-[45%] translate-y-[68%] w-9 h-9 z-10 rounded-md bg-richblack-5 rotate-45 opacity-0 transition-opacity duration-200 group-hover:opacity-100'></div>
+                                        <div className='invisible absolute left-[50%] translate-x-[-50%] translate-y-[20%] top-[50%] flex flex-col rounded-md bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-200 group-hover:visible
+                                    group-hover:opacity-100 lg:w-[300px]'>
 
-                                        {/* Dropdown Menu */}
-                                        <div className='absolute left-0 top-full transform -translate-x-1/2 mt-1 flex flex-col rounded-md bg-richblack-5 text-richblack-900 opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:visible z-100 lg:w-[200px]'>
-                                            {subLinks.length > 0 &&
-                                                subLinks.map((item, index) => (
-                                                    <Link key={index} to={`/catalog/${item.name}`} className='px-4 py-2 hover:font-bold'>
-                                                        {item.name}
-                                                    </Link>
-                                                ))}
+                                            <div className='absolute left-[50%] top-0 translate-x-[80%] translate-y-[-45%] h-6 w-6 rotate-45 rounded bg-richblack-5'>
+                                            </div>
+                                            {
+                                                subLinks.length ? (
+                                                    subLinks.map((subLink, index) => (
+                                                        <Link to={`course/${subLink.name}`} key={index}>
+                                                            <p>{subLink.name}</p>
+                                                        </Link>
+                                                    ))
+                                                ) : (<div></div>)
+                                            }
                                         </div>
                                     </div>
                                 ) : (
@@ -91,7 +92,7 @@ const NavBar = () => {
                             </Link>
                         )}
 
-                        {token === null ? (
+                        {token !== null ? (
                             <>
                                 <Link to={'/login'} className='rounded-md text-richblack-100 bg-richblack-800 border border-richblack-700 px-[12px] py-[8px]'>
                                     <button>Login</button>
