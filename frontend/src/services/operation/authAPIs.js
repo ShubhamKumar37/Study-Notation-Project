@@ -2,6 +2,9 @@ import toast from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { userAuth } from "../apis";
 import { setLoading, setSignupData, setToken } from "../../slices/authSlice";
+import { setUser } from "../../slices/profileSlice";
+import { resetCart } from "../../slices/cartSlice";
+import { TbLocationStar } from "react-icons/tb";
 
 
 const { SIGNUP_USER, LOGIN_USER, SEND_OTP_USER, CHANGE_PASSWORD_USER, RESET_PASSWORD_TOKEN_USER, RESET_PASSWORD_USER } = userAuth;
@@ -73,4 +76,18 @@ export function signup(
         }
         dispatch(setLoading(false));
     }
-} 
+}
+
+export function logout(navigate) {
+    return (dispatch) => {
+        dispatch(setLoading(true));
+        dispatch(setToken(null));
+        dispatch(setUser(null));
+        dispatch(resetCart);
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        navigate("/");
+
+        toast.success("Logged out successfully");
+    }
+}
