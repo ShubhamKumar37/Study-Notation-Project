@@ -12,7 +12,8 @@ import { IoIosArrowDown } from 'react-icons/io';
 const NavBar = () => {
     const location = useLocation();
     const [subLinks, setSubLinks] = useState();
-    const { token } = useSelector((state) => state.auth);
+    // const { token } = useSelector((state) => state.auth);
+    let token = null;
     const { profile } = useSelector((state) => state.profile);
     const { totalItems } = useSelector((state) => state.cart);
 
@@ -59,10 +60,10 @@ const NavBar = () => {
                                             <div className='absolute left-[50%] top-0 translate-x-[80%] translate-y-[-45%] h-6 w-6 rotate-45 rounded bg-richblack-5'>
                                             </div>
                                             {
-                                                subLinks.length ? (
+                                                subLinks && subLinks.length ? (
                                                     subLinks.map((subLink, index) => (
                                                         <Link to={`course/${subLink.name}`} key={index}>
-                                                            <p>{subLink.name}</p>
+                                                            <p className='hover:text-black text-richblack-500'>{subLink.name}</p>
                                                         </Link>
                                                     ))
                                                 ) : (<div></div>)
@@ -92,7 +93,7 @@ const NavBar = () => {
                             </Link>
                         )}
 
-                        {token !== null ? (
+                        {token === null ? (
                             <>
                                 <Link to={'/login'} className='rounded-md text-richblack-100 bg-richblack-800 border border-richblack-700 px-[12px] py-[8px]'>
                                     <button>Login</button>
@@ -102,7 +103,7 @@ const NavBar = () => {
                                 </Link>
                             </>
                         ) : (
-                            <ProfileDropDown />
+                            token !== null && <ProfileDropDown />
                         )}
                     </div>
                 </div>
