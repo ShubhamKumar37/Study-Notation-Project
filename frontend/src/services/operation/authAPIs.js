@@ -38,14 +38,14 @@ export function sendOTP(email, navigate) {
 
 
 export function signup(
-    accountType,
-    firstName,
-    lastName,
     email,
+    firstName,
+    lastName,   
     createPassword,
     confirmPassword,
     otp,
-    navigate) {
+    navigate,
+    accountType) {
 
 
     return async (dispatch) => {
@@ -74,6 +74,91 @@ export function signup(
             toast.error("Unable to signup try again later");
             navigate("/signup");
         }
+        dispatch(setLoading(false));
+    }
+}
+
+export function login(email, password, navigate) {
+    return async (dispatch) => {
+        dispatch(setLoading(true));
+
+        try {
+            const response = await apiConnector("POST", LOGIN_USER, { email, password });
+
+            if (!response.data.success) {
+                throw new Error(response.data.message);
+            }
+
+            dispatch(setToken(response.data.token));
+            dispatch(setUser({ ...response.data.user, image: response.data.user.image }));
+
+            localStorage.setItem("token", JSON.stringify(response.data.token));
+
+            toast.success("Login successfully");
+            navigate("/dashboard");
+        }
+        catch (Error) {
+            console.log(Error);
+            toast.error("Unable to login try again later");
+        }
+
+        dispatch(setLoading(false));
+    }
+}
+
+export function getPasswordResetToken(email, setEmailSent)
+{
+    return async (dispatch) =>
+    {
+        dispatch(setLoading(true));
+        try{
+            const response = await apiConnector("PUT", RESET_PASSWORD_TOKEN_USER, {email});
+
+            console.log(response);
+            if(!response.data.success)
+            {
+                throw new Error(response.data.message);
+            }
+
+            toast.success("Password reset email sent...");
+
+            setEmailSent(true);
+        }
+        catch(Error)
+        {
+            console.log(Error);
+            toast.error("Unable to send password reset token try again later");
+        }
+
+        dispatch(setLoading(false));
+    }
+}
+
+export function resetPassword(password, confirmPassword, token, navigate)
+{
+    return async (dispatch) =>
+    {
+        dispatch(setLoading(true));
+
+        try{
+            const response = await apiConnector("PUT", RESET_PASSWORD_USER, {password, confirmPassword, token});
+
+            if(!response.data.success)
+            {
+                throw new Error(response.data.message);
+            }
+
+            toast.success("Password reseted now try login");
+
+            navigate("/login");
+        }
+        catch(Error)
+        {
+            console.log(Error);
+            console.log("Error occur while reseting the password");
+            toast.error("Reset password failded");
+        }
+
         dispatch(setLoading(false));
     }
 }

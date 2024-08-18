@@ -26,7 +26,7 @@ const AuthPage = ({type}) => {
 
                 <RoleSlider role={role} setRole={setRole} roleData={roleData} />
 
-                <AuthForm type={type}/>
+                <AuthForm type={type} role={role}/>
             </div>
 
             <div>

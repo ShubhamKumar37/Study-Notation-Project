@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import Button from '../homepage/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "../../../pages/allPageCSS.css";
+import { login } from '../../../services/operation/authAPIs';
+import { useDispatch } from 'react-redux';
 
-const LoginForm = () => {
+const LoginForm = ({role}) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [formData, setFormData] = useState({
         email: "", 
         password: "",
@@ -24,6 +29,9 @@ const LoginForm = () => {
     function submitHandler(event) {
         event.preventDefault();
         console.log(formData);
+
+        dispatch(login(formData.email, formData.password, navigate));
+
         
         setFormData({
             email: "",

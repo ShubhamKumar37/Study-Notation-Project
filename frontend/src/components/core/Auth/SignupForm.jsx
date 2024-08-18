@@ -2,13 +2,22 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 // import Button from '../homepage/Button';
+import { sendOTP, signup } from '../../../services/operation/authAPIs';
 import data from '../../../data/countrycode.json';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { setSignupData } from '../../../slices/authSlice';
+import LoadingScreen from '../ScreenLoader/LoadingScreen';
 
-const SignupForm = () => {
+const SignupForm = ({ role }) => {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
     const [formData, setFormData] = useState({
         email: "",
-        password: "",
         firstName: "",
         lastName: "",
         phoneNumber: "",
@@ -33,6 +42,22 @@ const SignupForm = () => {
         event.preventDefault();
         console.log(formData);
 
+        if (formData.createPassword !== formData.confirmPassword) {
+            toast.error("Write the correct password");
+            return;
+        }
+
+        const signupData = {
+            ...formData,
+            accountType: role
+        }
+
+        dispatch(setSignupData(signupData));
+        dispatch(sendOTP(formData.email, navigate));
+
+        // dispatch(signup(signupData))
+
+
         setFormData({
             email: "",
             firstName: "",
@@ -52,6 +77,8 @@ const SignupForm = () => {
 
     return (
         <div className='text-white'>
+
+
             <form className='flex flex-col gap-[2rem]' onSubmit={submitHandler}>
                 <label className='flex flex-col gap-1'>
                     <div>
@@ -114,7 +141,7 @@ const SignupForm = () => {
                             data.map((item, index) => (
                                 <option
                                     key={index}
-                                    value={item.code} 
+                                    value={item.code}
                                 >
                                     {item.code}
                                 </option>
@@ -187,11 +214,14 @@ const SignupForm = () => {
                 </label>
 
                 {/* Need work */}
-                    {/* <Button active={true} linkTo={"/signup"}>Create Account</Button> */}
+                {/* <Button active={true} linkTo={"/signup"}>Create Account</Button> */}
                 <button className=''>
                     Create Account
                 </button>
             </form>
+
+
+
         </div>
     )
 }
