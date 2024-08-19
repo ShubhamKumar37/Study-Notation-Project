@@ -6,15 +6,15 @@ import "../../../pages/allPageCSS.css";
 import { login } from '../../../services/operation/authAPIs';
 import { useDispatch } from 'react-redux';
 
-const LoginForm = ({role}) => {
+const LoginForm = ({ role }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
-        email: "", 
+        email: "",
         password: "",
     });
-    
+
     const [showPass, setShowPass] = useState(false);
 
     function changeHandler(event) {
@@ -28,11 +28,13 @@ const LoginForm = ({role}) => {
 
     function submitHandler(event) {
         event.preventDefault();
-        console.log(formData);
+
+        formData.accountType = role;
+
+        console.log("This is form data - ", formData);
 
         dispatch(login(formData.email, formData.password, navigate));
 
-        
         setFormData({
             email: "",
             password: "",
@@ -48,38 +50,38 @@ const LoginForm = ({role}) => {
             <form className='flex flex-col gap-[2rem]' onSubmit={submitHandler}>
                 <label className='flex flex-col gap-1'>
                     <div>
-                        Email Address 
+                        Email Address
                         <sup className='text-[#F5004F] text-[13px]'>*</sup>
                     </div>
-                    <input 
-                        className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow' 
-                        type='email' 
-                        name='email' 
-                        placeholder='Enter email address' 
-                        id='email' 
-                        value={formData.email} 
-                        onChange={changeHandler} 
-                        required 
+                    <input
+                        className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
+                        type='email'
+                        name='email'
+                        placeholder='Enter email address'
+                        id='email'
+                        value={formData.email}
+                        onChange={changeHandler}
+                        required
                     />
                 </label>
 
                 <label className='relative w-full '>
                     <div>
-                        Password 
+                        Password
                         <sup className='text-[#F5004F]'>*</sup>
                     </div>
-                    <input 
-                        className='p-2 py-2 w-full mt-1 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow' 
-                        type={showPass ? "text" : "password"} 
-                        name='password' 
-                        placeholder='Enter password' 
-                        id='password' 
-                        value={formData.password} 
-                        onChange={changeHandler} 
-                        required 
+                    <input
+                        className='p-2 py-2 w-full mt-1 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
+                        type={showPass ? "text" : "password"}
+                        name='password'
+                        placeholder='Enter password'
+                        id='password'
+                        value={formData.password}
+                        onChange={changeHandler}
+                        required
                     />
-                    <span 
-                        onClick={() => setShowPass(!showPass)} 
+                    <span
+                        onClick={() => setShowPass(!showPass)}
                         className='absolute text-2xl -translate-x-9 translate-y-3 cursor-pointer'
                     >
                         {showPass ? <IoMdEye /> : <IoMdEyeOff />}
@@ -91,10 +93,9 @@ const LoginForm = ({role}) => {
                     </div>
                 </label>
 
-                {/* Need work */}
-                <div className=''>
-                    <Button active={true} linkTo={"verify-email"}>Login</Button>
-                </div>
+                <button type='submit'>
+                    Login
+                </button>
             </form>
         </div>
     );

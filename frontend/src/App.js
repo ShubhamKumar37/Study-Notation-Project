@@ -10,11 +10,12 @@ function App() {
   const loading = useSelector((state) => state.auth.loading);
   return (
     <div className="relative w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
+
+      <NavBar />
+
       {
         loading === true && <LoadingScreen />
       }
-
-      <NavBar />
 
       <Routes>
         <Route path="/" element={<Home />} />

@@ -84,21 +84,24 @@ export function login(email, password, navigate) {
 
         try {
             const response = await apiConnector("POST", LOGIN_USER, { email, password });
+            console.log("This is the response from server", response);
 
             if (!response.data.success) {
                 throw new Error(response.data.message);
             }
 
             dispatch(setToken(response.data.token));
-            dispatch(setUser({ ...response.data.user, image: response.data.user.image }));
+            dispatch(setUser({ ...response.data.userExist, image: response.data.userExist.image }));
+
 
             localStorage.setItem("token", JSON.stringify(response.data.token));
+            localStorage.setItem("userExist", JSON.stringify(response.data.userExist));
 
             toast.success("Login successfully");
             navigate("/dashboard");
         }
         catch (Error) {
-            console.log(Error);
+            console.log("This is the error", Error.response.data);
             toast.error("Unable to login try again later");
         }
 
