@@ -87,7 +87,7 @@ const LoginForm = ({ role }) => {
                         {showPass ? <IoMdEye /> : <IoMdEyeOff />}
                     </span>
                     <div className='text-blue-300 flex justify-end cursor-pointer'>
-                        <Link to="/reset-password">
+                        <Link to="/forgot-password">
                             Forgot password
                         </Link>
                     </div>

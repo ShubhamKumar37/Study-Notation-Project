@@ -5,6 +5,9 @@ import AuthPage from "./pages/AuthPage";
 import NavBar from "./components/common/NavBar";
 import LoadingScreen from "./components/core/ScreenLoader/LoadingScreen";
 import { useSelector } from "react-redux";
+import ErrorPage from "./pages/ErrorPage";
+import OpenRoute from "./components/core/Auth/OpenRoute";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   const loading = useSelector((state) => state.auth.loading);
@@ -19,8 +22,26 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<AuthPage type={"login"} />} />
-        <Route path="/signup" element={<AuthPage type={"signup"} />} />
+        <Route path="/login" element={
+          <OpenRoute >
+            <AuthPage type={"login"} />
+          </OpenRoute>
+        } />
+
+        <Route path="/signup" element={
+          <OpenRoute>
+            <AuthPage type={"signup"} />
+          </OpenRoute>
+        } />
+        
+        <Route path="forgot-password" element={
+          <OpenRoute>
+            <ForgotPassword />
+          </OpenRoute>
+        }/>
+
+        <Route path="*" element={<ErrorPage />} />
+
       </Routes>
     </div>
   );

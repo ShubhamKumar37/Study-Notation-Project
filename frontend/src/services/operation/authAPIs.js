@@ -130,7 +130,8 @@ export function getPasswordResetToken(email, setEmailSent)
         catch(Error)
         {
             console.log(Error);
-            toast.error("Unable to send password reset token try again later");
+            toast.error(`Unable to send password reset link try again later`);
+            toast.error(`May be this user ${email} doesnot exist, check entered email`);
         }
 
         dispatch(setLoading(false));
