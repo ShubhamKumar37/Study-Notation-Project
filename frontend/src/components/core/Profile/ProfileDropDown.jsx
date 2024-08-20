@@ -1,12 +1,21 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useOutClick from '../../../hooks/useOutClick';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../services/operation/authAPIs';
 
 const ProfileDropDown = () => {
     const [dropMenu, setDropMenu] = useState(false);
     const ref = useRef();
+    const dispatch = useDispatch();
 
     useOutClick(ref, () => setDropMenu(false));
+
+    function logoutHandler()
+    {
+        setDropMenu(false);
+        dispatch(logout());
+    }
 
     return (
         <div className="relative text-richblack-100">
@@ -38,7 +47,7 @@ const ProfileDropDown = () => {
                     </Link>
                 </div>
                 <div className="p-3">
-                    <Link to="/" onClick={() => setDropMenu(false)}>
+                    <Link to="/" onClick={logoutHandler}>
                         <p className=' hover:text-richblack-5'>Logout</p>
                     </Link>
                 </div>

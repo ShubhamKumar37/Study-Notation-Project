@@ -215,7 +215,7 @@ const SignupForm = ({ role }) => {
 
                 {/* Need work */}
                 {/* <Button active={true} linkTo={"/signup"}>Create Account</Button> */}
-                <button className=''>
+                <button className='text-center w-full text-[13px] px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95 '>
                     Create Account
                 </button>
             </form>

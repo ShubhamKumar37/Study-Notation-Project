@@ -30,6 +30,7 @@ export function sendOTP(email, navigate) {
         catch (Error) {
             console.log("Error occur while sending otp ----->", Error);
             toast.error("Unable to send OTP");
+            console.log(Error.response.data);
         }
 
         dispatch(setLoading(false));
@@ -71,6 +72,7 @@ export function signup(
         }
         catch (Error) {
             console.log(Error);
+            console.log(Error.response.data);
             toast.error("Unable to signup try again later");
             navigate("/signup");
         }
@@ -130,6 +132,7 @@ export function getPasswordResetToken(email, setEmailSent)
         catch(Error)
         {
             console.log(Error);
+            console.log(Error.response.data);
             toast.error(`Unable to send password reset link try again later`);
             toast.error(`May be this user ${email} doesnot exist, check entered email`);
         }
@@ -159,6 +162,7 @@ export function resetPassword(password, confirmPassword, token, navigate)
         catch(Error)
         {
             console.log(Error);
+            console.log(Error.response.data);
             console.log("Error occur while reseting the password");
             toast.error("Reset password failded");
         }

@@ -12,8 +12,8 @@ import { IoIosArrowDown } from 'react-icons/io';
 const NavBar = () => {
     const location = useLocation();
     const [subLinks, setSubLinks] = useState();
-    // const { token } = useSelector((state) => state.auth);
-    let token = null;
+    const { token } = useSelector((state) => state.auth);
+    // let token = null;
     const { profile } = useSelector((state) => state.profile);
     const { totalItems } = useSelector((state) => state.cart);
 
@@ -103,7 +103,7 @@ const NavBar = () => {
                                 </Link>
                             </>
                         ) : (
-                            token !== null && <ProfileDropDown />
+                            <ProfileDropDown />
                         )}
                     </div>
                 </div>

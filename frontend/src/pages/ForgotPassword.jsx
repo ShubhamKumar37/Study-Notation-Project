@@ -40,12 +40,12 @@ const ForgotPassword = () => {
                                     !emailSent && (
                                         <label>
                                             <p>Email Address *</p>
-                                            <input className='text-black' type="email" value={email} name='email' onChange={(e) => setEmail(e.target.value)} placeholder='Enter you email' />
+                                            <input className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow' type="email" value={email} name='email' onChange={(e) => setEmail(e.target.value)} placeholder='Enter you email' required />
                                         </label>
                                     )
                                 }
 
-                                <button type='submit'>
+                                <button type='submit' className='text-center w-full text-[13px] px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'>
                                     {
                                         !emailSent ? "  Reset Password" : "Resend Email"
                                     }

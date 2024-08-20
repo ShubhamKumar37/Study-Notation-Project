@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import ErrorPage from "./pages/ErrorPage";
 import OpenRoute from "./components/core/Auth/OpenRoute";
 import ForgotPassword from "./pages/ForgotPassword";
+import UpdatePassword from "./pages/UpdatePassword";
 
 function App() {
   const loading = useSelector((state) => state.auth.loading);
@@ -39,6 +40,12 @@ function App() {
             <ForgotPassword />
           </OpenRoute>
         }/>
+
+        <Route path="/update-password/:token"
+          element={
+            <UpdatePassword />
+          }
+        />
 
         <Route path="*" element={<ErrorPage />} />
 
