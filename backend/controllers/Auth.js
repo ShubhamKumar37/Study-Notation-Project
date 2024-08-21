@@ -113,6 +113,7 @@ exports.signUp = async (req, res) => {
 
         // Check for OTP exist (latest one)
         const otpExist = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
+        console.log("This is otp exist reponse", otpExist)
         if (otpExist.length === 0) {
             return res.status(400).json(
                 {
@@ -121,7 +122,7 @@ exports.signUp = async (req, res) => {
                 }
             );
         }
-        else if (otpExist[0].otp !== otp) {
+        else if (otpExist && otpExist[0].otp !== otp) {
             return res.status(401).json(
                 {
                     success: false,

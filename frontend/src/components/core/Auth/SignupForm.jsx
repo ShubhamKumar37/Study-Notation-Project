@@ -4,7 +4,7 @@ import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 // import Button from '../homepage/Button';
 import { sendOTP, signup } from '../../../services/operation/authAPIs';
 import data from '../../../data/countrycode.json';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { setSignupData } from '../../../slices/authSlice';
@@ -52,7 +52,10 @@ const SignupForm = ({ role }) => {
             accountType: role
         }
 
+        
+
         dispatch(setSignupData(signupData));
+        console.log(signupData);
         dispatch(sendOTP(formData.email, navigate));
 
         // dispatch(signup(signupData))

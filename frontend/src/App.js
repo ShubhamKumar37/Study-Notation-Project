@@ -9,6 +9,7 @@ import ErrorPage from "./pages/ErrorPage";
 import OpenRoute from "./components/core/Auth/OpenRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
   const loading = useSelector((state) => state.auth.loading);
@@ -44,6 +45,11 @@ function App() {
         <Route path="/update-password/:token"
           element={
             <UpdatePassword />
+          }
+        />
+        <Route path="/verify-email"
+          element={
+            <VerifyEmail />
           }
         />
 

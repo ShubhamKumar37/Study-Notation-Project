@@ -58,9 +58,9 @@ export function signup(
                     firstName,
                     lastName,
                     email,
-                    createPassword,
+                    password: createPassword,
                     confirmPassword,
-                    otp
+                    otp 
                 });
 
             if (!response.data.success) {
@@ -68,7 +68,8 @@ export function signup(
             }
 
             toast.success("Signup successfully now Login");
-            navigate("/login");
+            console.log("This is signup data", response.data);
+            // navigate("/login");
         }
         catch (Error) {
             console.log(Error);

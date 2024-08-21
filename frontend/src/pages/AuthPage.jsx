@@ -11,7 +11,7 @@ import SignupHead from '../components/core/Auth/SignupHead'
 
 const AuthPage = ({type}) => {
 
-    const roleData = ["Student", "Instructors"];
+    const roleData = ["Student", "Instructor"];
     const [role, setRole] = useState("Student");
 
   return (

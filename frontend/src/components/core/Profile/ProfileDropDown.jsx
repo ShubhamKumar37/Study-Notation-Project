@@ -8,6 +8,7 @@ const ProfileDropDown = () => {
     const [dropMenu, setDropMenu] = useState(false);
     const ref = useRef();
     const dispatch = useDispatch();
+    const userImage = JSON.parse(localStorage.getItem("userExist")).image;
 
     useOutClick(ref, () => setDropMenu(false));
 
@@ -24,7 +25,7 @@ const ProfileDropDown = () => {
                 className="flex items-center"
             >
                 <img
-                    src="https://via.placeholder.com/50"
+                    src={`${userImage === null ? "https://via.placeholder.com/50" : userImage}`}
                     alt="profile"
                     className="w-[2.5rem] rounded-full"
                 />
