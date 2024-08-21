@@ -41,28 +41,28 @@ const UpdatePassword = () => {
 
 
   return (
-    <div>
+    <div className=' w-screen h-screen flex  justify-center mt-[4rem] p-5'>
       {
         loading === false && 
           (
-            <div className='text-white'>
-              <h1>Choose New Password</h1>
-              <p>Almost done. Enter your new password and youre all set.</p>
+            <div className='text-white flex flex-col gap-3'>
+              <h1 className='text-2xl font-bold'>Choose New Password</h1>
+              <p className='text-richblack-200'>Almost done. Enter your new password and youre all set.</p>
 
-              <form onSubmit={submitHandler}>
+              <form onSubmit={submitHandler} className='flex flex-col gap-5'>
                 <label>
-                  <p>Enter New password</p>
+                  <p className='text-sm'>New password <sup className='text-[#F5004F] text-[13px]'>*</sup></p>
                   <input className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
                     name={`password`}
                     type={`${showPass1 === true ? "text" : "password"}`}
                     value={formData.password}
                     onChange={changeHandler}
-                    placeholder='New password'
+                    placeholder='**********'
                     required
                   />
                   <span
                         onClick={() => setShowPass1(!showPass1)}
-                        className='absolute text-2xl -translate-x-9 translate-y-3 cursor-pointer'
+                        className='absolute text-2xl -translate-x-9 translate-y-2 cursor-pointer'
                     >
                         {showPass1 ? <IoMdEye /> : <IoMdEyeOff />}
                     </span>
@@ -70,18 +70,18 @@ const UpdatePassword = () => {
 
 
                 <label>
-                  <p>Enter Confirm password</p>
+                  <p className='text-sm'>Confirm password <sup className='text-[#F5004F] text-[13px]'>*</sup></p>
                   <input className=' w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
                     type={`${showPass2 === true ? "text" : "password"}`}
                     name={`confirmPassword`}
-                    placeholder={`Confirm password`}
+                    placeholder={`**********`}
                     value={formData.confirmPassword}
                     onChange={changeHandler}
                     required
                   />
                   <span
                         onClick={() => setShowPass2(!showPass2)}
-                        className='absolute text-2xl -translate-x-9 translate-y-3 cursor-pointer'
+                        className='absolute text-2xl -translate-x-9 translate-y-2 cursor-pointer'
                     >
                         {showPass2 ? <IoMdEye /> : <IoMdEyeOff />}
                     </span>

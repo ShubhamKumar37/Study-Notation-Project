@@ -15,8 +15,8 @@ const AuthPage = ({type}) => {
     const [role, setRole] = useState("Student");
 
   return (
-    <div className='w-10/12 mx-auto flex flex-row gap-[5rem] mt-[3rem] text-white'>
-            <div className='w-[50%] flex flex-col gap-[1.5rem]'>
+    <div className='w-10/12 mx-auto flex flex-row gap-[3rem] mt-[3rem] text-white'>
+            <div className='lg:w-[50%] w-[90%] mx-auto flex flex-col gap-[1.5rem]'>
                 
                 {
                     type === "login"
@@ -29,7 +29,7 @@ const AuthPage = ({type}) => {
                 <AuthForm type={type} role={role}/>
             </div>
 
-            <div>
+            <div className='lg:block hidden'>
                 <AuthRight banner={role === "Student" ? Image2 : (type === "login" ? Image1 : Image3)} />
             </div>
         </div>

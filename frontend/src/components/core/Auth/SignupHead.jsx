@@ -3,8 +3,8 @@ import StyleText from './StyleText'
 
 const SignupHead = ({role}) => {
     return (
-        <div className='flex flex-col gap-1'>
-            <h1 className='text-4xl font-bold'>Join the millions teaching and learning to code with StudyNotion for free</h1>
+        <div className='flex flex-col gap-4'>
+            <h1 className='lg:text-4xl text-2xl font-bold'>Join the millions teaching and learning to code with StudyNotion for free</h1>
             <div className='min-h-[5rem]'> 
                 <p className='text-[#AFB2BF] w-[80%]'>
                     {role === "Student"

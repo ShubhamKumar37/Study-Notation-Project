@@ -51,7 +51,7 @@ const SignupForm = ({ role }) => {
             accountType: role
         }
 
-        
+
 
         dispatch(setSignupData(signupData));
         console.log(signupData);
@@ -81,7 +81,7 @@ const SignupForm = ({ role }) => {
         <div className='text-white'>
 
 
-            <form className='flex flex-col gap-[2rem]' onSubmit={submitHandler}>
+            <form className='flex flex-col gap-[1.5rem]' onSubmit={submitHandler}>
                 <label className='flex flex-col gap-1'>
                     <div>
                         First Name
@@ -132,43 +132,48 @@ const SignupForm = ({ role }) => {
                     />
                 </label>
 
-                <label>
-                    <select
-                        name='countryCode'
-                        value={formData.countryCode}
-                        onChange={changeHandler}
-                        className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow max-h-32 overflow-y-auto'
-                    >
-                        {
-                            data.map((item, index) => (
-                                <option
-                                    key={index}
-                                    value={item.code}
-                                >
-                                    {item.code}
-                                </option>
-                            ))
-                        }
-                    </select>
-                </label>
-
-
-                <label className='flex flex-col gap-1'>
+                <div className='relative'>
                     <div>
                         Phone Number
                         <sup className='text-[#F5004F] text-[13px]'>*</sup>
                     </div>
-                    <input
-                        className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
-                        type='tel'
-                        name='phoneNumber'
-                        placeholder='1234 567890'
-                        id='phoneNumber'
-                        value={formData.phoneNumber}
-                        onChange={changeHandler}
-                        required
-                    />
-                </label>
+                    <label className='flex gap-[2rem]'>
+                        <select
+                            name='countryCode'
+                            value={formData.countryCode}
+                            onChange={changeHandler}
+                            className=' p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow max-h-32 overflow-y-auto'
+                            style={{
+                                width: "72px"
+                            }}
+                        >
+                            {
+                                data.map((item, index) => (
+                                    <option className=''
+                                        key={index}
+                                        value={item.code}
+                                    >
+                                        {item.code}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                        <label className='flex flex-col gap-1 w-full'>
+                            <input
+                                className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
+                                type='tel'
+                                name='phoneNumber'
+                                placeholder='1234 567890'
+                                id='phoneNumber'
+                                value={formData.phoneNumber}
+                                onChange={changeHandler}
+                                required
+                            />
+                        </label>
+                    </label>
+
+
+                </div>
 
                 <label className='relative w-full '>
                     <div>

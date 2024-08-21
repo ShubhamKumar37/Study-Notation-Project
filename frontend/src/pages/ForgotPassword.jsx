@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getPasswordResetToken } from '../services/operation/authAPIs';
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const ForgotPassword = () => {
     const [emailSent, setEmailSent] = useState(false);
@@ -17,29 +18,29 @@ const ForgotPassword = () => {
     }
 
     return (
-        <div className='text-white'>
+        <div className='text-white w-screen h-screen flex justify-center mt-[10rem]'>
             {
                 !loading &&
                      (
-                        <div>
-                            <h1>
+                        <div className='lg:w-[40%] w-[60%] flex flex-col gap-5'>
+                            <h1 className='text-3xl font-bold'>
                                 {
                                     !emailSent ? "Reset your password" : "Check your Email"
                                 }
                             </h1>
 
-                            <p>
+                            <p className='text-richblack-200'>
                                 {
                                     !emailSent ? "Have no fear. We’ll email you instructions to reset your password. If you dont have access to your email we can try account recovery"
                                         : `We have sent the reset email to ${email}`
                                 }
                             </p>
 
-                            <form onSubmit={submitHandler}>
+                            <form onSubmit={submitHandler} className='flex flex-col gap-[2rem]'>
                                 {
                                     !emailSent && (
                                         <label>
-                                            <p>Email Address *</p>
+                                            <p>Email Address <sup className='text-[#F5004F] text-[13px]'>*</sup></p>
                                             <input className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow' type="email" value={email} name='email' onChange={(e) => setEmail(e.target.value)} placeholder='Enter you email' required />
                                         </label>
                                     )
@@ -52,10 +53,11 @@ const ForgotPassword = () => {
                                 </button>
                             </form>
 
-                            <div>
-                                <Link to={"/login"}>
-                                    <p>Back to login </p>
-                                </Link>
+                            <div className='-mt-3'>
+                            <Link to={'/login'} className="flex items-center gap-1">
+                            <FaArrowLeftLong />
+                                <p>Back to Login</p>
+                            </Link>
                             </div>
                         </div>
                     )
