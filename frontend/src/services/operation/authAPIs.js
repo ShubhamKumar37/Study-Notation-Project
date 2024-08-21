@@ -4,9 +4,8 @@ import { userAuth } from "../apis";
 import { setLoading, setSignupData, setToken } from "../../slices/authSlice";
 import { setUser } from "../../slices/profileSlice";
 import { resetCart } from "../../slices/cartSlice";
-import { TbLocationStar } from "react-icons/tb";
 
-
+// eslint-disable-next-line
 const { SIGNUP_USER, LOGIN_USER, SEND_OTP_USER, CHANGE_PASSWORD_USER, RESET_PASSWORD_TOKEN_USER, RESET_PASSWORD_USER } = userAuth;
 
 export function sendOTP(email, navigate) {
@@ -176,9 +175,10 @@ export function logout(navigate) {
     return (dispatch) => {
         dispatch(setLoading(true));
         dispatch(setToken(null));
+        dispatch(setSignupData(null));
         dispatch(setUser(null));
         dispatch(resetCart);
-        localStorage.removeItem("user");
+        localStorage.removeItem("userExist");
         localStorage.removeItem("token");
         navigate("/");
 

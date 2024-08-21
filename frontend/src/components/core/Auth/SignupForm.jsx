@@ -2,13 +2,12 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 // import Button from '../homepage/Button';
-import { sendOTP, signup } from '../../../services/operation/authAPIs';
+import { sendOTP } from '../../../services/operation/authAPIs';
 import data from '../../../data/countrycode.json';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { setSignupData } from '../../../slices/authSlice';
-import LoadingScreen from '../ScreenLoader/LoadingScreen';
 
 const SignupForm = ({ role }) => {
 
