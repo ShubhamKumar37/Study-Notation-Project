@@ -10,6 +10,7 @@ import OpenRoute from "./components/core/Auth/OpenRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
+import About from "./pages/About";
 
 function App() {
   const loading = useSelector((state) => state.auth.loading);
@@ -50,6 +51,12 @@ function App() {
         <Route path="/verify-email"
           element={
             <VerifyEmail />
+          }
+        />
+
+        <Route path="/about"
+          element={
+            <About />
           }
         />
 
