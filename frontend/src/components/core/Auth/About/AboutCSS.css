@@ -1,0 +1,20 @@
+.Color-Text-1
+{
+    background-image: linear-gradient(117.95deg, #833AB4 -2.4%, #FD1D1D 52.25%, #FCB045 106.89%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.Color-Text-2
+{
+    background-image: linear-gradient(118.41deg, #E65C00 -6.05%, #F9D423 106.11%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.Color-Text-3
+{
+    background-image: linear-gradient(118.19deg, #1FA2FF -3.62%, #12D8FA 50.44%, #A6FFCB 104.51%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
