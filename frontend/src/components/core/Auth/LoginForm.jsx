@@ -70,7 +70,8 @@ const LoginForm = ({ role }) => {
                         <sup className='text-[#F5004F]'>*</sup>
                     </div>
                     <input
-                        className='p-2 py-2 w-full mt-1 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
+                        className='p-2 py-2 w-full mt-1 bg-richblack-800 rounded-lg
+                         border-none focus:outline-none input-field-shadow'
                         type={showPass ? "text" : "password"}
                         name='password'
                         placeholder='Enter password'

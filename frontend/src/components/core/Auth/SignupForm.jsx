@@ -133,7 +133,7 @@ const SignupForm = ({ role }) => {
                 </label>
 
                 <div className='relative'>
-                    <div>
+                    <div>   
                         Phone Number
                         <sup className='text-[#F5004F] text-[13px]'>*</sup>
                     </div>
