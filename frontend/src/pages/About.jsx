@@ -14,7 +14,9 @@ const About = () => {
           <Section1 />
         </div>
 
-        <Quote />
+        <div className= 'border-b border-richblack-400 my-[2rem]'>
+          <Quote />
+        </div>
 
         <Section2 />
 
