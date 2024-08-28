@@ -1,6 +1,6 @@
 import React from 'react'
 import InfoBelt from './InfoBelt'
-import Button from '../../homepage/Button'
+import Button from '../homepage/Button'
 import ColorText from './ColorText'
 import MissionCard from './MissionCard'
 
@@ -18,8 +18,8 @@ const Section3 = () => {
         <div className='text-white'>
             <InfoBelt />
 
-            <div className='flex flex-row'>
-                <div>
+            <div className='flex flex-row w-11/12 mx-auto'>
+                <div className='w-[50%]'>
                     <div>
                         <h1>World-Class Learning for</h1>
                         <h1><ColorText /></h1>
@@ -30,27 +30,29 @@ const Section3 = () => {
                     <Button active={1} linkTo={"/login"}>Learn More</Button >
                 </div>
 
-                <div className='flex flex-row'>
+                <div className='flex flex-row w-[50%]'>
                     {
                         cardData && cardData.map((item, index) => {
                             if (index < 2) {
-                                return <MissionCard key={index} obj={item} className={""} />;
+                                return <MissionCard key={index} obj={item} className={"w-[50%]"} />;
                             }
                             return null;
                         })
                     }
                 </div>
             </div>
-            <div className='flex flex-row-reverse'>
-                {
-                    cardData && cardData.map((item, index) => {
-                        if (index > 1) {
-                            return <MissionCard key={index} obj={item} className={""} />;
-                        }
-                        return null;
-                    })
-
-                }
+            <div className='flex flex-row w-11/12 mx-auto'>
+                <div className='w-[25%]'></div>
+                <div className='w-[75%] flex flex-row'>
+                    {
+                        cardData && cardData.map((item, index) => {
+                            if (index > 1) {
+                                return <MissionCard key={index} obj={item} className={"25%"} />;
+                            }
+                            return null;
+                        })
+                    }
+                </div>
             </div>
         </div>
     )

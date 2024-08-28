@@ -2,7 +2,7 @@ import React from 'react'
 
 const MissionCard = ({obj}) => {
   return (
-    <div className='p-4 flex flex-col gap-4 w-[294px] h-[293px]'>
+    <div className='p-4 flex flex-col gap-4  h-[293px]'>
         <div>
             <h1>{obj.title}</h1>
         </div>

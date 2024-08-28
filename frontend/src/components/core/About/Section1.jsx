@@ -1,8 +1,8 @@
 import React from 'react'
-import HighLightText from '../../homepage/HighLightText'
-import Banner1 from "../../../../assets/Images/aboutus1.webp"
-import Banner2 from "../../../../assets/Images/aboutus2.webp"
-import Banner3 from "../../../../assets/Images/aboutus3.webp"
+import HighLightText from '../homepage/HighLightText'
+import Banner1 from "../../../assets/Images/aboutus1.webp"
+import Banner2 from "../../../assets/Images/aboutus2.webp"
+import Banner3 from "../../../assets/Images/aboutus3.webp"
 
 const Section1 = () => {
 
@@ -22,12 +22,9 @@ const Section1 = () => {
               {
                 imageData.map((item, index) =>
                 {
-                  return (<img src={item} key={index} className='object-contain aspect-square w-[33%]' />)
+                  return (<img src={item} key={index} alt={"banner"} className='object-contain aspect-square w-[33%]' />)
                 })
               }
-              {/* <img src={Banner1} alt="Banner1" className='object-contain aspect-square'/>
-              <img src={Banner2} alt="Banner2" width={350} height={350} className='object-contain aspect-square' />
-              <img src={Banner3} alt="Banner3" width={350} height={350} className='object-contain aspect-square' /> */}
             </div>
         </div>
     </section>

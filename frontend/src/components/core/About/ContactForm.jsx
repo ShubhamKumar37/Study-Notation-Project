@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
-import "../../../../pages/allPageCSS.css";
-import data from '../../../../data/countrycode.json';
+import "../../../pages/allPageCSS.css";
+import data from '../../../data/countrycode.json';
 
 const ContactForm = () => {
     const [loading, setLoading] = useState(false);
@@ -35,28 +35,28 @@ const ContactForm = () => {
 
     return (
         <div className='text-white'>
-            <form onSubmit={handleSubmit(submitContactForm)}>
-                <div className='flex flex-row'>
-                    <label className='flex flex-col'>
+            <form onSubmit={handleSubmit(submitContactForm)} className='w-[30rem] mx-auto flex flex-col gap-[1rem]'>
+                <div className='flex flex-col sm:flex-row justify-between'>
+                    <label className='flex flex-col gap-2'>
                         <p>First Name</p>
                         <input
                             type="text"
                             name='firstName'
                             placeholder='Enter your first name'
-                            className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
+                            className='sm:w-full w-[60%] p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
                             {...register("firstName", { required: true })}
                         />
                         {
                             errors.firstName && (<span>Please enter your first name</span>)
                         }
                     </label>
-                    <label className='flex flex-col'>
+                    <label className='flex flex-col gap-2'>
                         <p>Last Name</p>
                         <input
                             type="text"
                             name='lastName'
                             placeholder='Enter your last name'
-                            className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
+                            className='sm:w-full w-[60%]  p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
                             {...register("lastName", { required: true })}
                         />
                         {
@@ -65,14 +65,14 @@ const ContactForm = () => {
                     </label>
                 </div>
 
-                <div>
-                    <label>
+                <div className='flex flex-col gap-[1rem]'>
+                    <label className='flex flex-col gap-2'>
                         <p>Email</p>
                         <input
                             type='email'
                             name='email'
                             placeholder='Enter your email'
-                            className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
+                            className='sm:w-full w-[60%] p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
                             {...register('email', { required: true })}
                         />
                         {
@@ -82,7 +82,7 @@ const ContactForm = () => {
                         }
                     </label>
 
-                    <div>
+                    <div className='flex flex-col gap-2'>
                         <div>
                             Phone Number
                             <sup className='text-[#F5004F] text-[13px]'>*</sup>
@@ -112,7 +112,7 @@ const ContactForm = () => {
                             </select>
                             <label className='flex flex-col gap-1 w-full'>
                                 <input
-                                    className='w-full text-white p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
+                                    className='sm:w-full w-[50%]  text-white p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
                                     type='tel'
                                     name='phoneNo'
                                     placeholder='1234 567890'
@@ -130,14 +130,14 @@ const ContactForm = () => {
                         </label>
                     </div>
 
-                    <label>
+                    <label className='flex flex-col gap-2'>
                         <p>Message</p>
                         <textarea
                             name='message'
                             placeholder='Enter your message'
                             rows="6"
                             cols="40"
-                            className='w-full p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
+                            className='sm:w-full w-[60%]  p-2 py-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow'
                             {...register('message', { required: true })}
 
                         />
@@ -147,7 +147,7 @@ const ContactForm = () => {
                     </label>
                 </div>
 
-                <button type='submit' className='text-center w-full text-[13px] px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'>Send Message</button>
+                <button type='submit' className='text-center sm:w-full w-[60%]  text-[13px] px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'>Send Message</button>
             </form>
         </div>
     )

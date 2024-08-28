@@ -10,14 +10,14 @@ const InfoBelt = () => {
     ];
 
   return (
-    <div className='text-white'>
-        <div className='flex flex-row'>
+    <div className='text-white min-h-[15rem] w-full bg-richblack-800 flex justify-center items-center my-[5rem]'>
+        <div className='flex flex-row gap-[15rem]'>
             {
                 beltData && beltData.map((item, index) => {
                     return (
-                        <div key={index} className='flex flex-row'>
-                            <h1>{item.title}</h1>
-                            <h3>{item.subHead}</h3>
+                        <div key={index} className='flex flex-col text-center'>
+                            <h1 className='text-2xl font-bold'>{item.title}</h1>
+                            <h3 className='text-lg text-richblack-500'>{item.subHead}</h3>
                         </div>
                     )
                 })
