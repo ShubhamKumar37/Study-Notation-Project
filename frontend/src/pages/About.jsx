@@ -25,8 +25,8 @@ const About = () => {
         {/* Form here  */}
 
         <div>
-          <h1>Get in Touch</h1>
-          <p>We’d love to here for you, Please fill out this form.</p>
+          <h1 className='text-white text-center text-3xl font-bold'>Get in Touch</h1>
+          <p className='text-white text-center text-lg font-bold'>We’d love to here for you, Please fill out this form.</p>
 
           <ContactForm />
         </div>
