@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
-import "../../../../pages/allPageCSS.css";
-import data from '../../../../data/countrycode.json';
+import "../../../pages/allPageCSS.css";
+import data from '../../../data/countrycode.json';
 
 const ContactForm = () => {
     const [loading, setLoading] = useState(false);

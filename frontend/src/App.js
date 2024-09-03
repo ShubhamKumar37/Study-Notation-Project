@@ -11,6 +11,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import About from "./pages/About";
+import ContactUs from "./pages/ContactUs";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const loading = useSelector((state) => state.auth.loading);
@@ -36,29 +38,50 @@ function App() {
             <AuthPage type={"signup"} />
           </OpenRoute>
         } />
-        
+
         <Route path="forgot-password" element={
           <OpenRoute>
             <ForgotPassword />
           </OpenRoute>
-        }/>
+        } />
 
         <Route path="/update-password/:token"
           element={
-            <UpdatePassword />
+            <OpenRoute>
+              <UpdatePassword />
+
+            </OpenRoute>
+          }
+        />
+        <Route path="/dashboard/my-profile"
+          element={
+            <OpenRoute>
+              <Dashboard />
+            </OpenRoute>
           }
         />
         <Route path="/verify-email"
           element={
-            <VerifyEmail />
+            <OpenRoute>
+
+              <VerifyEmail />
+            </OpenRoute>
           }
         />
 
         <Route path="/about"
           element={
-            <About />
+              <About />
+
           }
         />
+        <Route path="/contact"
+          element={
+              <ContactUs />
+          }
+        />
+
+        
 
         <Route path="*" element={<ErrorPage />} />
 

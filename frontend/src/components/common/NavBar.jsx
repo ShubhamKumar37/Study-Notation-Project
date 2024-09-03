@@ -86,10 +86,10 @@ const NavBar = () => {
 
                 <div>
                     <div className='flex items-center gap-4'>
-                        {profile && profile?.accountType !== 'Instructor' && (
-                            <Link to={'/dashboard/cart'} className='relative'>
+                        {token && profile?.accountType !== 'Instructor' && (
+                            <Link to={'/dashboard/cart'} className='relative text-white mr-2 text-4xl'>
                                 <CiShoppingCart />
-                                {totalItems > 0 && <span className='absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center'>{totalItems}</span>}
+                                {totalItems >= 0 && <span className='absolute top-[10px] left-3 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-sm'>{totalItems}</span>}
                             </Link>
                         )}
 
