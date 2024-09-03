@@ -13,6 +13,8 @@ import VerifyEmail from "./pages/VerifyEmail";
 import About from "./pages/About";
 import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/Dashboard";
+import MyProfile from "./components/core/Dashboard/MyProfile";
+import ProtectedRoute from "./components/core/Auth/ProtectedRoute";
 
 function App() {
   const loading = useSelector((state) => state.auth.loading);
@@ -55,9 +57,9 @@ function App() {
         />
         <Route path="/dashboard/my-profile"
           element={
-            <OpenRoute>
+            <ProtectedRoute>
               <Dashboard />
-            </OpenRoute>
+            </ProtectedRoute>
           }
         />
         <Route path="/verify-email"

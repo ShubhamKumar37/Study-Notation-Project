@@ -9,8 +9,6 @@ export default function useOutClick(ref, handler)
         {
             if(!ref.current || ref.current.contains(event.target))
             {
-                console.log(event.target);
-                console.log(ref.current);
                 return ;
             }
 

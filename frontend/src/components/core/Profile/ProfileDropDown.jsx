@@ -43,7 +43,7 @@ const ProfileDropDown = () => {
                 }}
             >
                 <div className="p-3">
-                    <Link to="/dashboard">
+                    <Link to="/dashboard/my-profile">
                         <p className=' hover:text-richblack-5'>Dashboard</p>
                     </Link>
                 </div>

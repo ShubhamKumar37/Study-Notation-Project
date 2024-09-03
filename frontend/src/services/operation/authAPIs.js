@@ -100,7 +100,7 @@ export function login(email, password, navigate) {
             localStorage.setItem("userExist", JSON.stringify(response.data.userExist));
 
             toast.success("Login successfully");
-            navigate("/dashboard");
+            navigate("/dashboard/my-profile");
         }
         catch (Error) {
             console.log("This is the error", Error.response.data);
