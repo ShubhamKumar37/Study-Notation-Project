@@ -181,7 +181,8 @@ export function logout(navigate) {
         localStorage.removeItem("userExist");
         localStorage.removeItem("token");
         navigate("/");
-
+        
         toast.success("Logged out successfully");
+        dispatch(setLoading(false));
     }
 }

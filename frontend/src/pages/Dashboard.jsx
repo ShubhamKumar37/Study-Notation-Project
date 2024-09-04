@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/core/Dashboard/Sidebar';
+import MyProfile from '../components/core/Dashboard/MyProfile';
 
 const Dashboard = () => {
 
@@ -14,12 +15,11 @@ const Dashboard = () => {
     }
 
   return (
-    <div>
+    <div className='flex'>
         <Sidebar />
         <div>
             <div className='text-white'>
-                {/* <Outlet /> */}
-                <h1>THello</h1>
+                <Outlet />
             </div>
         </div>
     </div>

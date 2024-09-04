@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import "../../../pages/allPageCSS.css";
 import data from '../../../data/countrycode.json';
+import YellowButton from '../../common/YellowButton';
 
 const ContactForm = () => {
     const [loading, setLoading] = useState(false);
@@ -123,12 +124,7 @@ const ContactForm = () => {
                 </label>
 
                 {/* Submit Button */}
-                <button
-                    type="submit"
-                    className="text-center w-full text-sm px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95"
-                >
-                    Send Message
-                </button>
+                <YellowButton type={"submit"} >Send message</YellowButton>
             </form>
         </div>
 

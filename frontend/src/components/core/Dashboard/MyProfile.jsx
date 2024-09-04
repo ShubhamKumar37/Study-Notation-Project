@@ -3,29 +3,29 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import IconButton from '../../common/IconButton';
 
-const MyProfile = () => {
-  
-    const {user} = useSelector((state) => state.profile);
-    const navigate = useNavigate();
-  
-    return (
+
+export default function MyProfile(){
+  const { user } = useSelector((state) => state.profile);
+  const navigate = useNavigate();
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  return (
     <div>
-        <h1>My Profile</h1>
-
+      <h1>My Profile</h1>
+      <div>
         <div>
-            <div>
-                <img src={`${user?.image}`}/>
-                <div>
-                    <p></p>
-                    <p></p>
-                </div>
-            </div>
-            <IconButton />
+          <img src={`${user.image}`} alt="User" className='w-[5rem]' />
+          <div>
+            <p>{user.name}</p>
+            <p>{user.email}</p>
+          </div>
         </div>
-
-
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default MyProfile
+

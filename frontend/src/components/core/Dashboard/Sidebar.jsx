@@ -21,7 +21,7 @@ const Sidebar = () => {
 
     return (
         <div>
-            <div className='flex min-w-[222px] flex-col border-r-[1px] border-r-richblack-300 h-[calc(100vh-3.5rem)] bg-richblack-600 py-10'>
+            <div className='flex max-w-[222px] flex-col border-r-[1px] border-r-richblack-300 h-[calc(100vh-3.5rem)] bg-richblack-600 py-10'>
                 <div className='flex flex-col gap-2'>
                     {
                         sidebarLinks.map((item) =>
@@ -38,24 +38,26 @@ const Sidebar = () => {
 
                 <div className='flex flex-col'>
                     <SidebarLink 
-                        link={{name: "Setting", path: "dashboard/setting"}} iconName={"VscSettingGear"}
+                        link={{name: "Setting", path: "/dashboard/setting"}} iconName={"VscSettingGear"}
                     />
 
                     <button onClick={() =>setConfirmationModal(
                         {
                             text1: "Are you sure??",
-                            text2: "You will be logged out of your accound",
+                            text2: "You will be logged out of your account",
                             btn1Text: "Logout",
                             btn2Text: "Cancel",
                             btn1Handler: () => dispatch(logout(navigate)),
-                            btn1Handler: () =>  setConfirmationModal(null)
+                            btn2Handler: () =>  setConfirmationModal(null)
                         })
-                    }></button>
+                    }>
+                        <div>
+                            <VscSignOut className='text-lg' />
+                            <span>Logout</span>
+                        </div>
 
-                    <div>
-                        <VscSignOut className='text-lg' />
-                        <span>Logout</span>
-                    </div>
+                    </button>
+
                 </div>
             </div>
 

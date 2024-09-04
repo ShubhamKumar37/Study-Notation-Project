@@ -55,13 +55,18 @@ function App() {
             </OpenRoute>
           }
         />
-        <Route path="/dashboard/my-profile"
+        <Route path="/dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
+
           }
-        />
+        >
+          <Route path="/dashboard/my-profile" element={<MyProfile />}>
+          </Route>
+
+        </Route>
         <Route path="/verify-email"
           element={
             <OpenRoute>
@@ -73,17 +78,15 @@ function App() {
 
         <Route path="/about"
           element={
-              <About />
+            <About />
 
           }
         />
         <Route path="/contact"
           element={
-              <ContactUs />
+            <ContactUs />
           }
         />
-
-        
 
         <Route path="*" element={<ErrorPage />} />
 
