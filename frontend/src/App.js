@@ -15,6 +15,7 @@ import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/Dashboard";
 import MyProfile from "./components/core/Dashboard/MyProfile";
 import ProtectedRoute from "./components/core/Auth/ProtectedRoute";
+import Setting from "./pages/Setting";
 
 function App() {
   const loading = useSelector((state) => state.auth.loading);
@@ -63,8 +64,8 @@ function App() {
 
           }
         >
-          <Route path="/dashboard/my-profile" element={<MyProfile />}>
-          </Route>
+          <Route path="/dashboard/my-profile" element={<MyProfile />} />
+          <Route path="/dashboard/setting" element={<Setting />} />
 
         </Route>
         <Route path="/verify-email"

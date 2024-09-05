@@ -18,8 +18,7 @@ export function sendOTP(email, navigate) {
             if (!response.data.success) {
                 throw new Error(response.data.message);
             }
-
-            console.log(response);
+            
             console.log(response.data);
 
             toast.success("OTP sent successfully");
@@ -179,7 +178,7 @@ export function logout(navigate) {
         dispatch(setUser(null));
         dispatch(resetCart);
         localStorage.removeItem("userExist");
-        localStorage.removeItem("token");
+        localStorage.removeItem("token"); 
         navigate("/");
         
         toast.success("Logged out successfully");
