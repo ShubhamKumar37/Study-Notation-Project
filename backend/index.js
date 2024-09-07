@@ -22,7 +22,10 @@ dbConnection();
 // Add middlewares
 app.use(CookieParser());
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({
+    origin: "http://localhost:3000", // Your frontend URL
+    credentials: true
+}));
 app.use(
     fileUpload(
         {
@@ -43,14 +46,13 @@ app.use("/api/v1/payment", paymentRoutes);
 
 // Default route
 app.get("/", (req, res) => {
-    res.send(json(
-        {
-            success: true,
-            message: "You are now at default route and your server is running",
-            req
-        }
-    ));
-})
+    res.json({
+        success: true,
+        message: "You are now at the default route and your server is running", 
+        req
+    });
+});
+
 
 // Start the server
 app.listen(PORT, () => {

@@ -124,11 +124,11 @@ exports.updateProfilePicture = async (req, res) => {
 
         if (!userDetails.publicId) {
             // Upload new image
-            responseUploadImage = await uploadToCloudinary(userImage, process.env.FILE_FOLDER, "image", 90);
+            responseUploadImage = await uploadToCloudinary(userImage, process.env.FILE_FOLDER, 90);
         } else {
             // Ensure publicId is properly formatted without folders
             // const cleanPublicId = userDetails.publicId.split('/').pop().split('.')[0];
-            responseUploadImage = await updateFileCloudinary(userImage, userDetails.publicId);
+            responseUploadImage = await updateFileCloudinary(userImage, userDetails.publicId, "image");
         }
 
         // Update user with new image URL and publicId

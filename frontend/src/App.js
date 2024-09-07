@@ -15,7 +15,7 @@ import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/Dashboard";
 import MyProfile from "./components/core/Dashboard/MyProfile";
 import ProtectedRoute from "./components/core/Auth/ProtectedRoute";
-import Setting from "./pages/Setting";
+import Setting from "./pages/Setting/Setting";
 
 function App() {
   const loading = useSelector((state) => state.auth.loading);

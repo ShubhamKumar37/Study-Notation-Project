@@ -1,8 +1,10 @@
 import axios from "axios";
 
-export const axiosInstance = axios.create({});
+export const axiosInstance = axios.create({ withCredentials: true });
+// To set the cookie on frontend as well we have to use this withCredentials: true
+ 
 
-export const apiConnector = (method, url, bodyData, headers, params) =>
+export const apiConnector = (method, url, bodyData, headers, params ) =>
 {
     return axiosInstance({
         method: method,

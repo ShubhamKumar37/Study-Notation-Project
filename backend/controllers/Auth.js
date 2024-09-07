@@ -211,17 +211,19 @@ exports.login = async (req, res) => {
             }
 
             // After verifing token the payload is not visible due to which req.user.id is undefined
-            const token = jwt.sign(payLoad, process.env.JWT_SECRET, { expiresIn: "2h" });
+            const token = jwt.sign(payLoad, process.env.JWT_SECRET, { expiresIn: "10h" });
             userExist.token = token;
             userExist.password = undefined;
 
             // Create a cookie file for it 
             const options = {
                 httpOnly: true,
-                expireIn: new Date(Date.now()) + 3 * 24 * 60 * 60 * 1000
+                maxAge: Date.now() + 3 * 24 * 60 * 60 * 1000
             }
 
-            res.cookie("token", token, options).status(200).json(
+            res.cookie("token", token, options)
+            
+            return res.status(200).json(
                 {
                     success: true,
                     message: "User Logged in successfully",
