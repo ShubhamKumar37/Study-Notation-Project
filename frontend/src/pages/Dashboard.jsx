@@ -17,7 +17,7 @@ const Dashboard = () => {
   return (
     <div className='flex'>
         <Sidebar />
-        <div>
+        <div className='w-full'>
             <div className='text-white'>
                 <Outlet />
             </div>

@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaFileUpload } from "react-icons/fa";
-import axios from 'axios';
 import { apiConnector } from '../../services/apiConnector';
 import {userProfile} from '../../services/apis'
 import toast from 'react-hot-toast';
-
 import { setUser } from '../../slices/profileSlice';
 import { setLoading } from '../../slices/authSlice';
 
 const UpdateProfileImage = () => {
 
     const {UPDATE_PROFILE_PICTURE_USER} = userProfile;
-    const profile = useSelector((state) => state.profile);
-    const userImage = profile.user.image;
+    let profile = useSelector((state) => state.profile);
+    let userImage = JSON.parse(localStorage.getItem("userExist")).image;
     const dispatch = useDispatch();     
     const [fileName, setFileName] = useState("Select");
     const [file, setFile] = useState(null);
@@ -41,18 +39,19 @@ const UpdateProfileImage = () => {
             toast.error("Image not selected"); 
             return ;
         }
+        dispatch(setLoading(true));
         try{
             const formData = new FormData();
             formData.append('image', file);
             const response = await apiConnector("PUT", UPDATE_PROFILE_PICTURE_USER, formData);
-            // dispatch( setLoading(true));
             dispatch(setUser({ ...response.data.userExist} ));
-            localStorage.setItem("userExist", JSON.stringify(response.data.userExist));
-            // dispatch( setLoading(false));
-            console.log("This is the response from backend for uplaoding picture --->", response.data);
+            
+            console.log("this is the response from --- only data image ", response.data.data.image);
+            localStorage.setItem("userExist", JSON.stringify(response.data.data));
+            // setuserImage(response.data.data.image);
             setFileName("Select");
             setFile(null);
-
+            
             toast.success("File upload successfully");
         }
         catch(error)
@@ -61,20 +60,21 @@ const UpdateProfileImage = () => {
             console.log("This is the error for uploading file  ------>", error.response.data);
             toast.error("Failed to uplaod");
         }
+        dispatch( setLoading(false));
     }
 
-    console.log("this is the cookie === ", document.cookie,  "__ hi");
+
 
     return (
-        <div>
-            <div>
+        <div className='bg-richblack-800 flex flex-col  md:flex-row items-start md:jsutify-center gap-[1.5rem] py-[1rem] px-[2rem] rounded-xl shadow-richblack-600 shadow-sm'>
+            <div className='mx-auto md:mx-0'>
                 <img
-                    src={userImage}
+                    src={userImage !== undefined ? userImage : profile.user.image}
                     alt="profile"
                     className="w-[5rem] aspect-square rounded-full object-cover"
                 />
             </div>
-            <div>
+            <div className='flex flex-col justify-center items-center md:mx-0 ms:items-start gap-5 mx-auto'>
                 <p>Change Profile Image</p>
                 <div>
                     {/* Select Image Button */}

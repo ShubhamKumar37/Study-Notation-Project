@@ -139,7 +139,7 @@ exports.updateProfilePicture = async (req, res) => {
                 publicId: responseUploadImage.public_id
             },
             { new: true }
-        );
+        ).populate("additionalDetails");
 
         return res.status(200).json({
             success: true,

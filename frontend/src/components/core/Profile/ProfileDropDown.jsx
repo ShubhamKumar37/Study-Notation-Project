@@ -27,7 +27,7 @@ const ProfileDropDown = () => {
                 <img
                     src={`${userImage === null ? "https://via.placeholder.com/50" : userImage}`}
                     alt="profile"
-                    className="w-[2.5rem] rounded-full"
+                    className="w-[2.5rem] h-[2.5rem] aspect-square rounded-full object-cover"
                 />
             </button>
 
