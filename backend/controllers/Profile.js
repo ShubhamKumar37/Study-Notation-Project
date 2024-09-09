@@ -7,51 +7,45 @@ const { updateFileCloudinary } = require("../utils/UpdateCloudinary");
 // Update the profile of user - Working
 exports.updateProfile = async (req, res) => {
     try {
-        const { gender, about, dateOfBirth = null, contactNumber = null } = req.body;
+        const { firstName, lastName, gender, about, dateOfBirth = null, contactNumber = null } = req.body;
         const userId = req.user.id;
 
         if (!userId) {
-            return res.status(400).json({ error: "User not found. Try login again" });
+            return res.status(400).json({ error: "User not found. Try logging in again." });
         }
 
-        // Get the User details
-        const userDetails = await User.findById(userId);
+        // Update user details
+        let updateValueOption = {};
+        if (firstName) updateValueOption.firstName = firstName;
+        if (lastName) updateValueOption.lastName = lastName;
 
-        // Get the profile 
-        const updateValueOption = {};
+        const userDetails = await User.findByIdAndUpdate(userId, { $set: updateValueOption }, { new: true })
+            .populate('additionalDetails');
+
+        // Update profile details
+        updateValueOption = {};
         if (gender) updateValueOption.gender = gender;
         if (about) updateValueOption.about = about;
         if (dateOfBirth) updateValueOption.dateOfBirth = dateOfBirth;
         if (contactNumber) updateValueOption.contactNumber = contactNumber;
 
-
         const profileDetails = await Profile.findByIdAndUpdate(userDetails.additionalDetails, updateValueOption, { new: true });
 
-        // profileDetails.gender = gender;
-        // profileDetails.about = about;
-        // profileDetails.dateOfBirth = dateOfBirth;
-        // profileDetails.contactNumber = contactNumber;
-
-        // await profileDetails.save();
-
-        return res.status(200).json(
-            {
-                success: true,
-                message: "Profile updated successfully",
-                data: { userDetails, profileDetails },
-            }
-        );
-    }
-    catch (Error) {
-        return res.status(500).json(
-            {
-                success: false,
-                message: Error.message,
-                additionalInfo: "Error occur while updating the profile (Profile.js)"
-            }
-        );
+        return res.status(200).json({
+            success: true,
+            message: "Profile updated successfully",
+            data: { userDetails, profileDetails },
+        });
+    } catch (Error) {
+        console.error(Error); // Log error for debugging
+        return res.status(500).json({
+            success: false,
+            message: Error.message,
+            additionalInfo: "Error occurred while updating the profile (Profile.js)"
+        });
     }
 }
+
 
 // Get all user details - Working
 exports.getUserDetails = async (req, res) => {

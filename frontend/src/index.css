@@ -1,3 +1,69 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Scrollbar */
+textarea::-webkit-scrollbar {
+  width: 8px;
+  /* Width of the scrollbar */
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  /* Scrollbar color */
+  border-radius: 10px;
+  /* Rounded corners */
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background-color: #1f2937;
+  /* Darker on hover */
+}
+
+textarea::-webkit-scrollbar-track {
+  background-color: #1f2937;
+  /* Scrollbar track background */
+  border-radius: 10px;
+  /* Rounded corners */
+}
+
+/* Custom Scrollbar for select */
+select::-webkit-scrollbar {
+  width: 8px;
+}
+
+select::-webkit-scrollbar-thumb {
+  background-color: #6b7280;
+  /* Lighter grey color */
+  border-radius: 10px;
+}
+
+select::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+  /* Even lighter on hover */
+}
+
+select::-webkit-scrollbar-track {
+  background-color: #374151;
+  /* Lighter background for scrollbar track */
+  border-radius: 10px;
+}
+
+/* Custom Scrollbar for option */
+option::-webkit-scrollbar {
+  width: 8px;
+}
+
+option::-webkit-scrollbar-thumb {
+  background-color: #6b7280;
+  border-radius: 10px;
+}
+
+option::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
+
+option::-webkit-scrollbar-track {
+  background-color: #374151;
+  border-radius: 10px;
+}

@@ -5,7 +5,9 @@ import YellowButton from '../../common/YellowButton';
 import { FiEdit } from "react-icons/fi";
 
 export default function MyProfile() {
-  const { user } = useSelector((state) => state.profile);
+  let{ user } = useSelector((state) => state.profile);
+  user = JSON.parse(localStorage.getItem("userExist"));
+  console.log("this is the user", user);
   const navigate = useNavigate();
 
   if (!user) {

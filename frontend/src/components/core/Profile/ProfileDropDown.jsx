@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useOutClick from '../../../hooks/useOutClick';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../services/operation/authAPIs';
 
 const ProfileDropDown = () => {
@@ -9,6 +9,8 @@ const ProfileDropDown = () => {
     const ref = useRef();
     const dispatch = useDispatch();
     const userImage = JSON.parse(localStorage.getItem("userExist")).image;
+    // let userImage = useSelector((state) => state.profile.user.image);
+    // console.log("this is the userimage", userImage);
 
     useOutClick(ref, () => setDropMenu(false));
 

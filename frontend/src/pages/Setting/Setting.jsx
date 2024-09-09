@@ -7,7 +7,7 @@ const Setting = () => {
     <div className='rounded-lg shadow-md p-[2rem]'>
       <div className=''>
         <h1>Setting</h1>
-        <div className=''>
+        <div className='flex flex-col gap-2'>
           <UpdateProfileImage />
 
           <UpdateProfileInformation />

@@ -43,8 +43,10 @@ const UpdateProfileImage = () => {
         try{
             const formData = new FormData();
             formData.append('image', file);
+            // console.log("this is the profile pic url", UPDATE_PROFILE_PICTURE_USER);
             const response = await apiConnector("PUT", UPDATE_PROFILE_PICTURE_USER, formData);
-            dispatch(setUser({ ...response.data.userExist} ));
+            console.log('this is the resposne from uplaoding picture', response.data.data);
+            dispatch(setUser({ ...response.data.data, image: response.data.data.image} ));
             
             console.log("this is the response from --- only data image ", response.data.data.image);
             localStorage.setItem("userExist", JSON.stringify(response.data.data));
