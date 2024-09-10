@@ -2,25 +2,23 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { apiConnector } from '../../services/apiConnector';
-import { userProfile } from '../../services/apis';
-import { setUser } from '../../slices/profileSlice';
-import { setLoading } from '../../slices/authSlice';
+import { apiConnector } from '../../../../services/apiConnector';
+import { userProfile } from '../../../../services/apis';
+import { setUser } from '../../../../slices/profileSlice';
+import { setLoading } from '../../../../slices/authSlice';
+import toast from 'react-hot-toast';
 
 const UpdateProfileInformation = () => {
-    const { UPDATE_PROFILE_USER, UPDATE_PROFILE_PICTURE_USER } = userProfile;
+    const { UPDATE_PROFILE_USER } = userProfile;
     const { register, handleSubmit, formState: { errors, isSubmitSuccessful }, setValue } = useForm();
-    let profile = useSelector((state) => state.profile);
+    const profile = useSelector((state) => state.profile.user);  // Get user profile from state
     const dispatch = useDispatch();
-    profile = profile.user
-    // console.log(profile);
-    console.log(profile.user);
 
-    let { firstName, lastName } = profile;
-    let { about, contactNumber, dateOfBirth, gender } = profile.additionalDetails;
+    const { firstName, lastName } = profile;
+    const { about, contactNumber, dateOfBirth, gender } = profile.additionalDetails;
     const data = ["Male", "Female", "Others"];
 
-    // Convert the dateOfBirth to the correct format (yyyy-MM-dd) for the input type="date"
+    // Format date of birth to yyyy-MM-dd for input field
     const formatDateOfBirth = (date) => {
         if (date) {
             const dob = new Date(date);
@@ -33,8 +31,8 @@ const UpdateProfileInformation = () => {
     };
 
     const formattedDateOfBirth = formatDateOfBirth(dateOfBirth);
-    // console.log("Formatted date of birth:", formattedDateOfBirth);
 
+    // Set the initial form values using useEffect
     useEffect(() => {
         setValue('firstName', firstName);
         setValue('lastName', lastName);
@@ -45,32 +43,38 @@ const UpdateProfileInformation = () => {
     }, [firstName, lastName, about, contactNumber, formattedDateOfBirth, gender, setValue]);
 
     async function submitFormData(data) {
-        // event.preventDefault();
-        // console.log("this is the form data ", UPDATE_PROFILE_USER, UPDATE_PROFILE_PICTURE_USER );
-
         try {
-            setValue('firstName', data.firstName);
-            setValue('lastName', data.lastName);
-            setValue('about', data.about);
-            setValue('contactNumber', data.contactNumber);
-            setValue('dateOfBirth', data.formattedDateOfBirth);
-            setValue('gender', data.gender);
             const response = await apiConnector('PUT', UPDATE_PROFILE_USER, data);
-            console.log("this is the response from server ", response.data.data.userDetails);
+            // console.log("Server response: ", response.data.data);
+            
+
+            response.data.data.userDetails.additionalDetails = response.data.data.profileDetails;
+
+            // Update profile in the state
             dispatch(setLoading(true));
-            dispatch(setUser({ ...response.data.data.userDetails, ...response.data.data.profileDetails, image: response.data.data.userDetails }));
-            localStorage.setItem("userExist", JSON.stringify(response.data.data.userDetails));
+            dispatch(setUser({
+                ...response.data.data.userDetails, 
+                additionalDetails: {
+                    ...response.data.data.profileDetails,
+                },
+                image: response.data.data.userDetails.image,
+            }));
+            
+            // Update local storage
+            // localStorage.setItem("userExist", JSON.stringify(response.data.data.userDetails));
+            // console.log("User updated in local storage", JSON.parse(localStorage.getItem("userExist")));
             dispatch(setLoading(false));
 
-        }
-        catch (Error) {
-            console.log("Error while updating the profile information");
-            console.log(Error);
+            toast.success("Profile updated successfully");
+            dispatch(setLoading(false));
+
+        } catch (error) {
+            console.log("Error while updating the profile", error);
         }
     }
 
     return (
-        <div className="p-6 bg-richblack-800 rounded-md">
+        <div className="bg-richblack-800 flex-col items-start md:jsutify-center gap-[1.5rem] py-[1rem] px-[2rem] rounded-xl shadow-richblack-600 shadow-sm">
             <div>
                 <h1 className="text-white font-bold text-lg mb-4">Profile Information</h1>
             </div>
@@ -78,37 +82,34 @@ const UpdateProfileInformation = () => {
             <div>
                 <form onSubmit={handleSubmit(submitFormData)}>
                     {/* First Name and Last Name */}
-                    <div className="flex flex-row gap-4 mb-4">
+                    <div className="flex flex-col md:flex-row gap-4 mb-4">
                         <label className="flex-1 w-full">
-                            <p className="text-white mb-2">Enter your first name</p>
+                            <p className="text-white mb-2">First Name</p>
                             <input
                                 type="text"
                                 placeholder="First Name"
                                 {...register("firstName")}
-                                name="firstName"
-                                className="p-2 bg-richblack-700 w-full text-white rounded-lg border-none focus:outline-none input-field-shadow"
+                                className="p-2 bg-richblack-700 w-full text-white rounded-lg"
                             />
                         </label>
                         <label className="flex-1">
-                            <p className="text-white mb-2">Enter your last name</p>
+                            <p className="text-white mb-2">Last Name</p>
                             <input
                                 type="text"
-                                name="lastName"
-                                {...register("lastName")}
                                 placeholder="Last Name"
-                                className="p-2 bg-richblack-700 text-white rounded-lg border-none focus:outline-none input-field-shadow w-full"
+                                {...register("lastName")}
+                                className="p-2 bg-richblack-700 w-full text-white rounded-lg"
                             />
                         </label>
                     </div>
 
                     {/* Gender and Date of Birth */}
-                    <div className="flex flex-row gap-4 mb-4">
+                    <div className="flex flex-col md:flex-row gap-4 mb-4">
                         <label className="flex-1">
                             <p className="text-white mb-2">Gender</p>
                             <select
-                                name="gender"
-                                className="p-2 bg-richblack-700 text-white rounded-lg border-none focus:outline-none input-field-shadow w-full"
                                 {...register("gender")}
+                                className="p-2 bg-richblack-700 w-full text-white rounded-lg"
                             >
                                 {data.map((item, index) => (
                                     <option key={index} value={item}>
@@ -122,34 +123,30 @@ const UpdateProfileInformation = () => {
                             <p className="text-white mb-2">Date of Birth</p>
                             <input
                                 type="date"
-                                name="dateOfBirth"
                                 {...register("dateOfBirth")}
-                                defaultValue={formattedDateOfBirth} // Set formatted date here
-                                className="p-2 bg-richblack-700 text-white rounded-lg border-none focus:outline-none input-field-shadow w-full"
+                                className="p-2 bg-richblack-700 w-full text-white rounded-lg"
                             />
                         </label>
                     </div>
 
                     {/* Contact Number and About */}
                     <div className="flex flex-col gap-4 mb-4">
-                        <label className="flex-1">
+                        <label>
                             <p className="text-white mb-2">Contact Number</p>
                             <input
                                 type="tel"
-                                name="contactNumber"
                                 {...register("contactNumber")}
                                 placeholder="Contact Number"
-                                className="p-2 bg-richblack-700 text-white rounded-lg border-none focus:outline-none input-field-shadow w-full"
+                                className="p-2 bg-richblack-700 w-full text-white rounded-lg"
                             />
                         </label>
 
-                        <label className="flex-1">
+                        <label>
                             <p className="text-white mb-2">About</p>
                             <textarea
-                                name="about"
                                 {...register("about")}
                                 placeholder="About"
-                                className="p-2 bg-richblack-700 text-white rounded-lg border-none focus:outline-none input-field-shadow w-full  "
+                                className="p-2 bg-richblack-700 w-full text-white rounded-lg"
                                 rows={3}
                             />
                         </label>
@@ -157,17 +154,17 @@ const UpdateProfileInformation = () => {
 
                     {/* Buttons */}
                     <div className="flex flex-row justify-end gap-4">
-                        <Link to={'/dashboard/my-profile'}>
+                        <Link to="/dashboard/my-profile">
                             <button
-                                className="relative text-center text-richblack-5 text-sm h-fit text-[10px] px-6 py-3 rounded-md bg-richblack-800 button-shadow-black transition-all duration-200 hover:scale-95 cursor-pointer"
-                                type='button'
+                                type="button"
+                                className="text-center text-richblack-5 w-full text-[13px] px-6 py-3 rounded-md font-bold bg-richblack-800 button-shadow-black  transition-all duration-200 hover:scale-95"
                             >
                                 Cancel
                             </button>
                         </Link>
                         <button
-                            className=" text-center text-sm px-6 py-1 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95"
                             type="submit"
+                            className=" text-center  text-sm px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95"
                         >
                             Save
                         </button>

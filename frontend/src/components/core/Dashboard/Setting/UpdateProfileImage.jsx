@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaFileUpload } from "react-icons/fa";
-import { apiConnector } from '../../services/apiConnector';
-import {userProfile} from '../../services/apis'
+import { apiConnector } from '../../../../services/apiConnector';
+import {userProfile} from '../../../../services/apis'
 import toast from 'react-hot-toast';
-import { setUser } from '../../slices/profileSlice';
-import { setLoading } from '../../slices/authSlice';
+import { setUser } from '../../../../slices/profileSlice';
+import { setLoading } from '../../../../slices/authSlice';
+import { uploadProfilePicture } from '../../../../services/operation/settingAPI';
 
 const UpdateProfileImage = () => {
 
-    const {UPDATE_PROFILE_PICTURE_USER} = userProfile;
-    let profile = useSelector((state) => state.profile);
-    let userImage = JSON.parse(localStorage.getItem("userExist")).image;
+    // const {UPDATE_PROFILE_PICTURE_USER} = userProfile;
+    let {user: userImage} = useSelector((state) => state.profile);
+    // let userImage = JSON.parse(localStorage.getItem("userExist")).image;
+    userImage = userImage.image;
     const dispatch = useDispatch();     
     const [fileName, setFileName] = useState("Select");
     const [file, setFile] = useState(null);
@@ -39,30 +41,32 @@ const UpdateProfileImage = () => {
             toast.error("Image not selected"); 
             return ;
         }
-        dispatch(setLoading(true));
-        try{
-            const formData = new FormData();
-            formData.append('image', file);
+        // dispatch(setLoading(true));
+        const formData = new FormData();
+        formData.append('image', file);
+
+        dispatch(uploadProfilePicture(formData));
+        // try{
             // console.log("this is the profile pic url", UPDATE_PROFILE_PICTURE_USER);
-            const response = await apiConnector("PUT", UPDATE_PROFILE_PICTURE_USER, formData);
-            console.log('this is the resposne from uplaoding picture', response.data.data);
-            dispatch(setUser({ ...response.data.data, image: response.data.data.image} ));
+            // const response = await apiConnector("PUT", UPDATE_PROFILE_PICTURE_USER, formData);
+            // console.log('this is the resposne from uplaoding picture', response.data.data);
+            // dispatch(setUser({ ...response.data.data}));
             
-            console.log("this is the response from --- only data image ", response.data.data.image);
-            localStorage.setItem("userExist", JSON.stringify(response.data.data));
+            // console.log("this is the response from --- only data image ", response.data.data.image);
+            // localStorage.setItem("userExist", JSON.stringify(response.data.data));
             // setuserImage(response.data.data.image);
-            setFileName("Select");
-            setFile(null);
+            // setFileName("Select");
+            // setFile(null);
             
-            toast.success("File upload successfully");
-        }
-        catch(error)
-        {
-            console.log("This is the error for uploading file  ------>", error);
-            console.log("This is the error for uploading file  ------>", error.response.data);
-            toast.error("Failed to uplaod");
-        }
-        dispatch( setLoading(false));
+            // toast.success("File upload successfully");
+        // }
+        // catch(error)
+        // {
+        //     console.log("This is the error for uploading file  ------>", error);
+        //     console.log("This is the error for uploading file  ------>", error.response.data);
+        //     toast.error("Failed to uplaod");
+        // }
+        // dispatch( setLoading(false));
     }
 
 
@@ -71,7 +75,7 @@ const UpdateProfileImage = () => {
         <div className='bg-richblack-800 flex flex-col  md:flex-row items-start md:jsutify-center gap-[1.5rem] py-[1rem] px-[2rem] rounded-xl shadow-richblack-600 shadow-sm'>
             <div className='mx-auto md:mx-0'>
                 <img
-                    src={userImage !== undefined ? userImage : profile.user.image}
+                    src={ userImage }
                     alt="profile"
                     className="w-[5rem] aspect-square rounded-full object-cover"
                 />

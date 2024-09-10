@@ -12,7 +12,7 @@ const OpenRoute = ({children}) => {
     }
     else
     {
-        return <Navigate to={'/dashboard'} />
+        return <Navigate to={'/dashboard/my-profile'} />
     }
 }
 

@@ -8,9 +8,7 @@ const ProfileDropDown = () => {
     const [dropMenu, setDropMenu] = useState(false);
     const ref = useRef();
     const dispatch = useDispatch();
-    const userImage = JSON.parse(localStorage.getItem("userExist")).image;
-    // let userImage = useSelector((state) => state.profile.user.image);
-    // console.log("this is the userimage", userImage);
+    let userImage = useSelector((state) => state.profile.user.image);
 
     useOutClick(ref, () => setDropMenu(false));
 

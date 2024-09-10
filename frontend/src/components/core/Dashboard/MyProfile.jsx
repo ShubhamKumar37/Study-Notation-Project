@@ -1,21 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import YellowButton from '../../common/YellowButton';
 import { FiEdit } from "react-icons/fi";
 
 export default function MyProfile() {
-  let{ user } = useSelector((state) => state.profile);
-  user = JSON.parse(localStorage.getItem("userExist"));
-  console.log("this is the user", user);
+  // Get the user from the Redux store
+  const {user} = useSelector((state) => state.profile);
+
+  // Manage local state for the user
+  // const [user, setUser] = useState(reduxUser);
+
   const navigate = useNavigate();
 
+  // // Fetch user from localStorage on component mount
+  // useEffect(() => {
+  //   const storedUser = JSON.parse(localStorage.getItem("userExist"));
+  //   if (storedUser) {
+  //     setUser(storedUser);
+  //   }
+  // }, []);
+
+  // If user data is not available yet, show a loading state
   if (!user) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className=" bg-gray-800 text-white rounded-lg shadow-md p-[2rem] w-[95%] mx-auto">
+    <div className="bg-gray-800 text-white rounded-lg shadow-md p-[2rem] w-[95%] mx-auto">
       <h1 className="text-3xl font-bold mb-6">My Profile</h1>
 
       {/* Profile Info */}
@@ -23,7 +35,7 @@ export default function MyProfile() {
 
         <div className="flex items-center mb-8 p-4 bg-richblack-800 rounded-lg shadow-md">
           <img
-            src={`${user.image}`}
+            src={`${user?.image}`}
             alt="User"
             className="w-20 h-20 rounded-full"
           />
