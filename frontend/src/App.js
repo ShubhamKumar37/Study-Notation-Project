@@ -16,43 +16,53 @@ import Dashboard from "./pages/Dashboard";
 import MyProfile from "./components/core/Dashboard/MyProfile";
 import ProtectedRoute from "./components/core/Auth/ProtectedRoute";
 import Setting from "./components/core/Dashboard/Setting/Setting";
+import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses/EnrolledCourses";
+import Cart from "./components/core/Dashboard/Cart/Cart";
+import { ACCOUNT_TYPE } from "./utils/constants";
 
 function App() {
   const loading = useSelector((state) => state.auth.loading);
+  const { user } = useSelector((state) => state.profile);
   return (
     <div className="relative w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
-
       <NavBar />
 
-      {
-        loading === true && <LoadingScreen />
-      }
+      {loading === true && <LoadingScreen />}
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={
-          <OpenRoute >
-            <AuthPage type={"login"} />
-          </OpenRoute>
-        } />
+        <Route
+          path="/login"
+          element={
+            <OpenRoute>
+              <AuthPage type={"login"} />
+            </OpenRoute>
+          }
+        />
 
-        <Route path="/signup" element={
-          <OpenRoute>
-            <AuthPage type={"signup"} />
-          </OpenRoute>
-        } />
+        <Route
+          path="/signup"
+          element={
+            <OpenRoute>
+              <AuthPage type={"signup"} />
+            </OpenRoute>
+          }
+        />
 
-        <Route path="forgot-password" element={
-          <OpenRoute>
-            <ForgotPassword />
-          </OpenRoute>
-        } />
+        <Route
+          path="forgot-password"
+          element={
+            <OpenRoute>
+              <ForgotPassword />
+            </OpenRoute>
+          }
+        />
 
-        <Route path="/update-password/:token"
+        <Route
+          path="/update-password/:token"
           element={
             <OpenRoute>
               <UpdatePassword />
-
             </OpenRoute>
           }
         />
@@ -61,36 +71,34 @@ function App() {
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
-
           }
         >
           <Route path="/dashboard/my-profile" element={<MyProfile />} />
           <Route path="/dashboard/setting" element={<Setting />} />
 
+          {user?.accountType == ACCOUNT_TYPE.STUDENT && (
+            <>
+              <Route
+                path="/dashboard/enrolled-courses"
+                element={<EnrolledCourses />}
+              />
+              <Route path="/dashboard/cart" element={<Cart />} />
+            </>
+          )}
         </Route>
-        <Route path="/verify-email"
+        <Route
+          path="/verify-email"
           element={
             <OpenRoute>
-
               <VerifyEmail />
             </OpenRoute>
           }
         />
 
-        <Route path="/about"
-          element={
-            <About />
-
-          }
-        />
-        <Route path="/contact"
-          element={
-            <ContactUs />
-          }
-        />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<ContactUs />} />
 
         <Route path="*" element={<ErrorPage />} />
-
       </Routes>
     </div>
   );

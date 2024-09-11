@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import SidebarLink from './SidebarLink'
 import { useNavigate } from 'react-router-dom'
 import { VscSignOut } from 'react-icons/vsc'
+import { CiShoppingCart } from 'react-icons/ci';
 import ConfirmationModal from '../../common/ConfirmationModal'
 
 const Sidebar = () => {
@@ -39,7 +40,7 @@ const Sidebar = () => {
 
                 <div className='flex flex-col mt-2'>
                     <SidebarLink 
-                        link={{name: "Setting", path: "/dashboard/setting"}} iconName={"VscSettingGear"}
+                        link={{name: "Setting", path: "/dashboard/setting"}} iconName={"VscGear"}
                     />
 
                     <button onClick={() =>setConfirmationModal(
