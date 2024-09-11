@@ -2,15 +2,10 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { apiConnector } from '../../../../services/apiConnector';
-import { userProfile } from '../../../../services/apis';
-import { setUser } from '../../../../slices/profileSlice';
-import { setLoading } from '../../../../slices/authSlice';
-import toast from 'react-hot-toast';
+import { uploadProfileInformation } from '../../../../services/operation/settingAPI';
 
 const UpdateProfileInformation = () => {
-    const { UPDATE_PROFILE_USER } = userProfile;
-    const { register, handleSubmit, formState: { errors, isSubmitSuccessful }, setValue } = useForm();
+    const { register, handleSubmit, setValue } = useForm();
     const profile = useSelector((state) => state.profile.user);  // Get user profile from state
     const dispatch = useDispatch();
 
@@ -43,34 +38,38 @@ const UpdateProfileInformation = () => {
     }, [firstName, lastName, about, contactNumber, formattedDateOfBirth, gender, setValue]);
 
     async function submitFormData(data) {
-        try {
-            const response = await apiConnector('PUT', UPDATE_PROFILE_USER, data);
+
+
+        dispatch(uploadProfileInformation(data));
+
+        // try {
+        //     const response = await apiConnector('PUT', UPDATE_PROFILE_USER, data);
             // console.log("Server response: ", response.data.data);
             
 
-            response.data.data.userDetails.additionalDetails = response.data.data.profileDetails;
+            // response.data.data.userDetails.additionalDetails = response.data.data.profileDetails;
 
             // Update profile in the state
-            dispatch(setLoading(true));
-            dispatch(setUser({
-                ...response.data.data.userDetails, 
-                additionalDetails: {
-                    ...response.data.data.profileDetails,
-                },
-                image: response.data.data.userDetails.image,
-            }));
+            // dispatch(setLoading(true));
+            // dispatch(setUser({
+            //     ...response.data.data.userDetails, 
+            //     additionalDetails: {
+            //         ...response.data.data.profileDetails,
+            //     },
+            //     image: response.data.data.userDetails.image,
+            // }));
             
             // Update local storage
             // localStorage.setItem("userExist", JSON.stringify(response.data.data.userDetails));
             // console.log("User updated in local storage", JSON.parse(localStorage.getItem("userExist")));
-            dispatch(setLoading(false));
+            // dispatch(setLoading(false));
 
-            toast.success("Profile updated successfully");
-            dispatch(setLoading(false));
+        //     toast.success("Profile updated successfully");
+        //     dispatch(setLoading(false));
 
-        } catch (error) {
-            console.log("Error while updating the profile", error);
-        }
+        // } catch (error) {
+        //     console.log("Error while updating the profile", error);
+        // }
     }
 
     return (

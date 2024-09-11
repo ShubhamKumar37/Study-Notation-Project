@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaFileUpload } from "react-icons/fa";
-import { apiConnector } from '../../../../services/apiConnector';
-import {userProfile} from '../../../../services/apis'
 import toast from 'react-hot-toast';
-import { setUser } from '../../../../slices/profileSlice';
-import { setLoading } from '../../../../slices/authSlice';
 import { uploadProfilePicture } from '../../../../services/operation/settingAPI';
 
 const UpdateProfileImage = () => {
