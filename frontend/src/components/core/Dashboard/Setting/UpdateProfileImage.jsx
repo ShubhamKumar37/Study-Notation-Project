@@ -6,9 +6,7 @@ import { uploadProfilePicture } from '../../../../services/operation/settingAPI'
 
 const UpdateProfileImage = () => {
 
-    // const {UPDATE_PROFILE_PICTURE_USER} = userProfile;
     let {user: userImage} = useSelector((state) => state.profile);
-    // let userImage = JSON.parse(localStorage.getItem("userExist")).image;
     userImage = userImage.image;
     const dispatch = useDispatch();     
     const [fileName, setFileName] = useState("Select");

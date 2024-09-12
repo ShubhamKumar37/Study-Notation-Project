@@ -39,37 +39,17 @@ const UpdateProfileInformation = () => {
 
     async function submitFormData(data) {
 
+        try
+        {
+            dispatch(uploadProfileInformation(data));
+        }
+        catch(Error)
+        {
+            console.log(Error);
+            console.log("Error occur while submiting the form in async function");
+        }
 
-        dispatch(uploadProfileInformation(data));
 
-        // try {
-        //     const response = await apiConnector('PUT', UPDATE_PROFILE_USER, data);
-            // console.log("Server response: ", response.data.data);
-            
-
-            // response.data.data.userDetails.additionalDetails = response.data.data.profileDetails;
-
-            // Update profile in the state
-            // dispatch(setLoading(true));
-            // dispatch(setUser({
-            //     ...response.data.data.userDetails, 
-            //     additionalDetails: {
-            //         ...response.data.data.profileDetails,
-            //     },
-            //     image: response.data.data.userDetails.image,
-            // }));
-            
-            // Update local storage
-            // localStorage.setItem("userExist", JSON.stringify(response.data.data.userDetails));
-            // console.log("User updated in local storage", JSON.parse(localStorage.getItem("userExist")));
-            // dispatch(setLoading(false));
-
-        //     toast.success("Profile updated successfully");
-        //     dispatch(setLoading(false));
-
-        // } catch (error) {
-        //     console.log("Error while updating the profile", error);
-        // }
     }
 
     return (

@@ -16,7 +16,6 @@ const userSlice = createSlice({
         setLoading(state, value){
             state.loading = value.payload;
         },
-
     }
 });
 
