@@ -1,37 +1,45 @@
-import ProgressBar from '@ramonak/react-progress-bar'
-import React from 'react'
+import ProgressBar from '@ramonak/react-progress-bar';
+import React from 'react';
 
-const EnrolledCourseCard = ({course}) => {
+const EnrolledCourseCard = ({ course }) => {
   return (
-    <div>
+    <tr className="bg-gray-800 text-white mb-4 rounded-lg">
+      {/* Course Thumbnail */}
+      <td className="flex items-center space-x-4 p-4">
+        <img
+          src={course?.thumbnail}
+          width={50}
+          height={50}
+          className="rounded-md"
+          alt="Course Thumbnail"
+        />
         <div>
-            <div>
-                <img src={course?.thumbnail} width={100} height={100}/>
-            </div>
-            <div>
-                <h1>{course?.courseName}</h1>
-                <h1>{course?.courseDescription.substr(0, 30)}...</h1>
-            </div>
+          <h1 className="text-lg font-semibold">{course?.courseName}</h1>
+          <p className="text-sm text-gray-400">{course?.courseDescription?.substr(0, 30)}...</p>
         </div>
+      </td>
 
-        <div>
-            <p>COURSE DURAITON</p>
+      {/* Course Duration */}
+      <td className="p-4 text-center">
+        <p>{course?.duration || '2hr 30 mins'}</p>
+      </td>
+
+      {/* Progress Bar */}
+      <td className="p-4">
+        <div className="flex items-center space-x-2">
+          <p className="text-white text-sm">{`Progress ${course?.progressPercentage || 30}%`}</p>
+          <ProgressBar
+            completed={course?.progressPercentage || 30}
+            height="8px"
+            isLabelVisible={false}
+            bgColor="#10B981"
+            baseBgColor="#4B5563"
+            className="w-full"
+          />
         </div>
+      </td>
+    </tr>
+  );
+};
 
-        <div>
-            <div>
-                <p>Progress COURSE_PERCENTAGE %</p>
-                <ProgressBar
-                    completed={30}  
-                    height='8px'
-                    isLabelVisible={false}
-                />
-
-            </div>
-        </div>
-
-    </div>
-  )
-}
-
-export default EnrolledCourseCard
+export default EnrolledCourseCard;

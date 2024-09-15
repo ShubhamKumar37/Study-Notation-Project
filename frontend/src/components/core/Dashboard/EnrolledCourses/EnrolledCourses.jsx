@@ -1,61 +1,65 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { apiConnector } from '../../../../services/apiConnector';
 import { userProfile } from '../../../../services/apis';
 import EnrolledCourseCard from './EnrolledCourseCard';
 
 const EnrolledCourses = () => {
+  const { token } = useSelector((state) => state.auth);
+  const { GET_STUDENT_ENROLLED_COURSE_USER } = userProfile;
 
-    const {token} = useSelector((state) => state.auth);
-    const {GET_STUDENT_ENROLLED_COURSE_USER} = userProfile;
+  const [enrolledCourses, setEnrolledCourses] = useState(null);
 
-    const [enrolledCourses, setEnrolledCourses] = useState(null);
+  async function getEnrolledCourses() {
+    try {
+      const response = await apiConnector(
+        'GET',
+        GET_STUDENT_ENROLLED_COURSE_USER,
+        null,
+        { Authorization: `Bearer ${token}` }
+      );
 
-
-    async function getEnrolledCourses()
-    {
-      try
-      {
-        const response = await apiConnector("GET", GET_STUDENT_ENROLLED_COURSE_USER, null, {Authorisation : `Bearer ${token}`});
-
-        console.log(response?.data?.data);
-        setEnrolledCourses(response.data.data.courses);
-      } 
-      catch(Error)
-      {
-        console.log(Error);
-      }
+      setEnrolledCourses(response.data.data.courses);
+    } catch (Error) {
+      console.log(Error);
     }
+  }
 
-    useEffect(() =>
-    {
-      getEnrolledCourses();
-    }, []);
+  useEffect(() => {
+    getEnrolledCourses();
+  }, []);
 
   return (
-    <div>
-        <div>Enrolled Courses</div>
-        {
-          !enrolledCourses ? (<div>...Loading</div>)
-          : !enrolledCourses.length ? (<p>You are not enrolled in any courses yet</p>)
-          : (<div>
+    <div className="p-6 bg-gray-900 rounded-lg">
+      <h2 className="text-xl text-white font-semibold mb-4">Enrolled Courses</h2>
+      {!enrolledCourses ? (
+        <div className="text-white">...Loading</div>
+      ) : !enrolledCourses.length ? (
+        <p className="text-gray-400">You are not enrolled in any courses yet</p>
+      ) : (
+        <div className="overflow-x-auto">
+          {/* Table Structure */}
+          <table className="min-w-full table-auto">
+            {/* Table Headers */}
+            <thead className="bg-richblack-500 text-white w-full text-left">
+              <tr className=''>
+                <th className="p-4 font-semibold">Course Name</th>
+                <th className="p-4 font-semibold text-center">Duration</th>
+                <th className="p-4 font-semibold">Progress</th>
+              </tr>
+            </thead>
 
-              <div>
-                <p>Course Name</p>
-                <p>Duration</p>
-                <p>Progress</p>
-              </div>
-
-              {
-                enrolledCourses.map((course, index) =>
-                {
-                  return <EnrolledCourseCard course={course} key={index} />
-                })
-              }
-          </div>)
-        }
+            {/* Table Body */}
+            <tbody>
+              {enrolledCourses.map((course, index) => (
+                <EnrolledCourseCard course={course} key={index} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default EnrolledCourses
+export default EnrolledCourses;

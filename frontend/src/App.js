@@ -19,6 +19,7 @@ import Setting from "./components/core/Dashboard/Setting/Setting";
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses/EnrolledCourses";
 import Cart from "./components/core/Dashboard/Cart/Cart";
 import { ACCOUNT_TYPE } from "./utils/constants";
+import MyCourses from "./components/core/Dashboard/MyCourses/MyCourses";
 
 function App() {
   const loading = useSelector((state) => state.auth.loading);
@@ -76,7 +77,7 @@ function App() {
           <Route path="/dashboard/my-profile" element={<MyProfile />} />
           <Route path="/dashboard/setting" element={<Setting />} />
 
-          {user?.accountType == ACCOUNT_TYPE.STUDENT && (
+          {user?.accountType == ACCOUNT_TYPE.STUDENT ? (
             <>
               <Route
                 path="/dashboard/enrolled-courses"
@@ -84,7 +85,14 @@ function App() {
               />
               <Route path="/dashboard/cart" element={<Cart />} />
             </>
-          )}
+          ):
+          <>
+            <Route
+              path="/dashboard/my-courses"
+              element={<MyCourses />}
+            />
+          </>
+          }
         </Route>
         <Route
           path="/verify-email"
