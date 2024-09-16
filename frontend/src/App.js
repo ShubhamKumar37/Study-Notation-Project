@@ -20,6 +20,7 @@ import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses/Enrolle
 import Cart from "./components/core/Dashboard/Cart/Cart";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import MyCourses from "./components/core/Dashboard/MyCourses/MyCourses";
+import AddCourses from "./components/core/Dashboard/AddCourses/AddCourses";
 
 function App() {
   const loading = useSelector((state) => state.auth.loading);
@@ -90,6 +91,10 @@ function App() {
             <Route
               path="/dashboard/my-courses"
               element={<MyCourses />}
+            />
+            <Route
+              path="/dashboard/add-course"
+              element={<AddCourses />}
             />
           </>
           }

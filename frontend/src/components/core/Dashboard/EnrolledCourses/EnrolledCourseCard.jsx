@@ -3,7 +3,7 @@ import React from 'react';
 
 const EnrolledCourseCard = ({ course }) => {
   return (
-    <tr className="bg-gray-800 text-white mb-4 rounded-lg">
+    <tr className="bg-gray-800 text-white mb-4 rounded-lg md:mb-0 md:even:bg-gray-700 md:odd:bg-gray-800 md:dark:even:bg-gray-900 md:dark:odd:bg-gray-800">
       {/* Course Thumbnail */}
       <td className="flex items-center space-x-4 p-4">
         <img
@@ -20,7 +20,7 @@ const EnrolledCourseCard = ({ course }) => {
       </td>
 
       {/* Course Duration */}
-      <td className="p-4 text-center">
+      <td className="p-4 text-center md:text-left">
         <p>{course?.duration || '2hr 30 mins'}</p>
       </td>
 
