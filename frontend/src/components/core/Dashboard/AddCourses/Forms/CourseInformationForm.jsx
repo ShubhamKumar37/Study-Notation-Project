@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { apiConnector } from '../../../../../services/apiConnector';
 import { categories } from '../../../../../services/apis';
 import "../../../../../pages/allPageCSS.css"
+import RequirementField from './RequirementField';
 
 const CourseInformationForm = () => {
 
@@ -41,7 +42,7 @@ const CourseInformationForm = () => {
             setValue("coursePrice", course.price);
             setValue("courseTags", course.tag);
             setValue("courseBenefits", course.whatYouWillLearn);
-            setValue("courseCategory", course.category);
+            setValue("category", course.category);
             setValue("courseRequirements", course.instructions);
             setValue("courseImage", course.thumbnail);
         }
@@ -57,7 +58,7 @@ const CourseInformationForm = () => {
         <form onSubmit={submitForm}
             className='flex flex-col gap-[2rem]'
         >
-            <lable>
+            <label>
                 <p>Course Title</p>
                 <input
                     type="text"
@@ -68,7 +69,7 @@ const CourseInformationForm = () => {
                 {
                     errors.courseTitle && (<span>Please add the course title**</span>)
                 }
-            </lable>
+            </label>
 
             <label>
                 <p>Course Description</p>
@@ -81,13 +82,12 @@ const CourseInformationForm = () => {
                 {errors.courseShortDescription && <span>Please add a single line description at least**</span>}
             </label>
 
-            <lable>
+            <label>
                 <p>Course Price</p>
                 <input
                     type="number"
-                    step="0.01"
+                    step="1"
                     min="0"
-                    pattern="^\d+(\.\d+)?$"
                     placeholder='Enter course price'
                     {...register("coursePrice", { required: true, valueAsNumber: true })}
                     className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow"
@@ -95,7 +95,56 @@ const CourseInformationForm = () => {
                 {
                     errors.coursePrice && (<span>Please add cost of your course**</span>)
                 }
-            </lable>
+            </label>
+
+            <label>
+                <p>Select category</p>
+                <select
+                    {...register("category", { required: true })}
+                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow"
+                >
+                    <option value="" disabled>Choose a category</option>
+                    {
+                        courseCategory && courseCategory.map((item, index) => {
+                            return <option key={index} >{item.name}</option>
+                        })
+                    }
+                </select>
+                {errors.category && <span>Please choose a category**</span>}
+            </label>
+
+            {/* <ChipInput
+                name="courseTags"
+                register={register}
+                errors={errors}
+                getValues={getValues}
+                setValue={setValue}
+                label="Course Tags"
+            
+            /> */}
+
+            {/* A new component for thumbnail and its preview */}
+
+
+            <label>
+                <p>Benefits of the course</p>
+                <textarea
+                    rows={3}
+                    {...register("courseBenefits", { required: true })}
+                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow"
+                />
+            </label>
+            {errors.courseBenefits && <span>Please add some Benefits of the course**</span>}
+
+            <RequirementField
+                name="courseRequirements"
+                register={register}
+                errors={errors}
+                getValues={getValues}
+                setValue={setValue}
+                label="Course Requirements"
+            />
+
         </form>
     )
 }
