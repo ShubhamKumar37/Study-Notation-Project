@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { apiConnector } from '../../../../../services/apiConnector';
 import { categories } from '../../../../../services/apis';
 import "../../../../../pages/allPageCSS.css"
 import RequirementField from './RequirementField';
+import ChipInput from './ChipInput';
+import { setStep } from '../../../../../slices/courseSlice';
 
 const CourseInformationForm = () => {
-
+    const dispatch = useDispatch();
     const {
         register,
         setValue,
@@ -113,15 +115,15 @@ const CourseInformationForm = () => {
                 {errors.category && <span>Please choose a category**</span>}
             </label>
 
-            {/* <ChipInput
+            <ChipInput
                 name="courseTags"
                 register={register}
-                errors={errors}
+                errors={errors}     
                 getValues={getValues}
                 setValue={setValue}
                 label="Course Tags"
             
-            /> */}
+            />
 
             {/* A new component for thumbnail and its preview */}
 
@@ -145,6 +147,17 @@ const CourseInformationForm = () => {
                 label="Course Requirements"
             />
 
+
+            <div>
+                editCourse && (
+                    <button type='submit'
+                        className='flex flex-row items-center text-center w-full text-sm px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'
+                        onClick={() => dispatch(setStep(1))}>Continue without saving</button>
+                    <button
+                    className='flex flex-row items-center text-center w-full text-sm px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'
+                    >{!editCourse ? "Next" : "Save changes"}</button>
+                )
+            </div>
         </form>
     )
 }
