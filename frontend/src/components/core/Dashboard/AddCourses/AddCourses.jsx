@@ -19,22 +19,21 @@ const AddCourses = () => {
 
 
     return (
-    <div className='flex flex-row '>
-        <div>
+    <div className='flex flex-row justify-between p-3   '>
+        <div className='w-[60%]'>
             <p>Add Course</p>
-            <div>
-                {/* Render steps comp */}
+            <div className=''>
                 <RenderSteps />
             </div>
         </div>
 
-        <div className="bg-richblack-800 p-6 rounded-md shadow-lg w-fit h-fit">
+        <div className="bg-richblack-800 p-6 rounded-md shadow-lg w-[30%] h-fit">
             <h1>Course upload list</h1>
-            <ul>
+            <ul className='w-fit'>
                 {
                     stepData.map((item, index) =>
                     {
-                        return <li key={index} className="px-4 py-2 border-b border-richblack-500 last:border-b-0">{item}</li>
+                        return <li key={index} className="px-4 py-2 text-sm  border-b border-richblack-500 last:border-b-0">{item}</li>
                     })
                 }
             </ul>

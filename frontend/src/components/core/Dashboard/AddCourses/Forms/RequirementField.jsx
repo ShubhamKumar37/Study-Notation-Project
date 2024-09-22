@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "../../../../../pages/allPageCSS.css"
+import { RxCross1 } from "react-icons/rx";
 
 const RequirementField = ({ name, setValue, getValues, register, errors, label }) => {
 
@@ -45,32 +46,35 @@ const RequirementField = ({ name, setValue, getValues, register, errors, label }
 
                 <button
                     type='button'
+                    className='flex text-yellow-50 font-bold p-1'
                     onClick={() => addRequirement()}
 
                 >
                     <p>Add</p>
                 </button>
 
-                {
-                    requirementList.length > 0 &&
+                <div className='flex'>
+                    {
+                        requirementList.length > 0 &&
 
-                    <ul className='flex flex-col'>
-                        {
-                            requirementList.map((item, index) => {
-                                return (<li key={index} className='text-sm flex '>
-                                    <p>{item}{"  "}
-                                        <sup>
-                                            <button type='button' onClick={() => removeRequirement(index)}> remove</button>
-                                        </sup>
-                                    </p>
-                                </li>)
-                            })
-                        }
-                    </ul>
-                }
+                        <ul className='flex flex-row gap-1 flex-wrap '>
+                            {
+                                requirementList.map((item, index) => {
+                                    return (<li key={index} className='text-sm flex gap-1 bg-richblack-700 p-1 rounded-lg '>
+                                        <span>{item}
+                                        </span>
+                                        <span className='flex items-center'>
+                                            <button type='button' className='cursor-pointer flex items-center' onClick={() => removeRequirement(index)}> <RxCross1 /></button>
+                                        </span>
+                                    </li>)
+                                })
+                            }
+                        </ul>
+                    }
+                </div>
             </label>
 
-            {errors[name] && <span>Add some Requirement**</span>}
+            {errors[name] && requirementList.length === 0 && <span className='text-[#ef0000]'>Add some Requirement**</span>}
         </div>
     )
 }

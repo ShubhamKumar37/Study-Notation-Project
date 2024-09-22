@@ -7,6 +7,7 @@ import "../../../../../pages/allPageCSS.css"
 import RequirementField from './RequirementField';
 import ChipInput from './ChipInput';
 import { setStep } from '../../../../../slices/courseSlice';
+import ImagePreview from './ImagePreview';
 
 const CourseInformationForm = () => {
     const dispatch = useDispatch();
@@ -51,40 +52,60 @@ const CourseInformationForm = () => {
 
     }, []);
 
-    function submitForm(event) {
-        event.preventDefault();
+    function submitForm(data) {
+
+        console.log("This is the form data = ", getValues());
 
     }
 
+    function isFormUpdated()
+    {
+        const currentFormState = getValues();
+        
+        if(currentFormState.courseTitle !== course.courseName ||
+            currentFormState.courseShortDesc !== course.courseDescription ||
+            currentFormState.coursePrice !== course.price ||
+            // currentFormState.courseTags !== course.tag ||
+            currentFormState.courseBenefits !== course.whatYouWillLearn ||
+            currentFormState.category._id !== course.category._id ||
+            currentFormState.courseRequirements !== course.instructions
+            // currentFormState.courseImage !== course.thumbnail
+            )
+        {
+            return true;
+        }
+        return false;
+    }
+
     return (
-        <form onSubmit={submitForm}
+        <form onSubmit={handleSubmit(submitForm)}
             className='flex flex-col gap-[2rem]'
         >
-            <label>
+            <label className="w-full">
                 <p>Course Title</p>
                 <input
                     type="text"
                     placeholder='Enter course title'
                     {...register("courseTitle", { required: true })}
-                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow"
+                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow w-full"
                 />
                 {
-                    errors.courseTitle && (<span>Please add the course title**</span>)
+                    errors.courseTitle && (<span className='text-[#ef0000]'>Please add the course title**</span>)
                 }
             </label>
 
-            <label>
+            <label className="w-full">
                 <p>Course Description</p>
                 <textarea
                     rows={3}
                     placeholder='Enter some description about your course'
                     {...register("courseShortDesc", { required: true })}
-                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow"
+                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow w-full"
                 />
-                {errors.courseShortDescription && <span>Please add a single line description at least**</span>}
+                {errors.courseShortDescription && <span className='text-[#ef0000]'>Please add a single line description at least**</span>}
             </label>
 
-            <label>
+            <label className="w-full">
                 <p>Course Price</p>
                 <input
                     type="number"
@@ -92,18 +113,18 @@ const CourseInformationForm = () => {
                     min="0"
                     placeholder='Enter course price'
                     {...register("coursePrice", { required: true, valueAsNumber: true })}
-                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow"
+                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow w-full"
                 />
                 {
-                    errors.coursePrice && (<span>Please add cost of your course**</span>)
+                    errors.coursePrice && (<span className='text-[#ef0000]'>Please add cost of your course**</span>)
                 }
             </label>
 
-            <label>
+            <label className="w-full">
                 <p>Select category</p>
                 <select
                     {...register("category", { required: true })}
-                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow"
+                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow w-full"
                 >
                     <option value="" disabled>Choose a category</option>
                     {
@@ -112,31 +133,37 @@ const CourseInformationForm = () => {
                         })
                     }
                 </select>
-                {errors.category && <span>Please choose a category**</span>}
+                {errors.category && <span className='text-[#ef0000]'>Please choose a category**</span>}
             </label>
 
             <ChipInput
                 name="courseTags"
                 register={register}
-                errors={errors}     
+                errors={errors}
                 getValues={getValues}
                 setValue={setValue}
                 label="Course Tags"
-            
+                className="w-full"
             />
 
             {/* A new component for thumbnail and its preview */}
+            <ImagePreview
+                register={register}
+                errors={errors}
+                setValue={setValue}
+                getValues={getValues}
+                name="courseThumbnail"
+            />
 
-
-            <label>
+            <label className="w-full">
                 <p>Benefits of the course</p>
                 <textarea
                     rows={3}
                     {...register("courseBenefits", { required: true })}
-                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow"
+                    className="p-2 bg-richblack-800 rounded-lg border-none focus:outline-none input-field-shadow w-full"
                 />
             </label>
-            {errors.courseBenefits && <span>Please add some Benefits of the course**</span>}
+            {errors.courseBenefits && <span className='text-[#ef0000] mt-[-2rem]'>Please add some Benefits of the course**</span>}
 
             <RequirementField
                 name="courseRequirements"
@@ -149,14 +176,16 @@ const CourseInformationForm = () => {
 
 
             <div>
-                editCourse && (
+                {editCourse && (
                     <button type='submit'
                         className='flex flex-row items-center text-center w-full text-sm px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'
-                        onClick={() => dispatch(setStep(1))}>Continue without saving</button>
-                    <button
+                        onClick={() => dispatch(setStep(2))}>Continue without saving</button>)}
+                <button type='submit'
                     className='flex flex-row items-center text-center w-full text-sm px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'
-                    >{!editCourse ? "Next" : "Save changes"}</button>
-                )
+                >{!editCourse ? "Next" : "Save changes"}</button>
+
+
+
             </div>
         </form>
     )

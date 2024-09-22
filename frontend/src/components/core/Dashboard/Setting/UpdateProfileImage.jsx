@@ -40,27 +40,6 @@ const UpdateProfileImage = () => {
         formData.append('image', file);
 
         dispatch(uploadProfilePicture(formData));
-        // try{
-            // console.log("this is the profile pic url", UPDATE_PROFILE_PICTURE_USER);
-            // const response = await apiConnector("PUT", UPDATE_PROFILE_PICTURE_USER, formData);
-            // console.log('this is the resposne from uplaoding picture', response.data.data);
-            // dispatch(setUser({ ...response.data.data}));
-            
-            // console.log("this is the response from --- only data image ", response.data.data.image);
-            // localStorage.setItem("userExist", JSON.stringify(response.data.data));
-            // setuserImage(response.data.data.image);
-            // setFileName("Select");
-            // setFile(null);
-            
-            // toast.success("File upload successfully");
-        // }
-        // catch(error)
-        // {
-        //     console.log("This is the error for uploading file  ------>", error);
-        //     console.log("This is the error for uploading file  ------>", error.response.data);
-        //     toast.error("Failed to uplaod");
-        // }
-        // dispatch( setLoading(false));
     }
 
 
