@@ -8,6 +8,7 @@ import RequirementField from './RequirementField';
 import ChipInput from './ChipInput';
 import { setStep } from '../../../../../slices/courseSlice';
 import ImagePreview from './ImagePreview';
+import toast from 'react-hot-toast';
 
 const CourseInformationForm = () => {
     const dispatch = useDispatch();
@@ -52,17 +53,43 @@ const CourseInformationForm = () => {
 
     }, []);
 
-    function submitForm(data) {
+     function  submitForm(data) {
+        if(editCourse)
+        {
+            if(isFormUpdated())
+            {
+                const formData = new FormData();
+    
+                formData.append("courseId", course._id);
+                if(data.courseTitle) formData.append("courseName", data.courseTitle);
+                if(data.courseShortDesc) formData.append("courseDescription", data.courseShortDesc);
+                if(data.coursePrice) formData.append("price", data.coursePrice);
+                if(data.courseTags) formData.append("tag", data.courseTags);
+                if(data.courseBenefits) formData.append("whatYouWillLearn", data.courseBenefits);
+                if(data.category) formData.append("category", data.category._id);
+                if(data.courseRequirements) formData.append("instructions", data.courseRequirements);
+                if(data.courseThumbnail) formData.append("thumbnail", data.courseThumbnail[0]);
+            }
 
-        console.log("This is the form data = ", getValues());
-
-    }
+            else
+            {
+                toast.error("No changes detected");
+                
+                return;
+            }
+        }
+        else{
+            console.log(null);
+            console.log("This is the form data = ", data);
+        }
+        // console.log("HI")
+    }   
 
     function isFormUpdated()
     {
         const currentFormState = getValues();
         
-        if(currentFormState.courseTitle !== course.courseName ||
+        if(currentFormState.courseTitle !== course.courseTitle ||
             currentFormState.courseShortDesc !== course.courseDescription ||
             currentFormState.coursePrice !== course.price ||
             // currentFormState.courseTags !== course.tag ||
@@ -179,7 +206,7 @@ const CourseInformationForm = () => {
                 {editCourse && (
                     <button type='submit'
                         className='flex flex-row items-center text-center w-full text-sm px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'
-                        onClick={() => dispatch(setStep(2))}>Continue without saving</button>)}
+                        >Continue without saving</button>)}
                 <button type='submit'
                     className='flex flex-row items-center text-center w-full text-sm px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'
                 >{!editCourse ? "Next" : "Save changes"}</button>

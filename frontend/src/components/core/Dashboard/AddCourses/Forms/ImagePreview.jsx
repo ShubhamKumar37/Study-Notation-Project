@@ -9,18 +9,25 @@ const ImagePreview = ({ register, getValues, errors, setValue, name, label }) =>
 
     function changeHandler(event) {
         const file = event.target.files[0];
+
+        register(name, {
+            required: true,
+        });
+
         if (file) {
             setFileName(file.name);
             setFile(file);
+            setValue(name, file);
         }
         else
         {
             setFileName("Select");
             setFile(null);
+            setValue(name, null);
         }
+        console.log("This is the file", getValues());
     }
 
-    console.log("This is the file of image", file);
 
     return (
         <div className='flex flex-col gap-2'>
@@ -31,14 +38,16 @@ const ImagePreview = ({ register, getValues, errors, setValue, name, label }) =>
                 {/* Invisible input that still captures clicks */}
                 <input
                     type="file"
-                    name='image'
+                    name={name}
                     className='absolute inset-0 w-full h-full opacity-0'
                     onChange={changeHandler}
                     style={{ cursor: 'pointer' }} // Ensure pointer cursor over invisible input
-                    hidden
-                // required
+                    // {...register(name, { required: true })} // Problem is here
+                    // hidden
+                    // required 
                 />
             </label>
+
 
             <button type='button' className='w-full text-center text-sm px-6 py-1 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'>
                 <div className='flex items-center justify-center gap-2' >
