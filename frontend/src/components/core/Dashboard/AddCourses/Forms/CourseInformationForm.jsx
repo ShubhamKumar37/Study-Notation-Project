@@ -9,6 +9,7 @@ import ChipInput from './ChipInput';
 import { setStep } from '../../../../../slices/courseSlice';
 import ImagePreview from './ImagePreview';
 import toast from 'react-hot-toast';
+import { createCourse } from '../../../../../services/operation/courseAPI';
 
 const CourseInformationForm = () => {
     const dispatch = useDispatch();
@@ -53,43 +54,73 @@ const CourseInformationForm = () => {
 
     }, []);
 
-     function  submitForm(data) {
-        if(editCourse)
-        {
-            if(isFormUpdated())
-            {
+    function submitForm(data) {
+        if (editCourse) {
+            if (isFormUpdated()) {
                 const formData = new FormData();
-    
-                formData.append("courseId", course._id);
-                if(data.courseTitle) formData.append("courseName", data.courseTitle);
-                if(data.courseShortDesc) formData.append("courseDescription", data.courseShortDesc);
-                if(data.coursePrice) formData.append("price", data.coursePrice);
-                if(data.courseTags) formData.append("tag", data.courseTags);
-                if(data.courseBenefits) formData.append("whatYouWillLearn", data.courseBenefits);
-                if(data.category) formData.append("category", data.category._id);
-                if(data.courseRequirements) formData.append("instructions", data.courseRequirements);
-                if(data.courseThumbnail) formData.append("thumbnail", data.courseThumbnail[0]);
-            }
 
-            else
-            {
+                formData.append("courseId", course._id);
+                if (data.courseTitle) formData.append("courseName", data.courseTitle);
+                if (data.courseShortDesc) formData.append("courseDescription", data.courseShortDesc);
+                if (data.coursePrice) formData.append("price", data.coursePrice);
+                if (data.courseTags) formData.append("tag", data.courseTags);
+                if (data.courseBenefits) formData.append("whatYouWillLearn", data.courseBenefits);
+                if (data.category) formData.append("category", data.category._id); // Append the category ID
+                if (data.courseRequirements) formData.append("instructions", data.courseRequirements);
+                if (data.courseThumbnail) formData.append("thumbnail", data.courseThumbnail[0]); // File handling
+
+                // Log FormData entries
+                for (let [key, value] of formData.entries()) {
+                    console.log(key, value);
+                }
+
+            } else {
                 toast.error("No changes detected");
-                
                 return;
             }
-        }
-        else{
-            console.log(null);
-            console.log("This is the form data = ", data);
-        }
-        // console.log("HI")
-    }   
+        } else {
+            if (!data.courseThumbnail || !data.courseTitle || !data.courseShortDesc || !data.coursePrice || !data.courseTags || !data.courseBenefits || !data.category || !data.courseRequirements) {
+                toast.error("Please complete all the fields");
+                return;
+            }
 
-    function isFormUpdated()
-    {
+            const courseData = {
+                courseName: data.courseTitle,
+                courseDescription: data.courseShortDesc,
+                price: data.coursePrice,
+                thumbnail: data.courseThumbnail,
+                tag: data.courseTags,
+                whatYouWillLearn: data.courseBenefits,
+                category: data.category._id,
+                instructions: data.courseRequirements
+            };
+            // const formData = new FormData();
+
+            // formData.append("courseName", data.courseTitle);
+            // formData.append("courseDescription", data.courseShortDesc);
+            // formData.append("price", data.coursePrice);
+            // formData.append("thumbnail", data.courseThumbnail); // Correct file handling
+            // formData.append("tag", data.courseTags);
+            // formData.append("whatYouWillLearn", data.courseBenefits);
+            // formData.append("category", data.category);
+            // formData.append("instructions", data.courseRequirements);
+
+            // Log FormData entries
+            // for (let [key, value] of formData) {
+            //     console.log(key, value);
+            // }
+
+            // Dispatch or send formData to the server
+            dispatch(createCourse(courseData));
+            console.log("This is the form data ===> ", courseData)
+        }
+    }
+
+
+    function isFormUpdated() {
         const currentFormState = getValues();
-        
-        if(currentFormState.courseTitle !== course.courseTitle ||
+
+        if (currentFormState.courseTitle !== course.courseTitle ||
             currentFormState.courseShortDesc !== course.courseDescription ||
             currentFormState.coursePrice !== course.price ||
             // currentFormState.courseTags !== course.tag ||
@@ -97,8 +128,7 @@ const CourseInformationForm = () => {
             currentFormState.category._id !== course.category._id ||
             currentFormState.courseRequirements !== course.instructions
             // currentFormState.courseImage !== course.thumbnail
-            )
-        {
+        ) {
             return true;
         }
         return false;
@@ -156,7 +186,7 @@ const CourseInformationForm = () => {
                     <option value="" disabled>Choose a category</option>
                     {
                         courseCategory && courseCategory.map((item, index) => {
-                            return <option key={index} >{item.name}</option>
+                            return <option key={index} value={item._id}>{item.name}</option>
                         })
                     }
                 </select>
@@ -206,7 +236,7 @@ const CourseInformationForm = () => {
                 {editCourse && (
                     <button type='submit'
                         className='flex flex-row items-center text-center w-full text-sm px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'
-                        >Continue without saving</button>)}
+                    >Continue without saving</button>)}
                 <button type='submit'
                     className='flex flex-row items-center text-center w-full text-sm px-6 py-3 rounded-md font-bold bg-yellow-50 text-black button-shadow-yellow transition-all duration-200 hover:scale-95'
                 >{!editCourse ? "Next" : "Save changes"}</button>

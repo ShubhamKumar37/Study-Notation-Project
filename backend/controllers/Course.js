@@ -16,14 +16,60 @@ exports.createCourse = async (req, res) => {
 
 
         const { courseName, courseDescription, whatYouWillLearn, price, category, status = "Draft", instructions, tag } = req.body;
-        const thumbnail = req.files.thumbnailImage;
+        const thumbnail = req.body.thumbnailImage;
+        console.log(thumbnail);
 
         // Validation of recieved data
-        if (!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !thumbnail) {
+        if (!courseName) {
             return res.status(400).json(
                 {
                     success: false,
-                    message: "All data is required (Course.js)"
+                    message: "Course name is required (Course.js)"
+                }
+            );
+        }
+
+        if (!courseDescription) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Course description is required (Course.js)"
+                }
+            );
+        }
+
+        if (!whatYouWillLearn) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "What you will learn is required (Course.js)"
+                }
+            );
+        }
+
+        if (!price) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Course price is required (Course.js)"
+                }
+            );
+        }
+
+        if (!category) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Course category is required (Course.js)"
+                }
+            );
+        }
+
+        if (!thumbnail) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Course thumbnail is required (Course.js)"
                 }
             );
         }
