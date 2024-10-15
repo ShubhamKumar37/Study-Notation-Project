@@ -26,9 +26,9 @@ const RenderSteps = () => {
         <div className='flex flex-col gap-[3rem]'>
             <div className='flex flex-row justify-between'>
                 {
-                    steps.map((item) => {
+                    steps.map((item, index) => {
                         return (
-                            <div className='px-4'>
+                            <div className='px-4' key={index}>
                                 <div className={`${step === item.id
                                     ? "bg-yellow-900 border-yellow-50 text-yellow-50"
                                     : "border-richblack-700 bg-richblack-800 text-richblack-300"
